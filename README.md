@@ -1,3 +1,12 @@
+# Create .env file in root folder of project (not the server folder)
+Place the following in the .env file:
+```
+MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.ADDRESS.mongodb.net/restaurant-app
+PORT=3000
+```
+Replace USERNAME, PASSWORD, ADDRESS according to our MongoDB Atlas instance.
+
+
 # Backend and Frontend Template
 
 Latest version: https://git.chalmers.se/courses/dit342/group-00-web
