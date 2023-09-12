@@ -1,3 +1,4 @@
+const dotenv = require('dotenv');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
@@ -5,8 +6,11 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
+// Load environment variables
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -34,6 +38,55 @@ app.use(cors());
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
+
+
+
+
+
+// Define your routes here
+const restaurantRoutes = require('./routes/restaurant');
+const customerRoutes = require('./routes/customer');
+const productRoutes = require('./routes/product');
+const transactionRoutes = require('./routes/transaction');
+
+// Mount routes
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/transactions', transactionRoutes);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
