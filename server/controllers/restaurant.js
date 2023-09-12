@@ -1,10 +1,8 @@
-// controllers/restaurant.js
 const Restaurant = require('../models/Restaurant');
 
 // Create a new restaurant
 exports.createRestaurant = async (req, res) => {
   try {
-    console.log(req.body)
     const restaurant = new Restaurant(req.body);
     const savedRestaurant = await restaurant.save();
     res.json(savedRestaurant);
@@ -36,12 +34,29 @@ exports.getRestaurantById = async (req, res) => {
   }
 };
 
-// Update a restaurant by ID
-exports.updateRestaurantById = async (req, res) => {
+// Update a restaurant by ID using PUT
+exports.updateRestaurantByIdPut = async (req, res) => {
   try {
     const restaurant = await Restaurant.findByIdAndUpdate(
       req.params.id,
       req.body,
+      { new: true }
+    );
+    if (!restaurant) {
+      return res.status(404).json({ error: 'Restaurant not found' });
+    }
+    res.json(restaurant);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Update a restaurant by ID using PATCH
+exports.updateRestaurantByIdPatch = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body }, // Use $set to update only the specified fields
       { new: true }
     );
     if (!restaurant) {
@@ -61,6 +76,16 @@ exports.deleteRestaurantById = async (req, res) => {
       return res.status(404).json({ error: 'Restaurant not found' });
     }
     res.json({ message: 'Restaurant deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Delete all restaurants
+exports.deleteAllRestaurants = async (req, res) => {
+  try {
+    await Restaurant.deleteMany({});
+    res.json({ message: 'All restaurants deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
