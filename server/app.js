@@ -48,12 +48,14 @@ const restaurantRoutes = require('./routes/restaurant');
 const customerRoutes = require('./routes/customer');
 const productRoutes = require('./routes/product');
 const transactionRoutes = require('./routes/transaction');
+const deliveryRoutes = require('./routes/delivery');
 
 // Mount routes
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/deliveries', deliveryRoutes);
 
 
 
