@@ -1,8 +1,27 @@
-// routes/customer.js
 const express = require('express');
 const router = express.Router();
 const Customer = require('../models/Customer');
+const customerController = require('../controllers/customer');
 
-// Define CRUD routes for Customer here
+// Create a new customer
+router.post('/', customerController.createCustomer);
+
+// Get all customers
+router.get('/', customerController.getAllCustomers);
+
+// Get a specific customer by ID
+router.get('/:id', customerController.getCustomerById);
+
+// Update a customer by ID using PUT
+router.put('/:id', customerController.updateCustomerByIdPut);
+
+// Update a customer by ID using PATCH
+router.patch('/:id', customerController.updateCustomerByIdPatch);
+
+// Delete a customer by ID
+router.delete('/:id', customerController.deleteCustomerById);
+
+// Delete all customers
+router.delete('/', customerController.deleteAllCustomers);
 
 module.exports = router;
