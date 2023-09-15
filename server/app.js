@@ -11,7 +11,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI).catch(function(err) {
@@ -39,57 +39,20 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-
-
-
-
 // Define your routes here
 const restaurantRoutes = require('./routes/restaurant');
 const customerRoutes = require('./routes/customer');
 const productRoutes = require('./routes/product');
 const transactionRoutes = require('./routes/transaction');
 const promotionRoutes = require('./routes/promotion');
+const deliveryRoutes = require('./routes/delivery');
 
 // Mount routes
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/transactions', transactionRoutes);
-app.use('/api/promotions', promotionRoutes);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.use('/api/deliveries', deliveryRoutes);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
