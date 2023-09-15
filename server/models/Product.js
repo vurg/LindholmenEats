@@ -2,16 +2,13 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
+  name: String,
+  price: Number,
   description: String,
-  // Add other product properties as needed
+  restaurants: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'restaurants'
+  }]
 });
 
 module.exports = mongoose.model('Product', productSchema);
