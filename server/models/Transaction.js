@@ -7,6 +7,11 @@ const transactionSchema = new mongoose.Schema({
     ref: 'Customer',
     required: true,
   },
+  restaurant_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true,
+  },
   products: [
     {
       product_id: {
@@ -29,6 +34,11 @@ const transactionSchema = new mongoose.Schema({
     default: Date.now,
   },
   // Add other transaction properties as needed
+  transactionStatus: {
+    type: String,
+    enum: ['Pending', 'Completed', 'Cancelled'],
+    default: 'Pending',
+  },
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

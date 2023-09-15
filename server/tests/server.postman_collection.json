@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e9601a4c-b0ec-41a5-a6e8-e082531a4ff6",
+		"_postman_id": "9a9f26f4-8ebf-4f74-ac96-21c8a176fac4",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "29410217"
@@ -751,6 +751,479 @@
 							"port": "3001",
 							"path": [
 								"api"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/restaurants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"// Extract the restaurant_id and set it as an environment variable\r",
+									"pm.environment.set(\"restaurant_id\", jsonData._id);\r",
+									"\r",
+									"// Define the expected response data\r",
+									"const expectedResponse = {\r",
+									"    \"name\": \"Kai's FIRST Restaurant\",\r",
+									"    \"address\": \"Palo Alto, CA\"\r",
+									"};\r",
+									"\r",
+									"// Check if the response status code is in the 2xx range (200-299)\r",
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check if the \"name\" and \"address\" fields match the expected values\r",
+									"pm.test(\"Name and Address Match Expected Values\", () => {\r",
+									"    pm.expect(jsonData.name).to.eql(expectedResponse.name);\r",
+									"    pm.expect(jsonData.address).to.eql(expectedResponse.address);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Kai's FIRST Restaurant\",\"address\":\"Palo Alto, CA\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/restaurants/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"restaurants",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"// Extract the restaurant_id and set it as an environment variable\r",
+									"pm.environment.set(\"customer_id\", jsonData._id);\r",
+									"\r",
+									"// Check if the response status code is in the 2xx range (200-299)\r",
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@example.com\",\r\n  \"password\": \"securepassword\",\r\n  \"phone\": \"+1234567890\",\r\n  \"birthday\": \"1990-01-15\",\r\n  \"address\": \"123 Main Street, City, Country\",\r\n  \"paymentMethods\": [\"Credit Card\", \"PayPal\"],\r\n  \"favorites\": [],\r\n  \"loyaltyPoints\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/customers/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"// Extract the restaurant_id and set it as an environment variable\r",
+									"pm.environment.set(\"product_id\", jsonData._id);\r",
+									"\r",
+									"// Check if the response status code is in the 2xx range (200-299)\r",
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Burger\",\r\n    \"price\": 7.99,\r\n    \"description\": \"Delicious beef burger with lettuce, tomato, and cheese\",\r\n    \"restaurant\": \"Restaurant_ID_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/products/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/products Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"// Extract the restaurant_id and set it as an environment variable\r",
+									"pm.environment.set(\"product_id2\", jsonData._id);\r",
+									"\r",
+									"// Check if the response status code is in the 2xx range (200-299)\r",
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pizza\",\r\n    \"price\": 12.99,\r\n    \"description\": \"Margherita pizza with fresh mozzarella and basil\",\r\n    \"restaurant\": \"{{restaurant_id}}\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/products/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"// Extract the restaurant_id and set it as an environment variable\r",
+									"pm.environment.set(\"transaction_id\", jsonData._id);\r",
+									"\r",
+									"// Check if the response status code is in the 2xx range (200-299)\r",
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customer_id\": \"{{customer_id}}\",\r\n  \"restaurant_id\": \"{{restaurant_id}}\",\r\n  \"products\": [\r\n    {\r\n      \"product_id\": \"{{product_id}}\",\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": \"{{product_id2}}\",\r\n      \"quantity\": 3\r\n    }\r\n  ],\r\n  \"total_amount\": 50.00,\r\n  \"date\": \"2023-09-14T12:00:00.000Z\",\r\n  \"transactionStatus\": \"Pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/transactions/:transaction_id/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_id\": \"{{product_id}}\",\r\n  \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id}}/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/transactions/:transaction_id/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id}}/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/transactions/:transaction_id/products/:product_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id}}/products/{{product_id}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}",
+								"products",
+								"{{product_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/transactions/:transaction_id/products/:product_id Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id}}/products/{{product_id}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}",
+								"products",
+								"{{product_id}}"
 							]
 						}
 					},
