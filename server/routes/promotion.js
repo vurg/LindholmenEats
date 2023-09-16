@@ -2,42 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
+const promotionController = require('../controllers/promotion');
 
+router.post("/", promotionController.postProduct);
 
+router.get("/", promotionController.getAllProducts); 
 
-router.post("/", (req, res) => {
- 
+router.get("/:id", promotionController.getProduct)
 
+router.put("/:id", promotionController.updateProduct);
 
-})
+router.patch("/:id", promotionController.patchProduct);
 
-router.get("/", (req, res) => {
+router.delete("/:id", promotionController.deleteProduct);
 
-    
-
-
-}) //get all products
-
-router.get("/:id")
-
-router.put("/:id")
-
-router.patch("/:id")
-
-router.delete("/:id")
-
-router.delete("/")
-
-
-
-
-
-
-
-
-
-
-
-
+router.delete("/", promotionController.deleteProduct);
 
 module.exports = router;
