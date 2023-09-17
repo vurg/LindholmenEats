@@ -52,6 +52,7 @@ app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/promotions', promotionRoutes);
 app.use('/api/deliveries', deliveryRoutes);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
