@@ -5,7 +5,7 @@ exports.createDelivery = async (req, res) => {
   try {
     const delivery = new Delivery(req.body);
     const savedDelivery = await delivery.save();
-    res.json(savedDelivery);
+    res.status(201).json(savedDelivery);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

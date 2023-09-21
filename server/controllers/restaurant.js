@@ -5,7 +5,7 @@ exports.createRestaurant = async (req, res) => {
   try {
     const restaurant = new Restaurant(req.body);
     const savedRestaurant = await restaurant.save();
-    res.json(savedRestaurant);
+    res.status(201).json(savedRestaurant);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

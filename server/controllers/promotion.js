@@ -1,182 +1,101 @@
 const Promotion = require('../models/Promotion');
 
-const postProduct = async (req, res) => {
-
-    const reqData = req.body;
-
-    if (reqData.name === undefined || reqData.description === undefined || reqData.discount === undefined || reqData.promotion_start_date === undefined || reqData.promotion_end_date === undefined || reqData.start_time === undefined || reqData.end_time === undefined || reqData.active_days == undefined || reqData.products === undefined) {
-
-        res.status(400).send("Missing Post Data, please try again")
-
-    } else {
-
-        try {
-
-            reqData.start_date = new Date(reqData.start_date)
-            reqData.end_date = new Date(reqData.end_date)
-
-            const result = await new Promotion(reqData).save();
-
-            res.status(200).json(result);
-
-        } catch (err) {
-            
-            res.status(400).send(err);
-
-        }
-
-    }
-
-}
-
-const getAllProducts = async (req, res) => {
-
-    try {
-
-        const result = await Promotion.find()
-
-        if (!result || result == {} || result == []) {
-
-            res.status(200).json("Empty Data Set");
-
-        } else {
-
-            res.status(200).json(result);
-
-        }
-
-    } catch (err) {
-
-        res.status(400).send(err);
-
-    }
-
-}
-
-const getProduct = async (req, res) => {
-
-    try {
-
-        const result = await Promotion.findById(req.params.id);
-
-        if (!result || result == {} || result == []) {
-
-            res.status(200).json("Empty Data Set");
-
-        } else {
-
-            res.status(200).json(result);
-
-        }
-
-    } catch (err) {
-
-        res.status(400).send(err);
-
-    }
-
-}
-
-const updateProduct = async (req, res) => {
-
+const postPromotion = async (req, res) => {
     const reqData = req.body;
 
     try {
-  
-    const result = await Promotion.updateOne(
-        {
-            _id: req.params.id
-        },
-        {
-            $set: {
-                name: reqData.name,
-                description: reqData.description,
-                discount: reqData.discount,
-                promotion_start_date: new Date(reqData.promotion_start_date),
-                promotion_end_date: new Date(reqData.promotion_end_date),
-                start_time: reqData.start_time,
-                end_time: reqData.end_time,
-                active_days: reqData.active_days,
-                products: reqData.products
-            }}
-    )
-
-    res.status(200).json(result);
-
+        const promotion = new Promotion(reqData);
+        const savedPromotion = await promotion.save();
+        res.status(201).json(savedPromotion);
     } catch (err) {
-
-        res.status(400).send(err);
-
+        res.status(500).json({ error: err.message });
     }
+};
 
-}
+const getAllPromotions = async (req, res) => {
+    try {
+        const promotions = await Promotion.find();
+        res.json(promotions);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
-const patchProduct = async (req, res) => {
+const getPromotion = async (req, res) => {
+    try {
+        const promotion = await Promotion.findById(req.params.id);
+        if (!promotion) {
+            return res.status(404).json({ error: 'Promotion not found' });
+        }
+        res.json(promotion);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
+const updatePromotion = async (req, res) => {
     const reqData = req.body;
 
     try {
-  
-    const result = await Promotion.updateOne(
-        {
-            _id: req.params.id
-        },
-        {
-            $set: {
-                discount: reqData.discount,
-            }
+        const promotion = await Promotion.findByIdAndUpdate(
+            req.params.id,
+            { $set: reqData },
+            { new: true }
+        );
+        if (!promotion) {
+            return res.status(404).json({ error: 'Promotion not found' });
         }
-
-    )
-
-    res.status(200).json(result);
-
+        res.json(promotion);
     } catch (err) {
-
-        res.status(400).send(err);
-
+        res.status(500).json({ error: err.message });
     }
-    
-}
+};
 
-const deleteProduct = async (req, res) => {
+const patchPromotion = async (req, res) => {
+    const reqData = req.body;
 
     try {
-
-        const result = await Promotion.deleteOne()    
-
-        res.status(200).json(result);
-
+        const promotion = await Promotion.findByIdAndUpdate(
+            req.params.id,
+            { $set: reqData },
+            { new: true }
+        );
+        if (!promotion) {
+            return res.status(404).json({ error: 'Promotion not found' });
+        }
+        res.json(promotion);
     } catch (err) {
-        
-        res.status(400).json(err);
-
+        res.status(500).json({ error: err.message });
     }
-        
-}
+};
 
-const deleteAllProducts = async (req, res) => {
-
+const deletePromotion = async (req, res) => {
     try {
-
-        const result = await Promotion.deleteMany()
-
-        res.status(200).json(result);
-
+        const promotion = await Promotion.findByIdAndRemove(req.params.id);
+        if (!promotion) {
+            return res.status(404).json({ error: 'Promotion not found' });
+        }
+        res.json({ message: 'Promotion deleted successfully' });
     } catch (err) {
-
-        res.status(400).json(err);
-
+        res.status(500).json({ error: err.message });
     }
-       
-}
+};
+
+const deleteAllPromotions = async (req, res) => {
+    try {
+        const result = await Promotion.deleteMany();
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
 module.exports = {
-    postProduct,
-    getAllProducts,
-    getProduct,
-    updateProduct,
-    patchProduct,
-    deleteProduct,
-    deleteAllProducts
-}
+    postPromotion,
+    getAllPromotions,
+    getPromotion,
+    updatePromotion,
+    patchPromotion,
+    deletePromotion,
+    deleteAllPromotions
+};

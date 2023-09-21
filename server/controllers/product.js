@@ -1,125 +1,124 @@
-// controllers/product.js
 const Product = require('../models/Product');
 
-const postProduct = (req, res) => {
+const postProduct = async (req, res) => {
+  try {
+    const { name, price, description, restaurant } = req.body;
 
-    const reqData = req.body;
-
-    if(reqData.name === undefined || reqData.price === undefined || reqData.description === undefined || reqData.restaurants === undefined){
-
-        res.status(400).send("Missing Post Data, please try again")
-
-    } else {
-
-        new Product(reqData).save()
-        .then(data => res.status(200).json(data))
-        .catch(err => res.status(400).send(err))
-
+    if (!name || !price || !description || !restaurant) {
+      return res.status(400).send('Missing required fields for product creation.');
     }
 
-}
+    const product = new Product({
+      name,
+      price,
+      description,
+      restaurant,
+    });
 
-const getAllProducts = (req, res) => {
+    const savedProduct = await product.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-    Product.find()
-    .then(data => {
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-        if (!data || data == {} || data == []){
+const getProduct = async (req, res) => {
+  const productId = req.params.id;
 
-            res.status(200).json("Empty Data Set");
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
 
-        } else {
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-            res.status(200).json(data)
-            
-        }
-        
-    })
-    .catch(err => res.status(400).send(err))
+const updateProduct = async (req, res) => {
+  const productId = req.params.id;
+  const { name, price, description, restaurant } = req.body;
 
-}
+  try {
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      { name, price, description, restaurant },
+      { new: true }
+    );
 
-const getProduct = (req, res) => {
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
 
-    Product.findById(req.params.id)
-    .then(data => {
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-        if (!data || data == {} || data == []){
+const patchProduct = async (req, res) => {
+  const productId = req.params.id;
+  const { price, description } = req.body;
 
-            res.status(200).json("Empty Data Set");
+  try {
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      { $set: { price, description } },
+      { new: true }
+    );
 
-        } else {
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
 
-            res.status(200).json(data)
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-        }
+const deleteProduct = async (req, res) => {
+  const productId = req.params.id;
 
-    }) 
-    .catch(err => res.status(400).send(err));
+  try {
+    const product = await Product.findByIdAndRemove(productId);
 
-}
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
 
-const updateProduct = (req, res) => {
+    res.status(200).json({ message: 'Product deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-    const reqData = req.body;
-
-    Product.updateOne(
-        {
-            "_id": req.params.id
-        },
-        { $set: {
-            name: reqData.name,
-            price: reqData.price,
-            description: reqData.description,
-            restaurants: reqData.restaurants,
-        }
-    })
-    .then((data) => res.status(200).json(reqData))
-    .catch(err => res.status(400).send(err));
-
-}
-
-const patchProduct = (req, res) => {
-
-    const reqData = req.body;
-
-    Product.updateOne(
-        {
-            "_id": req.params.id
-        },
-        { $set: {
-            name: reqData.name,
-            price: reqData.price,
-            description: reqData.description,
-        }
-    })
-    .then((data) => res.status(200).json(reqData))
-    .catch(err => res.status(400).send(err));
-    
-}
-
-const deleteProduct = (req, res) => {
-
-    Product.findByIdAndDelete(req.params.id)
-    .then((data) => res.status(200).json(data))
-    .catch(err => res.status(400).send(err));
-        
-}
-
-const deleteAllProducts = (req, res) => {
-
-    Product.deleteMany()
-    .then((data) => res.status(200).json(data))
-    .catch(err => res.status(400).send(err));
-       
-}
+const deleteAllProducts = async (req, res) => {
+  try {
+    const result = await Product.deleteMany();
+    res.status(200).json({ message: 'All products deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
-    postProduct,
-    getAllProducts,
-    getProduct,
-    updateProduct,
-    patchProduct,
-    deleteProduct,
-    deleteAllProducts
-}
+  postProduct,
+  getAllProducts,
+  getProduct,
+  updateProduct,
+  patchProduct,
+  deleteProduct,
+  deleteAllProducts,
+};

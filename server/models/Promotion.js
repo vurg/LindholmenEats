@@ -1,18 +1,19 @@
+// models/Promotion.js
 const mongoose = require('mongoose');
 
 const promotionSchema = new mongoose.Schema({
     name: String,
     description: String,
     discount: Number,
-    promotion_start_date: Date,
-    promotion_end_date: Date,
-    start_time: String,
-    end_time: String,
-    active_days: [String],
+    promotionStartDate: Date,
+    promotionEndDate: Date,
+    startTime: String,
+    endTime: String,
+    activeDays: [String],
     products: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'products'
+        ref: 'Product'
     }]
-})
+});
 
 module.exports = mongoose.model('Promotion', promotionSchema);
