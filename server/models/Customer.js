@@ -1,5 +1,6 @@
 // models/Customer.js
 const mongoose = require('mongoose');
+const validator = require('validator'); // Import the validator library
 
 const customerSchema = new mongoose.Schema({
   name: {

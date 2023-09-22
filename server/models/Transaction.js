@@ -1,15 +1,19 @@
-// models/Transaction.js
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-  customer_id: {
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
     required: true,
   },
+  restaurant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true,
+  },
   products: [
     {
-      product_id: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true,
@@ -20,7 +24,7 @@ const transactionSchema = new mongoose.Schema({
       },
     },
   ],
-  total_amount: {
+  totalAmount: {
     type: Number,
     required: true,
   },
@@ -28,7 +32,21 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // Add other transaction properties as needed
+  transactionStatus: {
+    type: String,
+    enum: ['Pending', 'Completed', 'Cancelled'],
+    default: 'Pending',
+  },
+});
+
+// Calculate totalAmount before saving the transaction
+transactionSchema.pre('save', function (next) {
+  const totalAmount = this.products.reduce((total, product) => {
+    return total + product.quantity * product.product.price;
+  }, 0);
+
+  this.totalAmount = totalAmount;
+  next();
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

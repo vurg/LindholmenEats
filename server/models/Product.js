@@ -5,10 +5,10 @@ const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
   description: String,
-  restaurants: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'restaurants'
-  }]
+  restaurant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant'
+  }
 });
 
 module.exports = mongoose.model('Product', productSchema);

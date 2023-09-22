@@ -1,21 +1,14 @@
+// routes/promotion.js
 const express = require('express');
-
 const router = express.Router();
-
 const promotionController = require('../controllers/promotion');
 
-router.post("/", promotionController.postProduct);
-
-router.get("/", promotionController.getAllProducts); 
-
-router.get("/:id", promotionController.getProduct)
-
-router.put("/:id", promotionController.updateProduct);
-
-router.patch("/:id", promotionController.patchProduct);
-
-router.delete("/:id", promotionController.deleteProduct);
-
-router.delete("/", promotionController.deleteProduct);
+router.post("/", promotionController.postPromotion);
+router.get("/", promotionController.getAllPromotions);
+router.get("/:id", promotionController.getPromotion);
+router.put("/:id", promotionController.updatePromotion);
+router.patch("/:id", promotionController.patchPromotion);
+router.delete("/:id", promotionController.deletePromotion);
+router.delete("/", promotionController.deleteAllPromotions);
 
 module.exports = router;
