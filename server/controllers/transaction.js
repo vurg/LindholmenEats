@@ -84,17 +84,33 @@ exports.deleteTransactionById = async (req, res) => {
 // Add a product to a transaction
 exports.addProductToTransaction = async (req, res) => {
   try {
+    const { product, quantity } = req.body; // Modified to use req.body.product
+
+    if (!product) {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+
     const transaction = await Transaction.findById(req.params.id);
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
-    const newProduct = {
-      product: req.body.product_id,
-      quantity: req.body.quantity,
-    };
+    // Check if the product already exists in the transaction
+    const existingProduct = transaction.products.find(p => p.product.toString() === product);
 
-    transaction.products.push(newProduct);
+    if (existingProduct) {
+      // Increment the quantity for the existing product by 1
+      existingProduct.quantity += 1;
+    } else {
+      // Product doesn't exist, create a new product entry with quantity 1
+      const newProduct = {
+        product: product,
+        quantity: 1, // Increment quantity by 1
+      };
+
+      transaction.products.push(newProduct);
+    }
+
     await transaction.save();
 
     res.json(transaction);
@@ -102,6 +118,8 @@ exports.addProductToTransaction = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
 
 // Get all products in a transaction
 exports.getProductsInTransaction = async (req, res) => {
@@ -125,9 +143,11 @@ exports.getProductInTransaction = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
+    // Find the product based on the provided product_id
     const product = transaction.products.find(
-      (p) => p._id.toString() === req.params.product_id
+      (p) => p.product.toString() === req.params.product_id
     );
+
     if (!product) {
       return res.status(404).json({ error: 'Product not found in transaction' });
     }
@@ -138,22 +158,40 @@ exports.getProductInTransaction = async (req, res) => {
   }
 };
 
-// Remove a product from a transaction by product_id
+// Remove a product from a transaction by product_id and handle quantity
 exports.removeProductFromTransaction = async (req, res) => {
   try {
+    const { product_id } = req.params; // Modified to use req.params.product_id
+
+    if (!product_id) {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+
     const transaction = await Transaction.findById(req.params.id);
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
-    const productIndex = transaction.products.findIndex(
-      (p) => p._id.toString() === req.params.product_id
-    );
+    const productIndex = transaction.products.findIndex(p => p.product.toString() === product_id);
     if (productIndex === -1) {
       return res.status(404).json({ error: 'Product not found in transaction' });
     }
 
-    transaction.products.splice(productIndex, 1);
+    const productItem = transaction.products[productIndex];
+
+    // Check if quantity is greater than zero
+    if (productItem.quantity > 0) {
+      // Decrement the quantity by 1
+      productItem.quantity -= 1;
+
+      // If the quantity is zero, remove the product from the array
+      if (productItem.quantity === 0) {
+        transaction.products.splice(productIndex, 1);
+      }
+    } else {
+      return res.status(400).json({ error: 'Product quantity is already zero' });
+    }
+
     await transaction.save();
 
     res.json({ message: 'Product removed from transaction successfully' });
