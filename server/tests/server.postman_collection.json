@@ -2845,6 +2845,55 @@
 					"response": []
 				},
 				{
+					"name": "POST /api/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"product_id3\", jsonData._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Philly Cheesesteak Sandwich\",\r\n  \"price\": 10.99,\r\n  \"description\": \"A traditional Philly cheesesteak sandwich made with thinly sliced beef, sautéed onions, melted cheese, and served in a hoagie roll\",\r\n  \"restaurant\": \"{{restaurant_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/products/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST /api/customers",
 					"event": [
 						{
@@ -3076,6 +3125,70 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"customer\": \"{{customer_id2}}\",\r\n  \"restaurant\": \"{{restaurant_id}}\",\r\n  \"products\": [\r\n    {\r\n      \"product\": \"{{product_id}}\",\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"totalAmount\": 10.99,\r\n  \"transactionStatus\": \"Pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/transactions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"transaction_id3\", jsonData._id);\r",
+									"\r",
+									"pm.test(\"Response Status is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customer\": \"{{customer_id2}}\",\r\n  \"restaurant\": \"{{restaurant_id}}\",\r\n  \"products\": [\r\n  ],\r\n  \"totalAmount\": 0.00,\r\n  \"transactionStatus\": \"Pending\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3345,7 +3458,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"product\": \"{{product_id}}\",\r\n  \"quantity\": 1\r\n}",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3367,6 +3480,246 @@
 								"transactions",
 								"{{transaction_id}}",
 								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /transactions/:id/products",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id3}}/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id3}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /transactions/:id/products",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id3}}/products/{{product_id}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id3}}",
+								"products",
+								"{{product_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /transactions/:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id3}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id3}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /transactions/:id/products/:product_id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product\": \"{{product_id}}\",\r\n  \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/api/transactions/{{transaction_id}}/products/{{product_id}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}",
+								"products",
+								"{{product_id}}"
 							]
 						}
 					},

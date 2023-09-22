@@ -21,7 +21,7 @@ router.patch('/:id', transactionController.updateTransactionByIdPatch);
 router.delete('/:id', transactionController.deleteTransactionById);
 
 // Add a product to a transaction
-router.post('/:id/products', transactionController.addProductToTransaction);
+router.put('/:id/products/:product_id', transactionController.addProductToTransaction);
 
 // Get all products in a transaction
 router.get('/:id/products', transactionController.getProductsInTransaction);
@@ -31,5 +31,9 @@ router.get('/:id/products/:product_id', transactionController.getProductInTransa
 
 // Remove a product from a transaction by product_id
 router.delete('/:id/products/:product_id', transactionController.removeProductFromTransaction);
+
+// Add a product to a transaction
+router.post('/:id/products', transactionController.addProductToTransaction);
+
 
 module.exports = router;

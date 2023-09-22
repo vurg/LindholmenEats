@@ -39,4 +39,14 @@ const transactionSchema = new mongoose.Schema({
   },
 });
 
+// Calculate totalAmount before saving the transaction
+transactionSchema.pre('save', function (next) {
+  const totalAmount = this.products.reduce((total, product) => {
+    return total + product.quantity * product.product.price;
+  }, 0);
+
+  this.totalAmount = totalAmount;
+  next();
+});
+
 module.exports = mongoose.model('Transaction', transactionSchema);

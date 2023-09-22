@@ -1,41 +1,37 @@
 const Transaction = require('../models/Transaction');
 
-// Create a new transaction
-exports.createTransaction = async (req, res) => {
+const createTransaction = async (req, res) => {
   try {
     const transaction = new Transaction(req.body);
     const savedTransaction = await transaction.save();
     res.status(201).json(savedTransaction);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Get all transactions
-exports.getAllTransactions = async (req, res) => {
+const getAllTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find();
     res.json(transactions);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Get a specific transaction by ID
-exports.getTransactionById = async (req, res) => {
+const getTransactionById = async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     res.json(transaction);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Update a transaction by ID using PUT
-exports.updateTransactionByIdPut = async (req, res) => {
+const updateTransactionByIdPut = async (req, res) => {
   try {
     const transaction = await Transaction.findByIdAndUpdate(
       req.params.id,
@@ -46,13 +42,12 @@ exports.updateTransactionByIdPut = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     res.json(transaction);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Update a transaction by ID using PATCH
-exports.updateTransactionByIdPatch = async (req, res) => {
+const updateTransactionByIdPatch = async (req, res) => {
   try {
     const transaction = await Transaction.findByIdAndUpdate(
       req.params.id,
@@ -63,26 +58,131 @@ exports.updateTransactionByIdPatch = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     res.json(transaction);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Delete a transaction by ID
-exports.deleteTransactionById = async (req, res) => {
+const deleteTransactionById = async (req, res) => {
   try {
     const transaction = await Transaction.findByIdAndRemove(req.params.id);
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     res.json({ message: 'Transaction deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Add a product to a transaction
-exports.addProductToTransaction = async (req, res) => {
+
+
+const addProductToTransaction = async (req, res) => {
+  try {
+    const { product, quantity } = req.body;
+
+    if (!product) {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    const existingProductIndex = transaction.products.findIndex(p => p.product.toString() === product);
+
+    if (existingProductIndex !== -1) {
+      transaction.products[existingProductIndex].quantity += 1;
+    } else {
+      const newProduct = {
+        product,
+        quantity: 1,
+      };
+
+      transaction.products.push(newProduct);
+    }
+
+    await transaction.save();
+
+    res.json(transaction);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getProductsInTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    res.json(transaction.products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getProductInTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    const product = transaction.products.find(p => p.product.toString() === req.params.product_id);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found in transaction' });
+    }
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const removeProductFromTransaction = async (req, res) => {
+  try {
+    const { product_id } = req.params;
+
+    if (!product_id) {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    const productIndex = transaction.products.findIndex(p => p.product.toString() === product_id);
+    if (productIndex === -1) {
+      return res.status(404).json({ error: 'Product not found in transaction' });
+    }
+
+    const productItem = transaction.products[productIndex];
+
+    if (productItem.quantity > 0) {
+      productItem.quantity -= 1;
+
+      if (productItem.quantity === 0) {
+        transaction.products.splice(productIndex, 1);
+      }
+    } else {
+      return res.status(400).json({ error: 'Product quantity is already zero' });
+    }
+
+    await transaction.save();
+
+    res.json({ message: 'Product removed from transaction successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// post a product to a transaction
+const postProductToTransaction = async (req, res) => {
   try {
     const { product, quantity } = req.body; // Modified to use req.body.product
 
@@ -121,81 +221,16 @@ exports.addProductToTransaction = async (req, res) => {
 
 
 
-// Get all products in a transaction
-exports.getProductsInTransaction = async (req, res) => {
-  try {
-    const transaction = await Transaction.findById(req.params.id);
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transaction not found' });
-    }
-
-    res.json(transaction.products);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Get a specific product in a transaction by product_id
-exports.getProductInTransaction = async (req, res) => {
-  try {
-    const transaction = await Transaction.findById(req.params.id);
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transaction not found' });
-    }
-
-    // Find the product based on the provided product_id
-    const product = transaction.products.find(
-      (p) => p.product.toString() === req.params.product_id
-    );
-
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found in transaction' });
-    }
-
-    res.json(product);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Remove a product from a transaction by product_id and handle quantity
-exports.removeProductFromTransaction = async (req, res) => {
-  try {
-    const { product_id } = req.params; // Modified to use req.params.product_id
-
-    if (!product_id) {
-      return res.status(400).json({ error: 'Product ID is required' });
-    }
-
-    const transaction = await Transaction.findById(req.params.id);
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transaction not found' });
-    }
-
-    const productIndex = transaction.products.findIndex(p => p.product.toString() === product_id);
-    if (productIndex === -1) {
-      return res.status(404).json({ error: 'Product not found in transaction' });
-    }
-
-    const productItem = transaction.products[productIndex];
-
-    // Check if quantity is greater than zero
-    if (productItem.quantity > 0) {
-      // Decrement the quantity by 1
-      productItem.quantity -= 1;
-
-      // If the quantity is zero, remove the product from the array
-      if (productItem.quantity === 0) {
-        transaction.products.splice(productIndex, 1);
-      }
-    } else {
-      return res.status(400).json({ error: 'Product quantity is already zero' });
-    }
-
-    await transaction.save();
-
-    res.json({ message: 'Product removed from transaction successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+module.exports = {
+  createTransaction,
+  getAllTransactions,
+  getTransactionById,
+  updateTransactionByIdPut,
+  updateTransactionByIdPatch,
+  deleteTransactionById,
+  addProductToTransaction,
+  getProductsInTransaction,
+  getProductInTransaction,
+  removeProductFromTransaction,
+  postProductToTransaction,
 };
