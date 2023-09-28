@@ -1,6 +1,5 @@
 .navbar {
   text-align: center;
-  padding: 20px 0;
   position: relative;
 }
 
@@ -8,9 +7,9 @@
 .navbar::after {
   content: '';
   position: absolute;
-  top: 35%;
-  width: 40%;
-  height: 8%;
+  top: 45%;
+  width: 38%;
+  height: 10%;
   background-color: #0CA789;
   border-radius: 5px;
   transition: width 0.3s, height 0.3s;
@@ -25,16 +24,17 @@
 }
 
 .logo-container {
+  position: relative;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  align-items:  center;
 }
 
 .logo-text {
     font-family: 'Graduate';
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
+    text-align: center;
 }
 
 .logo-text-container {
@@ -46,6 +46,7 @@
   font-family: 'Graduate';
   font-size: 16px;
   margin: 0;
+  text-align: center;
 }
 
 .utility-icons {
@@ -56,7 +57,7 @@
 }
 
 .social-link {
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .app-function {
@@ -71,7 +72,7 @@
 }
 
 /* Media query for smaller screens */
-@media (max-width: 1700px) {
+/* @media (max-width: 1700px) {
   .navbar::before,
   .navbar::after {
     content: '';
@@ -95,7 +96,7 @@
   .app-function {
     font-size: 25px;
   }
-}
+} */
 
 .main-content {
   background-color: #fff;
@@ -103,6 +104,6 @@
   border: 2px solid black;
   margin: 20px auto;
   padding: 20px;
-  max-width: 1700px;
-  height: 700px;
+  max-width: 1500px;
+  height: 400px;
 }
