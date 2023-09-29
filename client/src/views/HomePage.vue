@@ -1,11 +1,13 @@
 <template>
   <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
+    <b-jumbotron header="Lindholmen Eats" lead="Welcome to our DIT342 Frontend Vue.js App">
       <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
-      <p>Message from the server:<br/>
-      </p>
       <!-- BootstrapVue b-alert component -->
-      <b-alert v-if="message" show variant="success">{{ message }}</b-alert>
+      <div  v-if="message">
+        <p>Message from the server:<br/>
+      </p>
+      <b-alert show variant="success">{{ message }}</b-alert>
+      </div>
     </b-jumbotron>
   </div>
 </template>
@@ -15,10 +17,10 @@
 import { Api } from '@/Api'
 
 export default {
-  name: 'home',
+  name: 'Home',
   data() {
     return {
-      message: 'none'
+      message: ''
     }
   },
   methods: {
