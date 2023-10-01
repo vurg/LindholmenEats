@@ -48,8 +48,6 @@ export default {
       Api.post('/transactions', transactionData)
         .then((response) => {
           this.transactionId = response.data._id
-          console.log(response.data)
-          console.log(this.transactionId)
           // Do something with the transactionId, e.g., store it in a Vuex store or component data
           this.error = null
         })

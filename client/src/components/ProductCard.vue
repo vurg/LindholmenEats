@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     addToCart() {
-      console.log(this.transactionId)
       if (!this.isDisabled) {
         // Emit the 'add-to-cart' event with the product data
         this.$emit('add-to-cart', this.product)

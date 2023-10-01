@@ -33,14 +33,20 @@
             </div>
           </div>
         </div>
+            <!-- Add this line to include the OrderConfirmation component -->
+        <order-confirmation v-if="isDisabled" :transactionId="transactionId" />
       </b-sidebar>
     </div>
   </template>
 
 <script>
 import { Api } from '@/Api'
+import OrderConfirmation from '@/components/OrderConfirmation.vue'
 
 export default {
+  components: {
+    OrderConfirmation
+  },
   props: {
     cart: Array,
     transactionId: String,
@@ -56,7 +62,6 @@ export default {
   },
   methods: {
     removeItem(index, productId) {
-      console.log(this.transactionId)
       if (!this.isDisabled) {
         this.$emit('remove', index)
 
