@@ -94,4 +94,8 @@ export default {
   color: white;
   font-size: 18px;
 }
+.card-body {
+  height: 180px;
+  overflow: hidden;
+}
 </style>

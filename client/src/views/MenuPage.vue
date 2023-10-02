@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MenuSelectors />
     <div id="head-space"></div>
       <div class="row" v-if="products.length">
         <div class="col-md-4" v-for="product in products" :key="product._id">
@@ -14,13 +15,15 @@
 <script>
 import ProductCard from '@/components/ProductCard.vue'
 import ShoppingCart from '@/components/ShoppingCart.vue'
+import MenuSelectors from '@/components/MenuSelectors.vue'
 import { Api } from '@/Api'
 
 export default {
   name: 'MenuPage',
   components: {
     ProductCard,
-    ShoppingCart
+    ShoppingCart,
+    MenuSelectors
   },
   data() {
     return {
