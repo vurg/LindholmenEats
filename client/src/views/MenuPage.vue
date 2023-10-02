@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     handleLinkClick(selectedCategory) {
-      console.log('Selected category:', selectedCategory)
       this.category = selectedCategory
     },
     postTransaction() {
@@ -80,7 +79,6 @@ export default {
     addToCart(product) {
       this.cart.push(product)
       this.isCartOpen = true
-      console.log(this.category)
     },
     // Method to remove item from the cart
     removeItemFromCart(index) {

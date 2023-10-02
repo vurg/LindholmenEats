@@ -101,8 +101,6 @@ export default {
       this.errorMessage = ''
 
       // Emit an event with cart items, delivery option, and address (if applicable) when proceeding to checkout
-      console.log(this.deliveryAddress)
-      console.log('hello')
       this.$emit('checkout', { cart: this.cart, deliveryOption: this.deliveryOption, deliveryAddress: this.deliveryAddress })
       this.postTransaction()
       if (this.deliveryOption === 'delivery') {
