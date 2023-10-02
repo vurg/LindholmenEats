@@ -3,10 +3,13 @@
     <MenuSelectors />
     <div class="slider-frame">
       <div class="slide-images">
-        <div class="img-container" v-for="(image, index) in images" :key="index">
-          <img :src="image.image" alt="Coupon" />
+        <div class="img-container" v-for="(coupon, index) in coupons" :key="index">
+          <img :src="coupon.image" alt="Coupon" />
         </div>
       </div>
+    </div>
+    <div class="app-banner">
+      <img :src="appBanner" alt="App Banner" />
     </div>
   </div>
 </template>
@@ -16,6 +19,7 @@ import MenuSelectors from '@/components/MenuSelectors.vue'
 import coupon1 from '@/assets/images/coupons/coupon1.png'
 import coupon2 from '@/assets/images/coupons/coupon2.png'
 import coupon3 from '@/assets/images/coupons/coupon3.png'
+import appBanner from '@/assets/images/banners/appBanner.png'
 
 export default {
   components: {
@@ -23,11 +27,12 @@ export default {
   },
   data() {
     return {
-      images: [
+      coupons: [
         { image: coupon1 },
         { image: coupon2 },
         { image: coupon3 }
-      ]
+      ],
+      appBanner
     }
   }
 }
@@ -64,6 +69,17 @@ export default {
   width: auto;
   height: auto;
 }
+.app-banner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.app-banner img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
 /* Animation for slide show */
 @keyframes slide_animation {
   0% { right: 0px; }
@@ -80,12 +96,16 @@ export default {
 @media (max-width: 1100px) {
   .slider-frame,
   .img-container {
-    height: 250px;
     width: 500px;
+    height: 250px;
   }
   .slide-images {
     width: 1500px;
     height: 250px;
+  }
+  .app-banner {
+    width: 500px;
+    height: 190px;
   }
   @keyframes slide_animation {
     0% { right: 0px; }
@@ -104,9 +124,14 @@ export default {
   .slider-frame,
   .img-container {
     width: 400px;
+    height: 200px;
   }
   .slide-images {
     width: 1200px;
+    height: 200px;
+  }
+  .app-banner {
+    width: 400px;
   }
   @keyframes slide_animation {
     0% { right: 0px; }
