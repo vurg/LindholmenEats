@@ -3,7 +3,7 @@
       <div class="image-container">
         <img :src="getProductImagePath(product)" class="card-img-top" alt="Product Image">
         <div class="overlay">
-          <span class="message">Add to Order</span>
+          <span class="message">{{cartMessage}}</span>
         </div>
       </div>
       <div class="card-body">
@@ -17,6 +17,11 @@
 import { Api } from '@/Api'
 
 export default {
+  data() {
+    return {
+      cartMessage: 'Add to Order'
+    }
+  },
   props: {
     product: Object,
     transactionId: String,
@@ -25,6 +30,14 @@ export default {
   methods: {
     addToCart() {
       if (!this.isDisabled) {
+        // Change the message to +1
+        this.cartMessage = 'Item Added'
+
+        // You can also reset the message after a delay if desired
+        setTimeout(() => {
+          this.cartMessage = 'Add to Order'
+        }, 400) // Reset the message after 1 second (1000 milliseconds)
+
         // Emit the 'add-to-cart' event with the product data
         this.$emit('add-to-cart', this.product)
 

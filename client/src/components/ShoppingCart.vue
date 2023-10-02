@@ -5,8 +5,10 @@
         <div class="cart-content px-3 py-2">
           <div style="text-align: left;">
             <div v-for="(item, index) in cart" :key="index" class="cart-item">
+              <div @click="removeItem(index, item._id)">
               {{ item.name }} - ${{ item.price.toFixed(2) }}
-              <span class="remove-text" v-if="!isDisabled" @click="removeItem(index, item._id)">Remove</span>
+              <span class="remove-text" v-if="!isDisabled">Remove</span>
+            </div>
             </div>
           </div>
           <div v-if="cart.length > 0">
