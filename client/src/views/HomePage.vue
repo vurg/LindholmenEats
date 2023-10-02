@@ -58,6 +58,12 @@ export default {
   position: relative;
   float: right;
 }
+.img-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
 /* Animation for slide show */
 @keyframes slide_animation {
   0% { right: 0px; }
@@ -72,14 +78,47 @@ export default {
 }
 /* Media query for smaller screens */
 @media (max-width: 1100px) {
-  .slider-frame {
+  .slider-frame,
+  .img-container {
     height: 250px;
     width: 500px;
   }
+  .slide-images {
+    width: 1500px;
+    height: 250px;
+  }
+  @keyframes slide_animation {
+    0% { right: 0px; }
+    11.11% { right: 0px; }
+    22.22% { right: 500px; }
+    33.33% { right: 500px; }
+    44.44% { right: 1000px; }
+    55.55% { right: 1000px; }
+    66.66% { right: 500px; }
+    77.77% { right: 500px; }
+    88.88% { right: 0px; }
+    100% { right: 0px; }
+  }
 }
 @media (max-width: 585px) {
-  .slider-frame {
+  .slider-frame,
+  .img-container {
     width: 400px;
+  }
+  .slide-images {
+    width: 1200px;
+  }
+  @keyframes slide_animation {
+    0% { right: 0px; }
+    11.11% { right: 0px; }
+    22.22% { right: 400px; }
+    33.33% { right: 400px; }
+    44.44% { right: 800px; }
+    55.55% { right: 800px; }
+    66.66% { right: 400px; }
+    77.77% { right: 400px; }
+    88.88% { right: 0px; }
+    100% { right: 0px; }
   }
 }
 </style>
