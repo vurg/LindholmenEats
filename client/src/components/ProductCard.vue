@@ -3,7 +3,7 @@
       <div class="image-container">
         <img :src="getProductImagePath(product)" class="card-img-top" alt="Product Image">
         <div class="overlay">
-          <span class="message">{{cartMessage}}</span>
+          <span v-if="!isDisabled" class="message">{{cartMessage}}</span>
         </div>
       </div>
       <div class="card-body">
