@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="headspace"></div>
+    <div id="head-space"></div>
       <div class="row" v-if="products.length">
         <div class="col-md-4" v-for="product in products" :key="product._id">
           <product-card v-model="isDisabled" :isDisabled.sync="isDisabled" :product="product" @add-to-cart="addToCart" :disabled="isDisabled" :transactionId="transactionId"/>
@@ -37,8 +37,8 @@ export default {
   methods: {
     postTransaction() {
       const transactionData = {
-        customer: this.customerId, // Replace this with the actual customer ID
-        restaurant: this.restaurantId, // Replace this with the actual restaurant ID
+        customer: this.customerId, // Replace with the actual customer ID
+        restaurant: this.restaurantId, // Replace with the actual restaurant ID
         products: [], // Empty products array as per your requirement
         totalAmount: 0, // Initial totalAmount set to 0
         transactionStatus: 'Pending' // Initial transactionStatus set to 'Pending'
@@ -88,13 +88,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .btn_message {
   margin-bottom: 1em;
 }
-#headspace {
+#head-space {
   margin-bottom: 20px;
 }
-
 /* No need for specific image width here, Bootstrap will handle it */
 </style>

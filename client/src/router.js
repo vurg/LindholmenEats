@@ -14,13 +14,13 @@ export default new Router({
       component: Home
     },
     {
-      path: '/:catchAll(.*)',
-      redirect: '/'
-    },
-    {
       path: '/menu',
       name: 'menu',
       component: MenuPage // Set MenuPage.vue as the component for the '/menu' route
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/'
     }
   ]
 })

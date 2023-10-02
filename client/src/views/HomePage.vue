@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import couponImage1 from '@/assets/images/Coupon1.png'
-import couponImage2 from '@/assets/images/Coupon2.png'
-import couponImage3 from '@/assets/images/Coupon3.png'
+import coupon1 from '@/assets/images/coupons/coupon1.png'
+import coupon2 from '@/assets/images/coupons/coupon2.png'
+import coupon3 from '@/assets/images/coupons/coupon3.png'
 export default {
   data() {
     return {
       images: [
-        { image: couponImage1 },
-        { image: couponImage2 },
-        { image: couponImage3 }
+        { image: coupon1 },
+        { image: coupon2 },
+        { image: coupon3 }
       ]
     }
   }

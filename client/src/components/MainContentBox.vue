@@ -20,11 +20,11 @@ export default {
   data() {
     return {
       links: [
-        { pageLabel: 'Menu', name: 'menu', active: false },
-        { pageLabel: 'Burgers', name: '/BurgersPage.vue', active: false },
-        { pageLabel: 'Deals', name: '/DealsPage.vue', active: false },
-        { pageLabel: 'Sides', name: '/SidesPage.vue', active: false },
-        { pageLabel: 'Desserts', name: '/DessertsPage.vue', active: false }
+        { pageLabel: 'Mains', name: 'menu', active: false },
+        { pageLabel: 'Deals', name: 'deals', active: false },
+        { pageLabel: 'Home', name: 'home', active: true },
+        { pageLabel: 'Sides', name: 'sides', active: false },
+        { pageLabel: 'Desserts', name: 'desserts', active: false }
       ]
     }
   },
