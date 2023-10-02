@@ -67,14 +67,10 @@ export default {
   color: black;
 }
 
-.menu-link.active-link {
-  text-decoration: underline;
-  font-size: 26px;
-}
-
 .underlineActive {
   text-decoration: underline;
-  font-size: 30px;
+  font-size: 26px;
+  color: black;
 }
 
 /* Media queries for responsive design */
@@ -93,7 +89,7 @@ export default {
   .menu-link:hover {
     font-size: 21px;
   }
-  .menu-link.active-link {
+  .underlineActive {
     font-size: 21px;
   }
 }
