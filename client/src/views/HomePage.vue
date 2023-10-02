@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MenuSelectors />
     <div class="slider-frame">
       <div class="slide-images">
         <div class="img-container" v-for="(image, index) in images" :key="index">
@@ -11,10 +12,15 @@
 </template>
 
 <script>
+import MenuSelectors from '@/components/MenuSelectors.vue'
 import coupon1 from '@/assets/images/coupons/coupon1.png'
 import coupon2 from '@/assets/images/coupons/coupon2.png'
 import coupon3 from '@/assets/images/coupons/coupon3.png'
+
 export default {
+  components: {
+    MenuSelectors
+  },
   data() {
     return {
       images: [
