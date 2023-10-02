@@ -92,7 +92,6 @@ export default {
 .utility-icons,
 .social-icons {
   list-style-type: none;
-  text-decoration: none;
   padding: 20;
   display: flex;
 }
@@ -105,10 +104,11 @@ export default {
 .social-link,
 .app-function {
   display: flex;
-  color: #000000;
   font-size: 30px;
   margin: 10px 8px;
   transition: font-size 0.3s;
+  color: #000000 !important;
+  text-decoration: none !important;
 }
 /* Media query for smaller screens */
 @media (max-width: 1320px) {
