@@ -6,7 +6,8 @@
   :to="{ name: link.name }"
   class="menu-link"
 >
-<div  @click="activateLink(link)">{{ link.pageLabel }}</div>
+<div v-if="link.isActive" class="underlineActive" @click="activateLink(link)">{{ link.pageLabel }}</div>
+<div v-else @click="activateLink(link)">{{ link.pageLabel }}</div>
 </router-link>
 
     <router-view />
@@ -69,6 +70,11 @@ export default {
 .menu-link.active-link {
   text-decoration: underline;
   font-size: 26px;
+}
+
+.underlineActive {
+  text-decoration: underline;
+  font-size: 30px;
 }
 
 /* Media queries for responsive design */
