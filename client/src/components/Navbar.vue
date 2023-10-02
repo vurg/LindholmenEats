@@ -1,20 +1,24 @@
 <template>
-    <nav class="navbar">
-      <p class="logo">{{ logoText }}</p>
-      <p class="logo-text">{{ tagText }}</p>
-      <div>
-        <ul class="social-icons">
-            <li><a :href="socialLinks[0]" class="social-link"><i class="fab fa-facebook"></i></a></li>
-            <li><a :href="socialLinks[1]" class="social-link"><i class="fab fa-instagram"></i></a></li>
-            <li><a :href="socialLinks[2]" class="social-link"><i class="fab fa-twitter"></i></a></li>
-            <li><a :href="socialLinks[3]" class="social-link"><i class="fab fa-youtube"></i></a></li>
-        </ul>
-        <ul class="utility-icons">
-            <li><a href="#" class="app-function"><i class="fas fa-shopping-cart"></i></a></li>
-            <li><a href="#" class="app-function"><i class="fas fa-user"></i></a></li>
-        </ul>
-      </div>
-    </nav>
+  <nav class="navbar">
+    <p class="logo">{{ logoText }}</p>
+    <p class="logo-text">{{ tagText }}</p>
+    <div class="icon-list">
+      <ul class="social-icons">
+        <li v-for="(item, index) in socialItems" :key="index">
+          <a :href="item.link" class="social-link">
+            <i :class="item.icon"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="utility-icons">
+        <li v-for="(item, index) in utilityItems" :key="index">
+          <a :href="item.link" class="app-function">
+            <i :class="item.icon"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -23,19 +27,23 @@ export default {
     return {
       logoText: 'Lindholmen Eats',
       tagText: 'ALL RIGHTS RESERVED 2023©',
-      socialLinks: [
-        'https://www.facebook.com',
-        'https://www.instagram.com',
-        'https://www.twitter.com',
-        'https://www.youtube.com'
+      socialItems: [
+        { link: 'https://www.facebook.com', icon: 'fab fa-facebook' },
+        { link: 'https://www.instagram.com', icon: 'fab fa-instagram' },
+        { link: 'https://www.twitter.com', icon: 'fab fa-twitter' },
+        { link: 'https://www.youtube.com', icon: 'fab fa-youtube' }
+      ],
+      utilityItems: [
+        { link: '#', icon: 'fas fa-shopping-cart' },
+        { link: '#', icon: 'fas fa-user' }
       ]
     }
   }
 }
 </script>
 
-<style scoped>
-div {
+<style>
+.icon-list {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -53,9 +61,9 @@ div {
   content: '';
   position: absolute;
   top: 25%;
-  width: 40%;
+  width: 37%;
   height: 12px;
-  background-color: #0CA789;
+  background-color: #0ca789;
   border-radius: 5px;
   transition: width 0.3s, height 0.3s;
 }
@@ -84,6 +92,7 @@ div {
 .utility-icons,
 .social-icons {
   list-style-type: none;
+  text-decoration: none;
   padding: 20;
   display: flex;
 }
@@ -93,15 +102,23 @@ div {
 .utility-icons li:last-child {
   margin-right: 35px;
 }
-.social-link, .app-function {
+.social-link,
+.app-function {
   display: flex;
   color: #000000;
   font-size: 30px;
   margin: 10px 8px;
-  text-decoration: none;
+  transition: font-size 0.3s;
 }
 /* Media query for smaller screens */
-@media (max-width: 1700px) {
+@media (max-width: 1320px) {
+  .navbar::before,
+  .navbar::after {
+    width: 35%;
+    top: 27%;
+  }
+}
+@media (max-width: 1100px) {
   .navbar::before,
   .navbar::after {
     width: 20%;
@@ -111,7 +128,11 @@ div {
     font-size: 25px;
   }
   .logo-text {
-    font-size: 10px;
+    font-size: 15px;
+  }
+  .social-link,
+  .app-function {
+    font-size: 25px;
   }
 }
 </style>
