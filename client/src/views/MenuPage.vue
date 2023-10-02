@@ -1,7 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Menu" lead="Here is a selection of items from our menu.">
-    </b-jumbotron>
+    <div id="headspace"></div>
       <div class="row" v-if="products.length">
         <div class="col-md-4" v-for="product in products" :key="product._id">
           <product-card v-model="isDisabled" :isDisabled.sync="isDisabled" :product="product" @add-to-cart="addToCart" :disabled="isDisabled" :transactionId="transactionId"/>
@@ -92,6 +91,9 @@ export default {
 <style scoped>
 .btn_message {
   margin-bottom: 1em;
+}
+#headspace {
+  margin-bottom: 20px;
 }
 
 /* No need for specific image width here, Bootstrap will handle it */

@@ -4,7 +4,7 @@
       <router-link
         v-for="link in links"
         :key="link.pageLink"
-        :to="link.pageLink"
+        :to="{name: link.name}"
         class="menu-link"
         @click="activateLink(link)"
         >{{ link.pageLabel }}</router-link
@@ -20,11 +20,11 @@ export default {
   data() {
     return {
       links: [
-        { pageLabel: 'Meals', pageLink: '/MealsPage.vue', active: false },
-        { pageLabel: 'Burgers', pageLink: '/BurgersPage.vue', active: false },
-        { pageLabel: 'Deals', pageLink: '/DealsPage.vue', active: false },
-        { pageLabel: 'Sides', pageLink: '/SidesPage.vue', active: false },
-        { pageLabel: 'Desserts', pageLink: '/DessertsPage.vue', active: false }
+        { pageLabel: 'Menu', name: 'menu', active: false },
+        { pageLabel: 'Burgers', name: '/BurgersPage.vue', active: false },
+        { pageLabel: 'Deals', name: '/DealsPage.vue', active: false },
+        { pageLabel: 'Sides', name: '/SidesPage.vue', active: false },
+        { pageLabel: 'Desserts', name: '/DessertsPage.vue', active: false }
       ]
     }
   },
