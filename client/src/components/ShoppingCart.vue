@@ -1,6 +1,5 @@
 <template>
     <div>
-      <b-button v-b-toggle.sidebar-right>Open Cart {{ cart.length>0? '(' + cart.length + ')' : '' }}</b-button>
       <b-sidebar id="sidebar-right" title="Shopping Cart" right shadow @hidden="closeCart">
         <div class="cart-content px-3 py-2">
           <div style="text-align: left;">
@@ -31,6 +30,9 @@
             <div v-if="message">
                 <b-alert show variant="success">{{ 'Order Confirmed.' }}</b-alert>
             </div>
+            <div v-if="errorMessage" class="error-message">
+      <b-alert show variant="danger">{{ errorMessage }}</b-alert>
+    </div>
           </div>
         </div>
             <!-- Add this line to include the OrderConfirmation component -->
@@ -57,7 +59,8 @@ export default {
       deliveryOption: 'pickup', // Default to pick-up
       deliveryAddress: '', // Store delivery address in local data
       phoneNumber: '', // Store delivery address in local data
-      message: ''
+      message: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -87,6 +90,16 @@ export default {
       this.$emit('close')
     },
     proceedToCheckout() {
+      // Check if address is less than 10 characters and phone number is less than 8 characters
+      if (this.deliveryOption === 'delivery' && (this.deliveryAddress.length < 10 || this.phoneNumber.length < 8)) {
+        // Display an error message to the user
+        this.errorMessage = 'Please enter a valid address and phone number.'
+        return // Do not proceed if the validation fails
+      }
+
+      // Reset the error message (in case it was previously set due to a validation error)
+      this.errorMessage = ''
+
       // Emit an event with cart items, delivery option, and address (if applicable) when proceeding to checkout
       this.$emit('checkout', { cart: this.cart, deliveryOption: this.deliveryOption, deliveryAddress: this.deliveryAddress })
       this.postTransaction()
