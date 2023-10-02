@@ -8,7 +8,12 @@ const productSchema = new mongoose.Schema({
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurant'
-  }
+  },
+  category: {
+    type: String,
+    enum: ['Mains', 'Deals', 'Sides', 'Desserts'],
+    default: 'Mains',
+}
 });
 
 module.exports = mongoose.model('Product', productSchema);

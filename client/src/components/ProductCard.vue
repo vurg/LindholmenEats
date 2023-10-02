@@ -39,26 +39,37 @@ export default {
         // Emit the 'add-to-cart' event with the product data
         this.$emit('add-to-cart', this.product)
 
-        // Make a POST request to add the product to the transaction
-        Api.post(`/transactions/${this.transactionId}/products`, {
-          product: this.product._id,
-          quantity: 1
-        })
+        // First, make a POST request to add the product to the transaction
+        Api.post(`/transactions/${this.transactionId}/products`, { product: this.product._id, quantity: 1 })
+          .then(() => {
+            // Next, make a GET request to obtain the current amount
+            return Api.get(`/transactions/${this.transactionId}`)
+          })
           .then((response) => {
             // Handle success
-            this.products = response.data
-            this.error = null
+            const currentAmount = response.data.totalAmount
+
+            // Calculate the new total amount rounded to two decimal places
+            const newTotalAmount = (currentAmount + this.product.price).toFixed(2)
+
+            // Finally, make a PATCH request to update the total cost
+            return Api.patch(`/transactions/${this.transactionId}`, {
+              totalAmount: newTotalAmount
+            })
+          })
+          .then((response) => {
+            // Handle success if needed
+            // Do something with the response if necessary
           })
           .catch((error) => {
             // Handle error
-            this.products = []
             this.error = 'Error adding product to cart: ' + error.message
           })
       }
     },
     getProductImagePath(product) {
       const filename = product.name.replace(/ /g, '-').toLowerCase()
-      return require(`@/assets/images/mains/${filename}.jpg`)
+      return require(`@/assets/images/${filename}.jpg`)
     }
   }
 }
@@ -95,7 +106,6 @@ export default {
   font-size: 18px;
 }
 .card-body {
-  height: 180px;
   overflow: hidden;
 }
 </style>
