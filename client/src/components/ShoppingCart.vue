@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-button v-b-toggle.sidebar-right>Open Cart</b-button>
+      <b-button v-b-toggle.sidebar-right>Open Cart {{ cart.length>0? '(' + cart.length + ')' : '' }}</b-button>
       <b-sidebar id="sidebar-right" title="Shopping Cart" right shadow @hidden="closeCart">
         <div class="cart-content px-3 py-2">
           <div style="text-align: left;">
@@ -23,8 +23,6 @@
       <input v-if="deliveryOption === 'delivery'" :disabled="isDisabled" type="text" v-model="phoneNumber" placeholder="Enter Phone" class="delivery-address">
       <!-- Additional delivery options can be added as needed -->
     </div>
-    <!-- ... (rest of your template code) ... -->
-
             <!-- Proceed to Checkout Button -->
             <div class = "add-space"></div>
             <b-button @click="proceedToCheckout" :disabled="isDisabled">Submit Order</b-button>
