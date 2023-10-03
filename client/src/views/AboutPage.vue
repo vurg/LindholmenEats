@@ -32,6 +32,7 @@ export default {
 .page-title {
     font-size: 52px;
     text-align: center;
+    text-decoration: underline;
 }
 .section-container {
     margin: 0px 40px;

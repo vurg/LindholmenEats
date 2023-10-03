@@ -1,11 +1,12 @@
 <template>
     <div>
         <MenuSelectors />
-        <p class="page-title">ABOUT US</p>
-        <div v-for="(section, index) in sections" :key="index" class="section-container">
-            <p class="section-title">{{ section.sectionTitle }}</p>
-            <p class="section-content">{{ section.sectionContent }}</p>
+        <p class="page-title">OUR LOCATION</p>
+        <div>
+          <!-- Map embed link from Google Maps Api -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.4936437210754!2d11.934255968622049!3d57.70720210582128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464ff34fe37e1fd1%3A0xcac103f8b3186f0f!2sChalmers%20Lindholmen%20University%20College!5e0!3m2!1sen!2sse!4v1696324992995!5m2!1sen!2sse" class="map-embed" style="border:0;" allowfullscreen="false" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
+        <p class="page-content">{{ content }}</p>
     </div>
 </template>
 
@@ -17,12 +18,7 @@ export default {
   },
   data() {
     return {
-      sections: [
-        { sectionTitle: 'Delightful Ingredients, Locally Sourced', sectionContent: 'At Lindholmen Eats, we believe in crafting a culinary experience that starts with the finest ingredients sourced locally, ensuring each bite is a delightful explosion of flavor.' },
-        { sectionTitle: 'Flavorful Results', sectionContent: "We're committed to ethical sourcing, ensuring our chicken comes from farms that adhere to rigorous animal care standards and Swedish animal welfare legislation, creating healthy, happy birds for our flavorful dishes." },
-        { sectionTitle: 'Transparency in Every Bite', sectionContent: 'Explore the exact contents of our food on our Product Information page, so you can enjoy Lindholmen Eats with confidence, knowing that each bite is a reflection of our dedication to responsible dining.' },
-        { sectionTitle: 'Seasonal, Sustainable, and Delicious Vegetables', sectionContent: 'We source our vegetables seasonally from trusted growers who prioritize environmental responsibility and quality, ensuring that every dish is not just flavorful but also ethically sourced.' }
-      ]
+      content: "Lindholmen Eats is currently situated in Lindholmen Campus, nestled within this dynamic and thriving environment. Our culinary offerings have found a home here, serving the campus community and visitors with a taste of our delectable creations. However, our journey doesn't end here. We have ambitious visions of expansion, aspiring to bring our flavors to new horizons and communities in the near future. Stay tuned as Lindholmen Eats evolves and continues to share its passion for exceptional food with an ever-growing audience."
     }
   }
 }
@@ -30,19 +26,34 @@ export default {
 
 <style>
 .page-title {
-    font-size: 52px;
-    text-align: center;
+  font-size: 52px;
+  text-align: center;
+  text-decoration: underline;
 }
-.section-container {
-    margin: 0px 40px;
+.map-embed {
+  width: 1000px;
+  height: 500px;
 }
-.section-title {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: left;
+.page-content {
+  font-size: 17px;
+  text-align: center;
+  margin: 10px 50px 10px 50px;
 }
-.section-content {
-    font-size: 17px;
-    text-align: left;
+/* Media query for smaller screens */
+@media (max-width: 1100px) {
+  .map-embed {
+    width: 500px;
+    height: 225px;
+  }
+}
+@media (max-width: 585px) {
+  .map-embed {
+    width: 400px;
+  }
+}
+@media (max-width: 930px) {
+  .page-content {
+    margin: 10px 10px 10px 10px;
+  }
 }
 </style>
