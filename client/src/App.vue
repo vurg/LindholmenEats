@@ -2,16 +2,19 @@
   <div id="app">
     <Navbar />
     <MainContentBox />
+    <FooterBox />
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
 import MainContentBox from './components/MainContentBox.vue'
+import FooterBox from './components/FooterBox.vue'
 export default {
   components: {
     Navbar,
-    MainContentBox
+    MainContentBox,
+    FooterBox
   }
 }
 </script>
