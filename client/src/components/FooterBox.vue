@@ -20,7 +20,7 @@ export default {
         { pageLabel: 'About', name: 'about' },
         { pageLabel: 'Location', name: 'location' },
         { pageLabel: 'Career', name: 'career' },
-        { pageLabel: 'News', name: 'news' }
+        { pageLabel: 'Data', name: 'data' }
       ]
     }
   }

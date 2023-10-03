@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      content: "Lindholmen Eats is currently situated in Lindholmen Campus, nestled within this dynamic and thriving environment. Our culinary offerings have found a home here, serving the campus community and visitors with a taste of our delectable creations. However, our journey doesn't end here. We have ambitious visions of expansion, aspiring to bring our flavors to new horizons and communities in the near future. Stay tuned as Lindholmen Eats evolves and continues to share its passion for exceptional food with an ever-growing audience."
+      content: 'We are located in the thriving technology environment of Chalmers University - Lindholmen Campus.'
     }
   }
 }
@@ -44,6 +44,9 @@ export default {
   .map-embed {
     width: 500px;
     height: 225px;
+  }
+  .page-title {
+    font-size: 32px;
   }
 }
 @media (max-width: 585px) {

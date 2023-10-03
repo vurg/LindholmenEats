@@ -30,20 +30,26 @@ export default {
 
 <style>
 .page-title {
-    font-size: 52px;
-    text-align: center;
-    text-decoration: underline;
+  font-size: 52px;
+  text-align: center;
+  text-decoration: underline;
 }
 .section-container {
-    margin: 0px 40px;
+  margin: 0px 40px;
 }
 .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
 }
 .section-content {
-    font-size: 17px;
-    text-align: left;
+  font-size: 17px;
+  text-align: left;
+}
+/* Media query for smaller screens */
+@media (max-width: 1100px) {
+  .page-title {
+    font-size: 32px;
+  }
 }
 </style>
