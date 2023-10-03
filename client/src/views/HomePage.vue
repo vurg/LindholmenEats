@@ -11,6 +11,10 @@
     <div class="app-banner">
       <img :src="appBanner" alt="App Banner" />
     </div>
+    <div class="food-banner">
+      <img :src="foodBanner1" alt="Food Banner" />
+      <img :src="foodBanner2" alt="Food Banner" />
+    </div>
   </div>
 </template>
 
@@ -20,6 +24,8 @@ import coupon1 from '@/assets/images/coupons/coupon1.png'
 import coupon2 from '@/assets/images/coupons/coupon2.png'
 import coupon3 from '@/assets/images/coupons/coupon3.png'
 import appBanner from '@/assets/images/banners/appBanner.png'
+import foodBanner1 from '@/assets/images/banners/chickenBurgerBanner.png'
+import foodBanner2 from '@/assets/images/banners/dirtyNachoBanner.png'
 
 export default {
   components: {
@@ -32,7 +38,9 @@ export default {
         { image: coupon2 },
         { image: coupon3 }
       ],
-      appBanner
+      appBanner,
+      foodBanner1,
+      foodBanner2
     }
   }
 }
@@ -74,11 +82,19 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.app-banner img {
+.food-banner {
+  display: flex;
+  justify-content: center;
+}
+.app-banner img,
+.food-banner img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
+}
+.food-banner img {
+  margin: auto 25px;
 }
 /* Animation for slide show */
 @keyframes slide_animation {
@@ -107,6 +123,10 @@ export default {
     width: 500px;
     height: 190px;
   }
+  .food-banner {
+    width: 200px;
+    height: 140px;
+  }
   @keyframes slide_animation {
     0% { right: 0px; }
     11.11% { right: 0px; }
@@ -132,6 +152,9 @@ export default {
   }
   .app-banner {
     width: 400px;
+  }
+  .food-banner {
+    width: 120px;
   }
   @keyframes slide_animation {
     0% { right: 0px; }
