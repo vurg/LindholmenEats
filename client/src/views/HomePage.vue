@@ -83,7 +83,7 @@ export default {
   margin-right: auto;
 }
 .food-banner {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
 }
 .app-banner img,
