@@ -135,4 +135,34 @@ export default {
     font-size: 25px;
   }
 }
+@media (max-width: 500px) {
+  .navbar::before,
+  .navbar::after {
+    width: 10%;
+    height: 4%;
+    top: 30%;
+  }
+  .logo {
+    font-size: 12.5px;
+  }
+  .logo-text {
+    font-size: 7.5px;
+  }
+  .social-link,
+  .app-function {
+    font-size: 12.5px;
+  }
+}
+@media (max-width: 340px) {
+  .utility-icons,
+  .social-icons {
+    padding: 0px;
+  }
+  .utility-icons li {
+    margin-right: 10px;
+  }
+  .utility-icons li:last-child {
+    margin-right: 0px;
+  }
+}
 </style>
