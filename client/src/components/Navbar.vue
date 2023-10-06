@@ -12,6 +12,11 @@
       </ul>
       <ul class="utility-icons">
         <li>
+          <b-button v-b-toggle.sidebar-right>
+            <i class="fas fa-shopping-cart"></i> Cart
+          </b-button>
+        </li>
+        <li>
           <b-button v-b-modal.login-modal class="btn btn-primary">
             <i class="fas fa-user"></i> Login
           </b-button>
@@ -27,15 +32,6 @@
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-          </b-modal>
-        </li>
-
-        <li>
-          <b-button v-b-modal.cart-modal>
-            <i class="fas fa-shopping-cart"></i> Cart
-          </b-button>
-          <b-modal id="cart-modal" title="Shopping Cart">
-            <p class="my-4">Where are my items?</p>
           </b-modal>
         </li>
       </ul>
