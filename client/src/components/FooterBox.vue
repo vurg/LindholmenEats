@@ -43,4 +43,12 @@ export default {
   color: #000000 !important;
   text-decoration: none !important;
 }
+@media (max-width: 500px) {
+  .footer-option {
+    font-size: 15px;
+  }
+  .footer-option {
+    padding: 0 15px;
+  }
+}
 </style>

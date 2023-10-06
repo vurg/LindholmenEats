@@ -150,8 +150,10 @@ export default {
     width: 1200px;
     height: 200px;
   }
-  .app-banner {
-    width: 400px;
+  .app-banner,
+  .app-banner img {
+    width: 250px;
+    height: 95px;
   }
   .food-banner {
     width: 120px;
@@ -165,6 +167,66 @@ export default {
     55.55% { right: 800px; }
     66.66% { right: 400px; }
     77.77% { right: 400px; }
+    88.88% { right: 0px; }
+    100% { right: 0px; }
+  }
+}
+@media (max-width: 500px) {
+  .slider-frame,
+  .img-container {
+    width: 250px;
+    height: 125px;
+  }
+  .slide-images {
+    width: 750px;
+    height: 200px;
+  }
+  .food-banner {
+    width: 120px;
+  }
+  .food-banner img {
+    margin: auto 5px;
+  }
+  @keyframes slide_animation {
+    0% { right: 0px; }
+    11.11% { right: 0px; }
+    22.22% { right: 250px; }
+    33.33% { right: 250px; }
+    44.44% { right: 500px; }
+    55.55% { right: 500px; }
+    66.66% { right: 250px; }
+    77.77% { right: 250px; }
+    88.88% { right: 0px; }
+    100% { right: 0px; }
+  }
+}
+@media (max-width: 340px) {
+  .slider-frame,
+  .img-container {
+    width: 200px;
+    height: 125px;
+  }
+  .slide-images {
+    width: 600px;
+    height: 200px;
+  }
+  .app-banner,
+  .app-banner img {
+    width: 125px;
+    height: 50px;
+  }
+  .food-banner {
+    width: 100px;
+  }
+  @keyframes slide_animation {
+    0% { right: 0px; }
+    11.11% { right: 0px; }
+    22.22% { right: 200px; }
+    33.33% { right: 200px; }
+    44.44% { right: 400px; }
+    55.55% { right: 400px; }
+    66.66% { right: 200px; }
+    77.77% { right: 200px; }
     88.88% { right: 0px; }
     100% { right: 0px; }
   }

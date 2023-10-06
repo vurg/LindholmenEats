@@ -59,4 +59,14 @@ export default {
     margin: 10px 10px 10px 10px;
   }
 }
+@media (max-width: 500px) {
+  .map-embed {
+    width: 250px;
+  }
+}
+@media (max-width: 340px) {
+  .map-embed {
+    width: 150px;
+  }
+}
 </style>
