@@ -52,25 +52,21 @@ export default {
   justify-content: center;
   gap: 60px; /* Default gap for larger screens */
 }
-
 .menu-link {
   text-decoration: none;
   color: black;
   font-size: 23px;
   transition: text-decoration 0.3s, font-size 0.3s;
 }
-
 .menu-link:hover {
   text-decoration: underline;
   font-size: 26px;
   color: black;
 }
-
 .menu-link.active-link {
   text-decoration: underline;
   font-size: 26px;
 }
-
 /* Media queries for responsive design */
 @media (max-width: 768px) {
   .menu-links-container {
@@ -79,7 +75,6 @@ export default {
     gap: 16px; /* Reduced gap for smaller screens */
   }
 }
-
 @media (max-width: 480px) {
   .menu-link {
     font-size: 18px;
