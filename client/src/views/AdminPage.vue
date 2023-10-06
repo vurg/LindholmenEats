@@ -77,7 +77,7 @@
                 height="50">
               <div class="text-left">
                 <strong>{{ product.name }}</strong><br>
-                Price: ${{ product.price }} <br>
+                Price: ${{ product.price.toFixed(2) }} <br>
                 <button type="button" @click="removeProduct(product._id)">Remove</button>
                 <button type="button" @click="updateProduct(product._id)">Update</button>
               </div>
