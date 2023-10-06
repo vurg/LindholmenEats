@@ -247,7 +247,7 @@ export default {
           // If the user confirms, proceed with the API call
           Api.delete('/products')
             .then((response) => {
-              this.products = response.data
+              this.getProducts()
               this.error = null
             })
             .catch((error) => {
@@ -341,7 +341,7 @@ export default {
           // If the user confirms, proceed with the API call
           Api.delete('/promotions')
             .then((response) => {
-              this.promotions = response.data
+              this.getPromotions()
               this.error = null
             })
             .catch((error) => {
