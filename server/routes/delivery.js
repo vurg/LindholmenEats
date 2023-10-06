@@ -9,6 +9,9 @@ router.post('/', deliveryController.createDelivery);
 // Get all deliveries
 router.get('/', deliveryController.getAllDeliveries);
 
+// Count number of deliveries
+router.get('/count', deliveryController.countDeliveries);
+
 // Get a specific delivery by ID
 router.get('/:id', deliveryController.getDeliveryById);
 

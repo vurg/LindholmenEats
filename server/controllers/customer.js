@@ -20,6 +20,16 @@ exports.createCustomer = async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   };
+
+  // Count number of customers
+  exports.countCustomers = async (req, res) => {
+    try {
+      const customerCount = await Customer.countDocuments();
+      res.json({ count: customerCount });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
   
   // Get a specific customer by ID
   exports.getCustomerById = async (req, res) => {
