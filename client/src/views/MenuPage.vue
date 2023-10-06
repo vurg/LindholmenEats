@@ -94,6 +94,16 @@ export default {
   created() {
     this.postTransaction() // Call postTransaction when the page is created
     this.getProducts()
+  },
+  beforeRouteLeave(to, from, next) {
+    // Show a confirmation dialog before leaving the menu page
+    if (confirm('Are you sure you want to leave the menu page? Any unsaved changes will be lost.')) {
+      // If the user confirms, proceed with the navigation
+      next()
+    } else {
+      // If the user cancels, prevent navigation
+      next(false)
+    }
   }
 }
 </script>
