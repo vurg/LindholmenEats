@@ -11,10 +11,32 @@
         </li>
       </ul>
       <ul class="utility-icons">
-        <li v-for="(item, index) in utilityItems" :key="index">
-          <a :href="item.link" class="app-function">
-            <i :class="item.icon"></i>
-          </a>
+        <li>
+          <b-button v-b-modal.login-modal class="btn btn-primary">
+            <i class="fas fa-user"></i> Login
+          </b-button>
+          <b-modal id="login-modal" title="Login">
+            <form>
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </b-modal>
+        </li>
+
+        <li>
+          <b-button v-b-modal.cart-modal>
+            <i class="fas fa-shopping-cart"></i> Cart
+          </b-button>
+          <b-modal id="cart-modal" title="Shopping Cart">
+            <p class="my-4">Where are my items?</p>
+          </b-modal>
         </li>
       </ul>
     </div>
@@ -48,6 +70,7 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
+
 .navbar {
   display: flex;
   flex-direction: column;
@@ -56,6 +79,7 @@ export default {
   text-align: center;
   position: relative;
 }
+
 .navbar::before,
 .navbar::after {
   content: '';
@@ -67,14 +91,17 @@ export default {
   border-radius: 5px;
   transition: width 0.3s, height 0.3s;
 }
+
 .navbar::before {
   left: 0;
   transform: translateX(20px);
 }
+
 .navbar::after {
   right: 0;
   transform: translateX(-20px);
 }
+
 .logo {
   font-family: 'Graduate';
   font-size: 30px;
@@ -83,24 +110,30 @@ export default {
   margin-top: 20px;
   margin-bottom: 0px;
 }
+
 .logo-text {
   font-family: 'Graduate';
   font-size: 16px;
   text-align: center;
   margin-bottom: 0;
 }
+
 .utility-icons,
 .social-icons {
   list-style-type: none;
   padding: 20;
   display: flex;
+  margin-bottom: -8px;
 }
+
 .utility-icons li {
   margin-right: 10px;
 }
+
 .utility-icons li:last-child {
   margin-right: 35px;
 }
+
 .social-link,
 .app-function {
   display: flex;
@@ -110,59 +143,6 @@ export default {
   color: #000000 !important;
   text-decoration: none !important;
 }
+
 /* Media query for smaller screens */
-@media (max-width: 1320px) {
-  .navbar::before,
-  .navbar::after {
-    width: 35%;
-    top: 27%;
-  }
-}
-@media (max-width: 1100px) {
-  .navbar::before,
-  .navbar::after {
-    width: 20%;
-    height: 4%;
-  }
-  .logo {
-    font-size: 25px;
-  }
-  .logo-text {
-    font-size: 15px;
-  }
-  .social-link,
-  .app-function {
-    font-size: 25px;
-  }
-}
-@media (max-width: 500px) {
-  .navbar::before,
-  .navbar::after {
-    width: 10%;
-    height: 4%;
-    top: 30%;
-  }
-  .logo {
-    font-size: 12.5px;
-  }
-  .logo-text {
-    font-size: 7.5px;
-  }
-  .social-link,
-  .app-function {
-    font-size: 12.5px;
-  }
-}
-@media (max-width: 340px) {
-  .utility-icons,
-  .social-icons {
-    padding: 0px;
-  }
-  .utility-icons li {
-    margin-right: 10px;
-  }
-  .utility-icons li:last-child {
-    margin-right: 0px;
-  }
-}
 </style>
