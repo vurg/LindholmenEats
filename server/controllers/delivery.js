@@ -21,6 +21,16 @@ exports.getAllDeliveries = async (req, res) => {
   }
 };
 
+// Count number of deliveries
+exports.countDeliveries = async (req, res) => {
+  try {
+    const deliveriesCount = await Delivery.countDocuments();
+    res.json({ count: deliveriesCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Get a specific delivery by ID
 exports.getDeliveryById = async (req, res) => {
   try {

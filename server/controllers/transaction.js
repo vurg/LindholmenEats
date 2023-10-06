@@ -11,11 +11,19 @@ const createTransaction = async (req, res) => {
 };
 
 const getAllTransactions = async (req, res) => {
+  const perPage = 100;
+  const page = parseInt(req.query.page) || 1;
+
   try {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find({ totalAmount: { $gt: 0 }, transactionStatus: 'Completed' })
+      .sort({ date: -1 })
+      .skip((perPage * page) - perPage)
+      .limit(perPage)
+      .populate('customer'); // Populate the 'customer' field in the Transaction documents with the corresponding Customer object
+
     res.json(transactions);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 

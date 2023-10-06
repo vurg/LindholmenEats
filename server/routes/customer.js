@@ -9,6 +9,9 @@ router.post('/', customerController.createCustomer);
 // Get all customers
 router.get('/', customerController.getAllCustomers);
 
+// Count number of customers
+router.get('/count', customerController.countCustomers);
+
 // Get a specific customer by ID
 router.get('/:id', customerController.getCustomerById);
 

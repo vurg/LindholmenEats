@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       category: 'Mains', // Set a default active link
-      customerId: '650d7cff19b27a88f50509e9',
-      restaurantId: '650d7cff19b27a88f50509e1',
+      customerId: '651f1219c1748be12d41410c',
+      restaurantId: '651ae7241cb3c2b6546160c9',
       transactionId: null, // Set your transactionId here or retrieve it from the API response
       products: [],
       error: null,
@@ -94,6 +94,16 @@ export default {
   created() {
     this.postTransaction() // Call postTransaction when the page is created
     this.getProducts()
+  },
+  beforeRouteLeave(to, from, next) {
+    // Show a confirmation dialog before leaving the menu page
+    if (confirm('Are you sure you want to leave the menu page? Any unsaved changes will be lost.')) {
+      // If the user confirms, proceed with the navigation
+      next()
+    } else {
+      // If the user cancels, prevent navigation
+      next(false)
+    }
   }
 }
 </script>
