@@ -55,12 +55,12 @@ export default {
 .menu-link {
   text-decoration: none;
   color: black;
-  font-size: 23px;
+  font-size: 29px;
   transition: text-decoration 0.3s, font-size 0.3s;
 }
 .menu-link:hover {
   text-decoration: underline;
-  font-size: 26px;
+  font-size: 31px;
   color: black;
 }
 .menu-link.active-link {
@@ -68,22 +68,45 @@ export default {
   font-size: 26px;
 }
 /* Media queries for responsive design */
-@media (max-width: 768px) {
-  .menu-links-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px; /* Reduced gap for smaller screens */
+@media (max-width: 1000px) {
+  .menu-link {
+    font-size: 24px;
+  }
+
+  .menu-link:hover {
+    font-size: 25px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .menu-link {
+    font-size: 25px;
+  }
+  .menu-link:hover {
+    font-size: 26px;
+  }
+  .menu-links-container {
+    align-items: center;
+    gap: 22px; /* Reduced gap for smaller screens */
+  }
+}
+@media (max-width: 768px) {
+  .menu-link {
+    font-size: 21px;
+  }
+  .menu-link:hover {
+    font-size: 22px;
+  }
+  .menu-links-container {
+    align-items: center;
+    gap: 20px; /* Reduced gap for smaller screens */
+  }
+}
+@media (max-width: 550px) {
   .menu-link {
     font-size: 18px;
   }
   .menu-link:hover {
-    font-size: 21px;
-  }
-  .menu-link.active-link {
-    font-size: 21px;
+    font-size: 18px;
   }
 }
 </style>
