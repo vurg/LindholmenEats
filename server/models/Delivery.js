@@ -10,6 +10,9 @@ const deliverySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    phone: {
+        type: String,
+    },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
