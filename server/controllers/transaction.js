@@ -15,7 +15,7 @@ const getAllTransactions = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
 
   try {
-    const transactions = await Transaction.find({ totalAmount: { $gt: 0 }, transactionStatus: 'Completed' })
+    const transactions = await Transaction.find({ totalAmount: { $gt: 0 }})
       .sort({ date: -1 })
       .skip((perPage * page) - perPage)
       .limit(perPage)

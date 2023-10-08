@@ -121,6 +121,7 @@ export default {
       const deliveryData = {
         type: 'Online',
         location: this.deliveryAddress,
+        phone: this.phoneNumber,
         customer: '650d7cff19b27a88f50509e9', // You should replace this placeholder with the actual customer ID
         timestamp: new Date().toISOString(), // Get the current timestamp in ISO format
         transaction: this.transactionId,

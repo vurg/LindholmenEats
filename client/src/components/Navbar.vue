@@ -12,12 +12,12 @@
       </ul>
       <ul class="utility-icons">
         <li>
-          <b-button v-b-toggle.sidebar-right>
+          <b-button v-b-toggle.sidebar-right class="btn btn-dark">
             <i class="fas fa-shopping-cart"></i> Cart
           </b-button>
         </li>
         <li>
-          <b-button v-b-modal.login-modal class="btn btn-primary">
+          <b-button v-b-modal.login-modal class="btn btn-dark">
             <i class="fas fa-user"></i> Login
           </b-button>
           <b-modal id="login-modal" title="Login">
@@ -98,6 +98,50 @@ export default {
   transform: translateX(-20px);
 }
 
+/* Styles for larger screens */
+@media (min-width: 769px) {
+  .navbar::before {
+    left: 0;
+    width: 25%;
+  }
+
+  .navbar::after {
+    right: 0;
+    width: 25%;
+  }
+}
+
+/* Styles for smaller screens */
+@media (max-width: 768px) {
+  .navbar::before,
+  .navbar::after {
+    width: 15%;
+  }
+}
+
+/* Styles for smaller screens */
+@media (max-width: 500px) {
+  .navbar::before,
+  .navbar::after {
+    width: 8%;
+  }
+
+  .icon-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+}
+
+/* Styles for smaller screens */
+@media (max-width: 400px) {
+  .navbar::before,
+  .navbar::after {
+    width: 0%;
+  }
+}
+
 .logo {
   font-family: 'Graduate';
   font-size: 30px;
@@ -113,21 +157,23 @@ export default {
   text-align: center;
   margin-bottom: 0;
 }
-
 .utility-icons,
 .social-icons {
   list-style-type: none;
-  padding: 20;
   display: flex;
-  margin-bottom: -8px;
+  justify-content: center; /* Center the icons horizontally */
 }
 
 .utility-icons li {
   margin-right: 10px;
 }
 
-.utility-icons li:last-child {
-  margin-right: 35px;
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .utility-icons,
+  .social-icons {
+    justify-content: center; /* Center the icons horizontally for small screens */
+  }
 }
 
 .social-link,
