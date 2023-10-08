@@ -1,19 +1,21 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
+  <div id="appContainer">
+    <div style="background: green; border-style: dashed; border-color: yellow;">
+      <router-link :to="{name: 'LoginPage'}">Login</router-link>
+      <router-link :to="{name: 'SignupPage'}">Signup</router-link>
     </div>
-    <!-- Render the content of the current page view -->
+
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
+#appContainer {
   font-family: 'Graduate','Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
