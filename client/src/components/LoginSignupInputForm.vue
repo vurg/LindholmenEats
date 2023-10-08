@@ -3,8 +3,10 @@
   <form @submit.prevent="">
     <div class="loginSignupInputForm">
       <div id="goBackMinimizeContainer">
-        <font-awesome-icon icon="fa-solid fa-chevron-right" size="lg" rotation="180"/>
-        <font-awesome-icon icon="fa-solid fa-minus" size="xl"/>
+        <font-awesome-icon icon="fa-solid fa-chevron-right" size="small" rotation="180"/>
+        <router-link id="minmizeSignupLogin" :to="{name: 'home'}">
+          <font-awesome-icon icon="fa-solid fa-minus" size="lg"/>
+        </router-link>
       </div>
       <slot></slot>
     </div>
@@ -12,7 +14,9 @@
 </template>
 
 <script>
-
+export default {
+  props: []
+}
 </script>
 
 <style>
@@ -34,7 +38,12 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 92%;
+  width: 90%;
+}
+
+#minmizeSignupLogin {
+  text-decoration: none;
+  color: rgba(255, 0, 0, 0.644);
 }
 
 </style>

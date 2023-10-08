@@ -1,6 +1,6 @@
 <template>
   <div id="loginContainer">
-    <LoginSignupModal/>
+    <LoginSignupModal id="loginModal"/>
     <div id="loginSignupFormContainer">
       <LoginSignupInputForm>
         <LoginSignupFormHeader selected="login"/>
@@ -52,11 +52,16 @@ export default {
 
 <style>
 
+#loginModal {
+  z-index: 2;
+}
+
 #loginSignupFormContainer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 #inputContainer {

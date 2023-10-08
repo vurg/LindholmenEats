@@ -1,10 +1,10 @@
 <template>
-    <div id="loginSignupModal"></div>
+    <div class="loginSignupModal"></div>
 </template>
 
 <style>
 
-#loginSignupModal{
+.loginSignupModal{
   position: absolute;
   top: 0;
   left: 0;

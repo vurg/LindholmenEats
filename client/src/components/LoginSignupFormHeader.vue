@@ -1,7 +1,7 @@
 <template>
   <div id="signupLoginContainer">
-    <router-link :to="{name: 'SignupPage'}"><div ref="signupHeader" class="signupActive">signup</div></router-link>
-    <router-link :to="{name: 'LoginPage'}"><div ref="loginHeader" class="loginActive">login</div></router-link>
+    <router-link :to="{name: 'signup'}"><div ref="signupHeader" class="signupActive">signup</div></router-link>
+    <router-link :to="{name: 'login'}"><div ref="loginHeader" class="loginActive">login</div></router-link>
   </div>
 </template>
 
