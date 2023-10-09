@@ -1,6 +1,5 @@
 <template>
   <input :id="id ? id : null" required :type="type" :placeholder="placeholder" :class="['inputBox', isValidInputBox ? 'validInputBox' : null, margin ? margin : null, padding ? padding : null, width ? width : null]" @blur="validate" @keyup="checkHasContent" v-model="currInput">
-
 </template>
 
 <script>

@@ -5,12 +5,12 @@
       <LoginSignupInputForm>
         <LoginSignupFormHeader selected="signup"/>
         <div id="inputSignupEmailPassDetailsContainer" v-show="views.isInputSignupEmailPassDetails">
-          <LoginSignupTextInput type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'email')"/>
+          <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'email')"/>
           <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format"/>
           <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'password')"/>
           <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Have: Length of 6, 1 Special Character & 1 Digit, Max Pass Length 30"/>
           <PasswordStrengthChecker ref="passwordStrengthChecker" margin="extraExtraSmallAllAroundMargin"/>
-          <LoginSignupTextInput ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
+          <LoginSignupTextInput id="passwordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
           <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match"/>
         </div>
         <div v-show="views.isAcceptConditions">
@@ -85,28 +85,28 @@
             </div>
             <div id="dateOfBirthInputContainer">
               <div>
-                <LoginSignupTextInput type="text" placeholder="DOB-YEAR: YYYY" @validateAfterLoseFocus="validate($event, 'dobYYYY')"/>
+                <LoginSignupTextInput id="dobYYYYSignupInput" type="text" placeholder="DOB-YEAR: YYYY" @validateAfterLoseFocus="validate($event, 'dobYYYY')"/>
                 <InvalidPrompt ref="invalidYearPrompt" invalidText="Invalid Year" :haveInvalidPromptWrapper="true"/>
               </div>
               <div>
-                <LoginSignupTextInput type="text" placeholder="DOB-MONTH: MM" @validateAfterLoseFocus="validate($event, 'dobMM')"/>
+                <LoginSignupTextInput id="dobMMSignupInput" type="text" placeholder="DOB-MONTH: MM" @validateAfterLoseFocus="validate($event, 'dobMM')"/>
                 <InvalidPrompt ref="invalidMonthPrompt" invalidText="Invalid Month" :haveInvalidPromptWrapper="true"/>
               </div>
               <div>
-                <LoginSignupTextInput type="text" placeholder="DOB-DAY: DD" @validateAfterLoseFocus="validate($event, 'dobDD')"/>
+                <LoginSignupTextInput id="dobDDSignupInput" type="text" placeholder="DOB-DAY: DD" @validateAfterLoseFocus="validate($event, 'dobDD')"/>
                 <InvalidPrompt ref="invalidDayPrompt" invalidText="Invalid Day" :haveInvalidPromptWrapper="true"/>
               </div>
             </div>
             <div id="phoneNumberInputContainer">
               <div>
                 <div id="countryCodeInputContainer">
-                  <div ref="countryCodeFlag" v-show="hasCC" id="countryCodeflag">
+                  <div ref="countryCodeFlag" id="countryCodeflag">
                   {{ flag }}
                   </div>
                   <div id="countryCodePlus">
                   +
                   </div>
-                  <LoginSignupTextInput ref="ccSignupInput" id="ccSignupInput" @inputChange="setHasCC" type="text" placeholder="CC" width="thirdOfParent"/>
+                  <LoginSignupTextInput id="ccSignupInput" ref="ccSignupInput" @inputChange="setHasCC" type="text" placeholder="CC" width="thirdOfParent"/>
                 </div>
                 <InvalidPrompt ref="invalidCCPrompt" invalidText="Country Code Does Not Exist" padding="smallPaddingLeft" :haveInvalidPromptWrapper="true"/>
               </div>
@@ -135,7 +135,7 @@
                 <img v-show="dropDownSelected === 'Sierra'" src="../assets/images/bankcard-sierra.png" alt="Sierra Bankcard Image">
                 <img v-show="dropDownSelected === 'HueB'" src="../assets/images/bankcard-hueb.png" alt="HueB Bankcard Image">
               </div>
-              <select @change ="setDropdownSelected" name="cardTypeDropdown" ref="cardTypeDropdown" id="cardTypeDropdown">
+              <select id="bankCardTypeSignupInput" @change ="setDropdownSelected" name="bankCardTypeSignupInput" ref="bankCardTypeSignupInput">
                 <option value="" disabled selected >Choose Bankcard Type</option>
                 <option value="Koala" >Koala</option>
                 <option value="Sierra" >Sierra</option>
@@ -143,19 +143,19 @@
               </select>
               <div id="bankCardNumberInputContainer">
                 <div>
-                  <LoginSignupTextInput ref="Koala" v-show="dropDownSelected === 'Koala'" type="text" placeholder="Card Number: 6 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Koala')"/>
-                  <LoginSignupTextInput ref="Sierra" v-show="dropDownSelected === 'Sierra'" type="text" placeholder="Card Number: 8 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Sierra')"/>
-                  <LoginSignupTextInput ref="HueB" v-show="dropDownSelected === 'HueB'" type="text" placeholder="Card Number: 10 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'HueB')"/>
+                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="Koala" v-if="dropDownSelected === 'Koala'" type="text" placeholder="Card Number: 6 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Koala')"/>
+                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="Sierra" v-if="dropDownSelected === 'Sierra'" type="text" placeholder="Card Number: 8 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Sierra')"/>
+                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="HueB" v-if="dropDownSelected === 'HueB'" type="text" placeholder="Card Number: 10 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'HueB')"/>
                   <InvalidPrompt ref="invalidBankCardLengthPrompt" invalidText="Invalid Input" :haveInvalidPromptWrapper="true"/>
                 </div>
               </div>
               <div id="bankCardNumberExpiryInputContainer" v-show="dropDownSelected">
                 <div>
-                  <LoginSignupTextInput ref="expiryInput" type="text" placeholder="Expiry: MM/YY" @inputChange="formatBankCardInfo($event, 'expiry')" @validateAfterLoseFocus="validate($event, 'expiry')"/>
+                  <LoginSignupTextInput id="expirySignupInput" ref="expiryInput" type="text" placeholder="Expiry: MM/YY" @inputChange="formatBankCardInfo($event, 'expiry')" @validateAfterLoseFocus="validate($event, 'expiry')"/>
                     <InvalidPrompt ref="invalidExpiryDatePrompt" invalidText="Invalid Expiry Date" :haveInvalidPromptWrapper="true"/>
                 </div>
                 <div>
-                  <LoginSignupTextInput type="text" placeholder="CVC" @validateAfterLoseFocus="validate($event, 'cvc')"/>
+                  <LoginSignupTextInput id="cvcSignupInput" type="text" placeholder="CVC" @validateAfterLoseFocus="validate($event, 'cvc')"/>
                   <InvalidPrompt ref="invalidCVCPrompt" invalidText="Invalid CVC" :haveInvalidPromptWrapper="true"/>
                 </div>
               </div>
@@ -190,19 +190,19 @@ export default {
     return {
       formInputData: {
         isInputSignupEmailPassDetails: { email: '', password: '' },
-        isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobbMM: '', dobDD: '', cc: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
+        isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', cc: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
         isEnterPaymentDetails: { bankCardType: '', bankCardNumber: '', expiry: '', cvc: 0 }
       },
       nrOfExistingInvalidInputs: [],
       canContinue: false,
       inabilityToProceedReason: '',
       views: {
-        isInputSignupEmailPassDetails: false,
+        isInputSignupEmailPassDetails: true,
         isAcceptConditions: false,
-        isInputPersInfo: true,
+        isInputPersInfo: false,
         isEnterPaymentDetails: false
       },
-      currentView: 'isInputPersInfo',
+      currentView: 'isInputSignupEmailPassDetails',
       isTermsAndConditions: true,
       hasReadTermsAndConditions: false,
       inPrivacyPolicy: false,
@@ -223,7 +223,7 @@ export default {
       let isValidResult = true
       let flagObject = null
       const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-      const passLength6specialChar1digit1Regex = /^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*])(?=.*\d).{6,30}$/
+      const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=(?:\D*\d)){1}.{1,30}$/
       const onlyLettersRegex = /^[a-zA-Z]{1,30}$/
       const onlyNumbersRegex = /^\d{1,30}$/
       const yyyyRegex = /^[0-9]{4}$/
@@ -245,17 +245,13 @@ export default {
           }
           break
         case 'password':
-          isValidResult = passLength6specialChar1digit1Regex.test(inputValue)
+          isValidResult = normalPassReq.test(inputValue)
           if (isValidResult) {
             this.$refs.passwordFailMeetReqPrompt.showError = false
-            this.$refs.upperPasswordInput.isValidInputBox = true
-            this.$refs.upperPasswordInput.isInvalidated = false
-            this.nrOfExistingInvalidInputs.pop()
           } else {
             this.$refs.passwordFailMeetReqPrompt.showError = true
           }
           this.checkPasswordStrength(isValidResult, inputValue)
-          this.checkIfTwoPasswordsMatch(isValidResult)
           break
         case 'matchingPassword':
           this.checkIfTwoPasswordsMatch(isValidResult)
@@ -336,7 +332,7 @@ export default {
           }
           break
         case 'bankCardNumber':
-          inputValue = this.deFormat(inputValue, 'bankCardNumber')
+          inputValue = this.deFormatBankCardInfo(inputValue, 'bankCardNumber')
           if (this.dropDownSelected === 'Koala') {
             isValidResult = koalaRegex.test(inputValue)
           } else if (this.dropDownSelected === 'Sierra') {
@@ -351,7 +347,7 @@ export default {
           }
           break
         case 'expiry':
-          inputValue = this.deFormat(inputValue, 'expiry')
+          inputValue = this.deFormatBankCardInfo(inputValue, 'expiry')
           isValidResult = expiryRegex.test(inputValue)
           if (isValidResult) {
             this.$refs.invalidExpiryDatePrompt.showError = false
@@ -369,13 +365,17 @@ export default {
           break
       }
       if (!isValidResult) {
-        if (!inputField.isInvalidated) {
+        if (!inputField.isInvalidated) { // green to red
           this.nrOfExistingInvalidInputs.push(0)
           inputField.isValidInputBox = false
           inputField.isInvalidated = true
+          /*
+          let formInputDataKey = replaceString(inputField.id, '')
+          this.formInputData[this.currentView][formInputDataKey] = ''
+          */
         }
       } else {
-        if (inputField.isInvalidated) {
+        if (inputField.isInvalidated) { // red to green
           this.nrOfExistingInvalidInputs.pop()
           inputField.isValidInputBox = true
           inputField.isInvalidated = false
@@ -384,13 +384,17 @@ export default {
           inputField.isInvalidated = false
         }
       }
+
+      if (type === 'password') {
+        this.checkIfTwoPasswordsMatch(isValidResult)
+      }
     },
     checkPasswordStrength(isValidResult, inputValue) {
       if (!isValidResult) {
         this.$refs.passwordStrengthChecker.state = 'Weak'
       } else {
-        const OneLowerCaseOneUpperCaseOneDigitOneSpecialCharEightLength = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{10,30}$/
-        if (OneLowerCaseOneUpperCaseOneDigitOneSpecialCharEightLength.test(inputValue)) {
+        const strongPassReq = /^(?=(?:[^a-z]*[a-z]){6})(?=(?:[^A-Z]*[A-Z]))(?=\D*\d)(?=.*[\W_]).{1,30}$/
+        if (strongPassReq.test(inputValue)) {
           this.$refs.passwordStrengthChecker.state = 'Strong'
           return
         }
@@ -400,21 +404,23 @@ export default {
     checkIfTwoPasswordsMatch(isValidResult) {
       isValidResult = this.$refs.upperPasswordInput.currInput === this.$refs.lowerPasswordInput.currInput
       if (isValidResult) {
-        if ((this.$refs.lowerPasswordInput.isInvalidated) && (!this.$refs.upperPasswordInput.isInvalidated)) {
+        if ((this.$refs.lowerPasswordInput.isInvalidated) && (this.$refs.upperPasswordInput.isInvalidated === false)) {
           this.$refs.passwordsDontMatchPrompt.showError = false
-          this.nrOfExistingInvalidInputs.pop()
           this.$refs.lowerPasswordInput.isInvalidated = false
-        }
+          this.$refs.lowerPasswordInput.isValidInputBox = true
+          this.nrOfExistingInvalidInputs.pop()
+        } //  im not true yet, im about to be
       } else {
-        if (!this.$refs.lowerPasswordInput.isInvalidated) {
+        if (!this.$refs.lowerPasswordInput.isInvalidated) { //  upper null or green
           this.$refs.passwordsDontMatchPrompt.showError = true
-          this.nrOfExistingInvalidInputs.push(0)
           this.$refs.lowerPasswordInput.isValidInputBox = false
           this.$refs.lowerPasswordInput.isInvalidated = true
+          this.nrOfExistingInvalidInputs.push(0)
         }
       }
     },
     evaluateValidationState() {
+      console.log(this.nrOfExistingInvalidInputs.length)
       if (this.currentView === 'isInputSignupEmailPassDetails' || this.currentView === 'isInputPersInfo' || this.currentView === 'isEnterPaymentDetails') {
         if (this.nrOfExistingInvalidInputs.length > 0) {
           this.$refs.existsInvalidInput.showError = true
@@ -422,15 +428,15 @@ export default {
           this.setErrorDisplayTimeout()
         } else {
           const arrOfCurrentViewInputData = Object.values(this.formInputData[this.currentView])
-          arrOfCurrentViewInputData.forEach((item) => {
-            if (!item) {
+          for (const input in arrOfCurrentViewInputData) {
+            if (!input) {
               this.$refs.existsInvalidInput.showError = true
               this.inabilityToProceedReason = 'Please Fill in Remaining Input Fields'
               this.setErrorDisplayTimeout()
-            } else {
-              this.canContinue = true
+              return
             }
-          })
+          }
+          this.canContinue = true
         }
       } else if (this.currentView === 'isAcceptConditions') {
         if (!(this.hasReadTermsAndConditions && this.hasReadPrivacyPolicy)) {
@@ -479,7 +485,7 @@ export default {
       }
     },
     setDropdownSelected() {
-      const selectDropdown = this.$refs.cardTypeDropdown
+      const selectDropdown = this.$refs.bankCardTypeSignupInput
       this.dropDownSelected = selectDropdown.value
       this.$refs.Koala.currInput = this.$refs.Sierra.currInput = this.$refs.HueB.currInput = ''
       this.hasMetBankCardNumberPointOfInflection = false
@@ -493,43 +499,58 @@ export default {
       this.bankCardNumberMidPoint = (Math.floor(this.bankCardNumberLength / 2))
       this.$refs.invalidBankCardLengthPrompt.showError = false
     },
-    formatBankCardInfo(inputData, type) {
-      if (type === 'expiry') {
-        if (inputData.length === 2 && !this.hasMetExpiryDataPointOfInflection) {
-          inputData = inputData + '/'
-          this.$refs.expiryInput.currInput = inputData
-          this.hasMetExpiryDataPointOfInflection = true
-        } else if (inputData.length === 2 && this.hasMetExpiryDataPointOfInflection) {
-          inputData = inputData.substring(0, 1)
-          this.$refs.expiryInput.currInput = inputData
-          this.hasMetExpiryDataPointOfInflection = false
+    formatBankCardInfo(inputValue, typeToFormat) {
+      if (typeToFormat === 'bankCardNumber') {
+        if (inputValue.length === this.bankCardNumberMidPoint && !this.hasMetBankCardNumberPointOfInflection) {
+          this.bankCardNumberBlankUp(inputValue)
+        } else if (inputValue.length === this.bankCardNumberMidPoint && this.hasMetBankCardNumberPointOfInflection) {
+          this.bankCardNumberBlankDown(inputValue)
         }
-      } else {
-        if (inputData.length === this.bankCardNumberMidPoint && !this.hasMetBankCardNumberPointOfInflection) {
-          this.blankUp(inputData)
-        } else if (inputData.length === this.bankCardNumberMidPoint && this.hasMetBankCardNumberPointOfInflection) {
-          this.blankDown(inputData)
+      } else if (typeToFormat === 'expiry') {
+        if (inputValue.length === 2 && !this.hasMetExpiryDataPointOfInflection) {
+          this.bankCardExpirySlashUp(inputValue)
+        } else if (inputValue.length === 2 && this.hasMetExpiryDataPointOfInflection) {
+          this.bankCardExpirySlashDown(inputValue)
         }
       }
     },
-    blankUp(inputData) {
-      inputData = inputData + ' '
-      this.$refs[this.dropDownSelected].currInput = inputData
-      this.hasMetBankCardNumberPointOfInflection = true
-    },
-    blankDown(inputData) {
-      inputData = inputData.substring(0, this.bankCardNumberMidPoint - 1)
-      this.$refs[this.dropDownSelected].currInput = inputData
-      this.hasMetBankCardNumberPointOfInflection = false
-    },
-    deFormat(inputValue, typeToReFormat) {
-      if (typeToReFormat === 'bankCardNumber') {
+    deFormatBankCardInfo(inputValue, typeToDeFormat) {
+      if (typeToDeFormat === 'bankCardNumber') {
         return inputValue.substring(0, this.bankCardNumberMidPoint) + inputValue.substring(this.bankCardNumberMidPoint + 1, this.bankCardNumberLength + 1)
-      } else if (typeToReFormat === 'expiry') {
+      } else if (typeToDeFormat === 'expiry') {
         return inputValue.substring(0, 2) + inputValue.substring(3, 5)
       }
     },
-    changeScene() {}
+    bankCardNumberBlankUp(inputValue) {
+      inputValue = inputValue + ' '
+      this.$refs[this.dropDownSelected].currInput = inputValue
+      this.hasMetBankCardNumberPointOfInflection = true
+    },
+    bankCardNumberBlankDown(inputValue) {
+      inputValue = inputValue.substring(0, this.bankCardNumberMidPoint - 1)
+      this.$refs[this.dropDownSelected].currInput = inputValue
+      this.hasMetBankCardNumberPointOfInflection = false
+    },
+    bankCardExpirySlashUp(inputValue) {
+      inputValue = inputValue + '/'
+      this.$refs.expiryInput.currInput = inputValue
+      this.hasMetExpiryDataPointOfInflection = true
+    },
+    bankCardExpirySlashDown(inputValue) {
+      inputValue = inputValue.substring(0, 1)
+      this.$refs.expiryInput.currInput = inputValue
+      this.hasMetExpiryDataPointOfInflection = false
+    },
+    replaceString(orig, removePart) {
+      /*
+      let id = inputField.id
+      let removeString = 'SignupInput'
+      return id.replace(removeString, '')
+      */
+    },
+    changeScene() {},
+    prepareToPostUserSignupInfo() {},
+    postUserSignupInfo() {}
   },
   components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, PasswordStrengthChecker, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt }
 }
@@ -654,7 +675,7 @@ export default {
   width: 15vw;
 }
 
-#cardTypeDropdown {
+#bankCardTypeSignupInput {
   padding: 1em 2em 1em 2em;
   background: rgba(255, 234, 193, 0.557);
   margin-top: 1em;
