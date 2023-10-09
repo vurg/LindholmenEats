@@ -3,7 +3,7 @@
   <form @submit.prevent="">
     <div class="loginSignupInputForm">
       <div id="goBackMinimizeContainer">
-        <font-awesome-icon icon="fa-solid fa-chevron-right" size="small" rotation="180"/>
+        <font-awesome-icon icon="fa-solid fa-chevron-right" size="lg" rotation="180"/>
         <router-link id="minmizeSignupLogin" :to="{name: 'home'}">
           <font-awesome-icon icon="fa-solid fa-minus" size="lg"/>
         </router-link>

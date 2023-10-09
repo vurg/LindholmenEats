@@ -323,15 +323,15 @@ export default {
         case 'countryCode':
           flagObject = window.CountryList.findOneByDialCode(this.countryCode)
           if (!flagObject) {
-            const div = this.$refs.countryCodeFlag
-            div.innerHTML = '<div>NaN</div>'
+            this.hasCC = false
             this.$refs.invalidCCPrompt.showError = true
             isValidResult = false
           } else {
+            this.hasCC = true
             const flag = window.CountryFlagSvg[flagObject.code]
             const div = this.$refs.countryCodeFlag
             div.innerHTML = flag
-            this.$refs.invalidCCPrompts.showError = false
+            this.$refs.invalidCCPrompt.showError = false
             isValidResult = true
           }
           break
@@ -352,7 +352,6 @@ export default {
           break
         case 'expiry':
           inputValue = this.deFormat(inputValue, 'expiry')
-          console.log(inputValue)
           isValidResult = expiryRegex.test(inputValue)
           if (isValidResult) {
             this.$refs.invalidExpiryDatePrompt.showError = false
@@ -370,10 +369,7 @@ export default {
           break
       }
       if (!isValidResult) {
-        console.log(inputField)
-        console.log(inputField.isInvalidated)
         if (!inputField.isInvalidated) {
-          console.log('hhhh')
           this.nrOfExistingInvalidInputs.push(0)
           inputField.isValidInputBox = false
           inputField.isInvalidated = true
@@ -388,7 +384,6 @@ export default {
           inputField.isInvalidated = false
         }
       }
-      console.log(this.nrOfExistingInvalidInputs.length)
     },
     checkPasswordStrength(isValidResult, inputValue) {
       if (!isValidResult) {
@@ -404,13 +399,11 @@ export default {
     },
     checkIfTwoPasswordsMatch(isValidResult) {
       isValidResult = this.$refs.upperPasswordInput.currInput === this.$refs.lowerPasswordInput.currInput
-      console.log(isValidResult)
       if (isValidResult) {
         if ((this.$refs.lowerPasswordInput.isInvalidated) && (!this.$refs.upperPasswordInput.isInvalidated)) {
           this.$refs.passwordsDontMatchPrompt.showError = false
           this.nrOfExistingInvalidInputs.pop()
           this.$refs.lowerPasswordInput.isInvalidated = false
-          return
         }
       } else {
         if (!this.$refs.lowerPasswordInput.isInvalidated) {
@@ -420,12 +413,10 @@ export default {
           this.$refs.lowerPasswordInput.isInvalidated = true
         }
       }
-      console.log(this.nrOfExistingInvalidInputs.length)
     },
     evaluateValidationState() {
       if (this.currentView === 'isInputSignupEmailPassDetails' || this.currentView === 'isInputPersInfo' || this.currentView === 'isEnterPaymentDetails') {
         if (this.nrOfExistingInvalidInputs.length > 0) {
-          console.log(this.nrOfExistingInvalidInputs.length)
           this.$refs.existsInvalidInput.showError = true
           this.inabilityToProceedReason = 'Must Resolve Issues Before Continuing'
           this.setErrorDisplayTimeout()
@@ -458,17 +449,7 @@ export default {
     },
     setHasCC(data) {
       this.countryCode = '+' + data
-      if (data) {
-        this.hasCC = true
-      } else {
-        this.hasCC = false
-        this.$refs.ccSignupInput.isValidInputBox = false
-        this.$refs.invalidCCPrompt.showError = true
-      }
-      if (this.countryCode.length >= 2) {
-        this.validate(this.$refs.ccSignupInput, 'countryCode')
-        console.log(this.nrOfExistingInvalidInputs.length)
-      }
+      this.validate(this.$refs.ccSignupInput, 'countryCode')
     },
     checkScroll() {
       const container = this.$refs.conditionsBox
@@ -486,7 +467,6 @@ export default {
       if (this.hasReadTermsAndConditions && direction === 'down' && !this.inPrivacyPolicy) {
         this.isTermsAndConditions = false
         this.inPrivacyPolicy = true
-        console.log(this.$refs.conditionsScrollDown)
         this.$refs.conditionsScrollDown.classList.add('nonNavigationalConditionsArrow')
         this.$refs.conditionsScrollDown.classList.remove('isReadTermsAndConditions')
         this.$refs.conditionsBox.scrollTop = 0
@@ -514,7 +494,6 @@ export default {
       this.$refs.invalidBankCardLengthPrompt.showError = false
     },
     formatBankCardInfo(inputData, type) {
-      console.log(inputData)
       if (type === 'expiry') {
         if (inputData.length === 2 && !this.hasMetExpiryDataPointOfInflection) {
           inputData = inputData + '/'
@@ -526,11 +505,8 @@ export default {
           this.hasMetExpiryDataPointOfInflection = false
         }
       } else {
-        console.log(this.bankCardNumberMidPoint)
-        console.log(inputData.length)
         if (inputData.length === this.bankCardNumberMidPoint && !this.hasMetBankCardNumberPointOfInflection) {
           this.blankUp(inputData)
-          console.log(inputData)
         } else if (inputData.length === this.bankCardNumberMidPoint && this.hasMetBankCardNumberPointOfInflection) {
           this.blankDown(inputData)
         }
@@ -538,7 +514,6 @@ export default {
     },
     blankUp(inputData) {
       inputData = inputData + ' '
-      console.log(this.dropDownSelected)
       this.$refs[this.dropDownSelected].currInput = inputData
       this.hasMetBankCardNumberPointOfInflection = true
     },
@@ -548,9 +523,6 @@ export default {
       this.hasMetBankCardNumberPointOfInflection = false
     },
     deFormat(inputValue, typeToReFormat) {
-      console.log('deformat ' + inputValue)
-      console.log(this.bankCardNumberMidPoint)
-      console.log(this.bankCardNumberLength)
       if (typeToReFormat === 'bankCardNumber') {
         return inputValue.substring(0, this.bankCardNumberMidPoint) + inputValue.substring(this.bankCardNumberMidPoint + 1, this.bankCardNumberLength + 1)
       } else if (typeToReFormat === 'expiry') {
