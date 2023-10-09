@@ -21,8 +21,8 @@ export default {
 
 .invalidPromptWrapper {
   text-align: center;
-  height: 4vh;
-  width: 10vw;
+  height: 5vh;
+  width: 15vw;
 }
 
 .invalidText {

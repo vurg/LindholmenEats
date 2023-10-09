@@ -1,10 +1,10 @@
 <template>
-    <font-awesome-icon :class="['nextButton', nextButtonContinue ? 'nextButtonContinue' : null, margin ? margin : null]"  @mouseover="dragOverEmit" @click="clickEmit" icon="fa-solid fa-right-long" size="xl" style="font-size: 4em;" />
+    <font-awesome-icon :class="['nextButton', margin ? margin : null]"  @mouseover="dragOverEmit" @click="clickEmit" icon="fa-solid fa-right-long"/>
 </template>
 
 <script>
 export default {
-  props: ['nextButtonContinue', 'margin'],
+  props: ['margin'],
   methods: {
     dragOverEmit() {
       this.$emit('dragOverEmit')
@@ -18,23 +18,21 @@ export default {
 
 <style>
 
-.nextButton {
-  border-style: solid;
-  border-color: black;
+.nextButton, .nextButtonError, .nextButtonContinue {
+  font-size: 3em;
+  border: 0.1em black solid;
   padding: 0.2em;
-  border-radius: 10%;
+  border-radius: 20%;
 }
 
-.nextButton:hover {
+.nextButtonError:hover {
   transition-duration: 200ms;
   border-style: solid;
   border-color: rgb(255, 97, 97);
-  padding: 0.2em;
-  border-radius: 10%;
 }
 
-.nextButtonContinue {
-  transition-duration: 1000ms;
+.nextButtonContinue:hover {
+  transition-duration: 200ms;
   background: rgb(187, 255, 205);
   border-style: solid;
   border-color: rgb(187, 255, 205);

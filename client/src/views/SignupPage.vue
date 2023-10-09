@@ -106,7 +106,7 @@
                   <div id="countryCodePlus">
                   +
                   </div>
-                  <LoginSignupTextInput id="ccSignupInput" ref="ccSignupInput" @inputChange="setHasCC" type="text" placeholder="CC" width="thirdOfParent"/>
+                  <LoginSignupTextInput id="ccSignupInput" ref="ccSignupInput" @validateAfterLoseFocus="validate($event, 'countryCode')" type="text" placeholder="CC" width="thirdOfParent"/>
                 </div>
                 <InvalidPrompt ref="invalidCCPrompt" invalidText="Country Code Does Not Exist" padding="smallPaddingLeft" :haveInvalidPromptWrapper="true"/>
               </div>
@@ -207,7 +207,6 @@ export default {
       hasReadTermsAndConditions: false,
       inPrivacyPolicy: false,
       hasReadPrivacyPolicy: false,
-      hasCC: false,
       countryCode: '',
       flag: '',
       dropDownSelected: '',
@@ -223,7 +222,7 @@ export default {
       let isValidResult = true
       let flagObject = null
       const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-      const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=(?:\D*\d)){1}.{1,30}$/
+      const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=(?:\D*\d)){1}.{5,30}$/ // CHECK
       const onlyLettersRegex = /^[a-zA-Z]{1,30}$/
       const onlyNumbersRegex = /^\d{1,30}$/
       const yyyyRegex = /^[0-9]{4}$/
@@ -317,13 +316,12 @@ export default {
           }
           break
         case 'countryCode':
+          this.countryCode = '+' + inputValue
           flagObject = window.CountryList.findOneByDialCode(this.countryCode)
           if (!flagObject) {
-            this.hasCC = false
             this.$refs.invalidCCPrompt.showError = true
             isValidResult = false
           } else {
-            this.hasCC = true
             const flag = window.CountryFlagSvg[flagObject.code]
             const div = this.$refs.countryCodeFlag
             div.innerHTML = flag
@@ -393,7 +391,7 @@ export default {
       if (!isValidResult) {
         this.$refs.passwordStrengthChecker.state = 'Weak'
       } else {
-        const strongPassReq = /^(?=(?:[^a-z]*[a-z]){6})(?=(?:[^A-Z]*[A-Z]))(?=\D*\d)(?=.*[\W_]).{1,30}$/
+        const strongPassReq = /^(?=(?:[^a-z]*[a-z]){6})(?=(?:[^A-Z]*[A-Z]))(?=\D*\d)(?=.*[\W_]).{8,30}$/ // CHECK
         if (strongPassReq.test(inputValue)) {
           this.$refs.passwordStrengthChecker.state = 'Strong'
           return
@@ -420,7 +418,6 @@ export default {
       }
     },
     evaluateValidationState() {
-      console.log(this.nrOfExistingInvalidInputs.length)
       if (this.currentView === 'isInputSignupEmailPassDetails' || this.currentView === 'isInputPersInfo' || this.currentView === 'isEnterPaymentDetails') {
         if (this.nrOfExistingInvalidInputs.length > 0) {
           this.$refs.existsInvalidInput.showError = true
@@ -428,8 +425,8 @@ export default {
           this.setErrorDisplayTimeout()
         } else {
           const arrOfCurrentViewInputData = Object.values(this.formInputData[this.currentView])
-          for (const input in arrOfCurrentViewInputData) {
-            if (!input) {
+          for (const val of arrOfCurrentViewInputData) {
+            if (!val) {
               this.$refs.existsInvalidInput.showError = true
               this.inabilityToProceedReason = 'Please Fill in Remaining Input Fields'
               this.setErrorDisplayTimeout()
@@ -452,10 +449,6 @@ export default {
       setTimeout(() => {
         this.$refs.existsInvalidInput.showError = false
       }, 4000)
-    },
-    setHasCC(data) {
-      this.countryCode = '+' + data
-      this.validate(this.$refs.ccSignupInput, 'countryCode')
     },
     checkScroll() {
       const container = this.$refs.conditionsBox
@@ -594,7 +587,7 @@ export default {
 }
 
 #conditionsBox {
-  border-style: double;
+  border-style: groove;
   border-color: rgb(0, 0, 0);
   padding: 3em 4em 2em 4em;
   background: rgba(245, 255, 254, 0.729);
