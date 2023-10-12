@@ -13,15 +13,15 @@
           <div class="row  larger-text">
             <div class="col-6 col-md-4">
               <strong>Transactions</strong><br>
-              {{ this.transactions.length }}
+              {{ this.countCompletedTransactions }}
             </div>
             <div class="col-6 col-md-4">
               <strong>Average</strong><br>
-              {{ '$' + (this.totalTransactions() / this.transactions.length).toFixed(2) }}
+              {{ '$' + (this.totalCompletedTransactions / this.countCompletedTransactions).toFixed(2) }}
             </div>
             <div class="col-6 col-md-4">
               <strong>Total</strong><br>
-              {{ '$' + this.totalTransactions().toFixed(2) }}
+              {{ '$' + this.totalCompletedTransactions.toFixed(2) }}
             </div>
             <div class="col-6 col-md-4">
               <strong>Products</strong><br>
@@ -135,6 +135,8 @@ export default {
         { key: 'customer.name', label: 'Customer', sortable: true }
         // Add more fields as needed
       ],
+      countCompletedTransactions: null,
+      totalCompletedTransactions: null,
       deliveries: [],
       deliveriesCount: null
     }
@@ -169,13 +171,16 @@ export default {
       const filename = product.name.replace(/ /g, '-').toLowerCase()
       return require(`@/assets/images/${filename}.jpg`)
     },
-    totalTransactions() {
-      // Use the reduce() method to sum the totalTransactionAmount property of products
-      const totalAmount = this.transactions.reduce((accumulator, transaction) => {
-        return accumulator + transaction.totalAmount
+    calculateTotalTransactions() {
+      // Use the reduce() method to sum the totalTransactionAmount property of completed transactions
+      this.totalCompletedTransactions = this.transactions.reduce((accumulator, transaction) => {
+        // Only include transactions with status 'Completed'
+        if (transaction.transactionStatus === 'Completed') {
+          return accumulator + transaction.totalAmount
+        } else {
+          return accumulator
+        }
       }, 0) // Initialize accumulator to 0
-
-      return totalAmount
     },
     // Similar to getRestaurants, getProducts method, define methods for other entities
     getRestaurants() {
@@ -358,6 +363,8 @@ export default {
       Api.get('/transactions', { page: 1 })
         .then(response => {
           this.transactions = response.data
+          this.countTransactions()
+          this.calculateTotalTransactions()
           this.error = null
           console.log(this.transactions)
         })
@@ -365,6 +372,14 @@ export default {
           this.transactions = []
           this.error = 'Error fetching customers: ' + error.message
         })
+    },
+    countTransactions() {
+      this.countCompletedTransactions = 0
+      this.transactions.forEach(transaction => {
+        if (transaction.transactionStatus === 'Completed') {
+          this.countCompletedTransactions++
+        }
+      })
     },
     getDeliveries() {
       Api.get('/deliveries')
