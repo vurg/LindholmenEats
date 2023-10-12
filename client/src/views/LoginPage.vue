@@ -32,19 +32,6 @@ import LoginSignupFormHeader from './../components/LoginSignupFormHeader'
 import LoginSignupTextInput from './../components/LoginSignupTextInput'
 
 export default {
-
-  data() {
-    return {
-      name: 'mike',
-      setOn: true
-    }
-  },
-  methods: {
-    onoffmodal() {
-      this.setOn = !this.setOn
-      console.log('clicked')
-    }
-  },
   components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, LoginSignupTextInput }
 }
 

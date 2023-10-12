@@ -1,7 +1,7 @@
 <template>
-  <div id="signupLoginContainer">
-    <router-link :to="{name: 'signup'}"><div ref="signupHeader" class="signupActive">signup</div></router-link>
-    <router-link :to="{name: 'login'}"><div ref="loginHeader" class="loginActive">login</div></router-link>
+  <div class="signupLoginContainer">
+    <router-link id="signupLink" :to="{name: 'signup'}"><div ref="signupHeader" class="signupActive">signup</div></router-link>
+    <router-link id="loginLink" :to="{name: 'login'}"><div ref="loginHeader" class="loginActive">login</div></router-link>
   </div>
 </template>
 
@@ -23,24 +23,24 @@ export default {
 
 <style>
 
-#signupLoginContainer {
+.signupLoginContainer {
   text-align: center;
 }
 
-#signupLoginContainer > * {
-  display: block;
-  text-decoration: none;
-  color: none;
+#signupLink, #loginLink {
+  color: rgb(196, 196, 196);
+}
+
+.signupActive, .loginActive  {
+  font-size: 3em;
 }
 
 .signupActive {
-  color: red;
-  font-size: 2em;
+  color: rgb(255, 84, 57);
 }
 
 .loginActive {
-  color: blue;
-  font-size: 2em;
+  color: rgb(42, 134, 255);
 }
 
 .deactive {

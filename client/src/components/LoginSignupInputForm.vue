@@ -3,7 +3,7 @@
   <form @submit.prevent="">
     <div class="loginSignupInputForm">
       <div id="goBackMinimizeContainer">
-        <font-awesome-icon icon="fa-solid fa-chevron-right" size="lg" rotation="180"/>
+        <font-awesome-icon :class="selected !== 'signup' ? 'hide' : null" icon="fa-solid fa-chevron-right" size="lg" rotation="180"/>
         <router-link id="minmizeSignupLogin" :to="{name: 'home'}">
           <font-awesome-icon icon="fa-solid fa-minus" size="lg"/>
         </router-link>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: []
+  props: ['selected']
 }
 </script>
 
@@ -38,12 +38,16 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 95%;
 }
 
 #minmizeSignupLogin {
   text-decoration: none;
   color: rgba(255, 0, 0, 0.644);
+}
+
+.hide {
+  visibility: hidden;
 }
 
 </style>

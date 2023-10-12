@@ -1,5 +1,5 @@
 <template>
-  <input :id="id ? id : null" required :type="type" :placeholder="placeholder" :class="['inputBox', isValidInputBox ? 'validInputBox' : null, margin ? margin : null, padding ? padding : null, width ? width : null]" @blur="validate" @keyup="checkHasContent" v-model="currInput">
+  <input :id="id ? id : null" required :type="type" :placeholder="placeholder" :class="['inputBox', isValidInputBox ? 'validInputBox' : null, margin ? margin : null, padding ? padding : null, width ? width : null]" @blur="validate" @keyup="checkHasContent" @click="clickEmit" v-model="currInput">
 </template>
 
 <script>
@@ -18,7 +18,10 @@ export default {
       this.$emit('validateAfterLoseFocus', this)
     },
     checkHasContent() {
-      this.$emit('inputChange', this.currInput)
+      this.$emit('inputChange', this)
+    },
+    clickEmit() {
+      this.$emit('clickEmit', this)
     }
   }
 }
@@ -30,7 +33,7 @@ export default {
   font-family: 'Courier New', Courier, monospace;
   display: block;
   width: 100%;
-  padding: 1em;
+  padding: 0.8em;
   background: rgba(0, 0, 0, 0.1);
   border: 0.125em solid rgba(167, 167, 167, 0.233);
 }

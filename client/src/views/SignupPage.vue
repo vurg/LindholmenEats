@@ -2,16 +2,16 @@
   <div>
     <LoginSignupModal id="signupModal"/>
     <div id="signupContainer">
-      <LoginSignupInputForm>
-        <LoginSignupFormHeader selected="signup"/>
+      <LoginSignupInputForm selected="signup">
+        <LoginSignupFormHeader id="loginSignupHeader" selected="signup"/>
         <div id="inputSignupEmailPassDetailsContainer" v-show="views.isInputSignupEmailPassDetails">
           <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'email')"/>
-          <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format"/>
-          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'password')"/>
-          <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Have: Length of 6, 1 Special Character & 1 Digit, Max Pass Length 30"/>
-          <PasswordStrengthChecker ref="passwordStrengthChecker" margin="extraExtraSmallAllAroundMargin"/>
-          <LoginSignupTextInput id="passwordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
-          <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match"/>
+          <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="mediumWidth"/>
+          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'password')" @clickEmit="toggleOffStrengthChecker"/>
+          <PasswordStrengthChecker v-show="showPasswordStrength" ref="passwordStrengthChecker" margin="extraExtraSmallAllAroundMargin"/>
+          <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="largeWidth"/>
+          <LoginSignupTextInput id="confirmPasswordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
+          <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match" invalidPromptWrapperWidth="mediumWidth"/>
         </div>
         <div v-show="views.isAcceptConditions">
           <div id="conditionsHeaderBoxAndScroll">
@@ -76,25 +76,25 @@
             <div id="firstLastNameInputContainer">
               <div>
                 <LoginSignupTextInput id="firstNameSignupInput" type="text" placeholder="Firstname" @validateAfterLoseFocus="validate($event, 'letterString')"/>
-                <InvalidPrompt ref="invalidFirstNamePrompt" invalidText="Unsupported Firstname" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidFirstNamePrompt" invalidText="Unsupported Firstname" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
                 <LoginSignupTextInput id="lastNameSignupInput" type="text" placeholder="Lastname" @validateAfterLoseFocus="validate($event, 'letterString')"/>
-                <InvalidPrompt ref="invalidLastNamePrompt" invalidText="Unsupported Lastname" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidLastNamePrompt" invalidText="Unsupported Lastname" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
             <div id="dateOfBirthInputContainer">
               <div>
                 <LoginSignupTextInput id="dobYYYYSignupInput" type="text" placeholder="DOB-YEAR: YYYY" @validateAfterLoseFocus="validate($event, 'dobYYYY')"/>
-                <InvalidPrompt ref="invalidYearPrompt" invalidText="Invalid Year" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidYearPrompt" invalidText="Invalid Year" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
                 <LoginSignupTextInput id="dobMMSignupInput" type="text" placeholder="DOB-MONTH: MM" @validateAfterLoseFocus="validate($event, 'dobMM')"/>
-                <InvalidPrompt ref="invalidMonthPrompt" invalidText="Invalid Month" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidMonthPrompt" invalidText="Invalid Month" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
                 <LoginSignupTextInput id="dobDDSignupInput" type="text" placeholder="DOB-DAY: DD" @validateAfterLoseFocus="validate($event, 'dobDD')"/>
-                <InvalidPrompt ref="invalidDayPrompt" invalidText="Invalid Day" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidDayPrompt" invalidText="Invalid Day" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
             <div id="phoneNumberInputContainer">
@@ -106,23 +106,23 @@
                   <div id="countryCodePlus">
                   +
                   </div>
-                  <LoginSignupTextInput id="ccSignupInput" ref="ccSignupInput" @validateAfterLoseFocus="validate($event, 'countryCode')" type="text" placeholder="CC" width="thirdOfParent"/>
+                  <LoginSignupTextInput id="ccSignupInput" ref="ccSignupInput" @inputChange="validate($event, 'countryCode')" type="text" placeholder="CC" width="thirdOfParent"/>
                 </div>
-                <InvalidPrompt ref="invalidCCPrompt" invalidText="Country Code Does Not Exist" padding="smallPaddingLeft" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidCCPrompt" invalidText="Country Code Invalid" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
                 <LoginSignupTextInput id="phoneNumberSignupInput" type="text" placeholder="Phone Number" @validateAfterLoseFocus="validate($event, 'numberString')"/>
-                <InvalidPrompt ref="invalidPhoneNumberPrompt" invalidText="Invalid Phone Number" :haveInvalidPromptWrapper="true"/>
+                <InvalidPrompt ref="invalidPhoneNumberPrompt" invalidText="Invalid Phone Number" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
             <div id="streetAddressInputContainer">
               <div>
-                <LoginSignupTextInput id="streetAddressNameSignupInput" type="text" placeholder="Street Address Name" @validateAfterLoseFocus="validate($event, 'letterString')"/>
-                <InvalidPrompt ref="invalidStreetAddressNamePrompt" invalidText="Invalid Street Name" :haveInvalidPromptWrapper="true"/>
+                <LoginSignupTextInput id="streetAddressNameSignupInput" type="text" placeholder="Street Address Name" @validateAfterLoseFocus="validate($event,'letterString')"/>
+                <InvalidPrompt ref="invalidStreetAddressNamePrompt" invalidText="Invalid Street Name" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
-                <LoginSignupTextInput id="streetAddressNumberSignupInput" type="text" placeholder="Street Address Nr" @validateAfterLoseFocus="validate($event, 'numberString')"/>
-                <InvalidPrompt ref="invalidStreetAddressNumberPrompt" invalidText="Invalid Street Number" :haveInvalidPromptWrapper="true"/>
+                <LoginSignupTextInput id="streetAddressNumberSignupInput" type="text" placeholder="Street Address Nr" @validateAfterLoseFocus="validate($event,'numberString')"/>
+                <InvalidPrompt ref="invalidStreetAddressNumberPrompt" invalidText="Invalid Street Number" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
           </div>
@@ -135,35 +135,33 @@
                 <img v-show="dropDownSelected === 'Sierra'" src="../assets/images/bankcard-sierra.png" alt="Sierra Bankcard Image">
                 <img v-show="dropDownSelected === 'HueB'" src="../assets/images/bankcard-hueb.png" alt="HueB Bankcard Image">
               </div>
-              <select id="bankCardTypeSignupInput" @change ="setDropdownSelected" name="bankCardTypeSignupInput" ref="bankCardTypeSignupInput">
+              <select id="bankCardTypeSignupInput" @change="setDropdownSelected" name="bankCardTypeSignupInput" ref="bankCardTypeSignupInput">
                 <option value="" disabled selected >Choose Bankcard Type</option>
                 <option value="Koala" >Koala</option>
                 <option value="Sierra" >Sierra</option>
                 <option value="HueB" >HueB</option>
               </select>
               <div id="bankCardNumberInputContainer">
-                <div>
-                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="Koala" v-if="dropDownSelected === 'Koala'" type="text" placeholder="Card Number: 6 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Koala')"/>
-                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="Sierra" v-if="dropDownSelected === 'Sierra'" type="text" placeholder="Card Number: 8 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'Sierra')"/>
-                  <LoginSignupTextInput id="bankCardNumberSignupInput" ref="HueB" v-if="dropDownSelected === 'HueB'" type="text" placeholder="Card Number: 10 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'HueB')"/>
-                  <InvalidPrompt ref="invalidBankCardLengthPrompt" invalidText="Invalid Input" :haveInvalidPromptWrapper="true"/>
-                </div>
+                  <LoginSignupTextInput id="bankCardNumberKoalaSignupInput" ref="Koala" v-show="dropDownSelected === 'Koala'" type="text" placeholder="Card Number: 6 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'bankCardNumber')"/>
+                  <LoginSignupTextInput id="bankCardNumberSierraSignupInput" ref="Sierra" v-show="dropDownSelected === 'Sierra'" type="text" placeholder="Card Number: 8 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'bankCardNumber')"/>
+                  <LoginSignupTextInput id="bankCardNumberHueBSignupInput" ref="HueB" v-show="dropDownSelected === 'HueB'" type="text" placeholder="Card Number: 10 Digits" @validateAfterLoseFocus="validate($event, 'bankCardNumber')" @inputChange="formatBankCardInfo($event, 'bankCardNumber')"/>
+                  <InvalidPrompt ref="invalidBankCardLengthPrompt" invalidText="Invalid Input" invalidPromptWrapperWidth="smallWidth"/>
               </div>
-              <div id="bankCardNumberExpiryInputContainer" v-show="dropDownSelected">
-                <div>
+              <div id="bankCardNumberExpiryCVCWrapper" v-show="dropDownSelected">
+                <div id="expirySignupContainer">
                   <LoginSignupTextInput id="expirySignupInput" ref="expiryInput" type="text" placeholder="Expiry: MM/YY" @inputChange="formatBankCardInfo($event, 'expiry')" @validateAfterLoseFocus="validate($event, 'expiry')"/>
-                    <InvalidPrompt ref="invalidExpiryDatePrompt" invalidText="Invalid Expiry Date" :haveInvalidPromptWrapper="true"/>
+                    <InvalidPrompt ref="invalidExpiryDatePrompt" invalidText="Invalid Expiry Date" invalidPromptWrapperWidth="smallWidth"/>
                 </div>
-                <div>
-                  <LoginSignupTextInput id="cvcSignupInput" type="text" placeholder="CVC" @validateAfterLoseFocus="validate($event, 'cvc')"/>
-                  <InvalidPrompt ref="invalidCVCPrompt" invalidText="Invalid CVC" :haveInvalidPromptWrapper="true"/>
+                <div id="cvcSignupContainer">
+                  <LoginSignupTextInput id="cvcSignupInput" type="text" placeholder="CVC" ref="cvcInput" @validateAfterLoseFocus="validate($event, 'cvc')"/>
+                  <InvalidPrompt ref="invalidCVCPrompt" invalidText="Invalid CVC" invalidPromptWrapperWidth="smallWidth"/>
                 </div>
               </div>
             </div>
             <div id="skipStep"><button>Skip Step</button></div>
           </div>
       <LoginSignupNextButton v-show="!(dropDownSelected === '' && currentView === 'isEnterPaymentDetails')" margin="extraExtraSmallAllAroundMargin" @dragOverEmit="evaluateValidationState" @clickEmit="changeScene"/>
-      <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" :haveInvalidPromptWrapper="true"/>
+      <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
       </LoginSignupInputForm>
     </div>
   </div>
@@ -193,9 +191,6 @@ export default {
         isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', cc: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
         isEnterPaymentDetails: { bankCardType: '', bankCardNumber: '', expiry: '', cvc: 0 }
       },
-      nrOfExistingInvalidInputs: [],
-      canContinue: false,
-      inabilityToProceedReason: '',
       views: {
         isInputSignupEmailPassDetails: true,
         isAcceptConditions: false,
@@ -203,6 +198,10 @@ export default {
         isEnterPaymentDetails: false
       },
       currentView: 'isInputSignupEmailPassDetails',
+      nrOfExistingInvalidInputs: [],
+      canContinue: false,
+      inabilityToProceedReason: '',
+      showPasswordStrength: false,
       isTermsAndConditions: true,
       hasReadTermsAndConditions: false,
       inPrivacyPolicy: false,
@@ -217,12 +216,12 @@ export default {
   },
   methods: {
 
-    validate(inputField, type) {
+    validate(inputField, caseType) {
       let inputValue = inputField.currInput
       let isValidResult = true
       let flagObject = null
       const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-      const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=(?:\D*\d)){1}.{5,30}$/ // CHECK
+      const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=.*\d){1}.{0,30}$/
       const onlyLettersRegex = /^[a-zA-Z]{1,30}$/
       const onlyNumbersRegex = /^\d{1,30}$/
       const yyyyRegex = /^[0-9]{4}$/
@@ -234,7 +233,7 @@ export default {
       const expiryRegex = /^(0[1-9]|1[0-2])([0-9]{2})$/
       const cvcRegex = /^([0-9]{3})$/
 
-      switch (type) {
+      switch (caseType) {
         case 'email':
           isValidResult = emailRegex.test(inputValue)
           if (isValidResult) {
@@ -316,6 +315,7 @@ export default {
           }
           break
         case 'countryCode':
+          console.log(inputValue)
           this.countryCode = '+' + inputValue
           flagObject = window.CountryList.findOneByDialCode(this.countryCode)
           if (!flagObject) {
@@ -365,10 +365,11 @@ export default {
       if (!isValidResult) {
         if (!inputField.isInvalidated) { // green to red
           this.nrOfExistingInvalidInputs.push(0)
+          console.log(inputField)
           inputField.isValidInputBox = false
           inputField.isInvalidated = true
           /*
-          let formInputDataKey = replaceString(inputField.id, '')
+          let formInputDataKey = replaceString(inputField.id, '', context)
           this.formInputData[this.currentView][formInputDataKey] = ''
           */
         }
@@ -383,15 +384,19 @@ export default {
         }
       }
 
-      if (type === 'password') {
+      if (caseType === 'password') {
         this.checkIfTwoPasswordsMatch(isValidResult)
       }
     },
+    toggleOffStrengthChecker() {
+      this.showPasswordStrength = false
+    },
     checkPasswordStrength(isValidResult, inputValue) {
+      this.showPasswordStrength = true
       if (!isValidResult) {
         this.$refs.passwordStrengthChecker.state = 'Weak'
       } else {
-        const strongPassReq = /^(?=(?:[^a-z]*[a-z]){6})(?=(?:[^A-Z]*[A-Z]))(?=\D*\d)(?=.*[\W_]).{8,30}$/ // CHECK
+        const strongPassReq = /^(?=.*[a-zA-Z]{10})(?=.*\d)(?=.*\W).{0,30}$/
         if (strongPassReq.test(inputValue)) {
           this.$refs.passwordStrengthChecker.state = 'Strong'
           return
@@ -453,7 +458,7 @@ export default {
     checkScroll() {
       const container = this.$refs.conditionsBox
       const scrollPositionDownFacing = container.scrollHeight - container.scrollTop - container.clientHeight
-      if (scrollPositionDownFacing === 0) {
+      if (scrollPositionDownFacing <= 53) {
         if (!this.hasReadTermsAndConditions) {
           this.hasReadTermsAndConditions = !this.hasReadTermsAndConditions
         }
@@ -480,7 +485,17 @@ export default {
     setDropdownSelected() {
       const selectDropdown = this.$refs.bankCardTypeSignupInput
       this.dropDownSelected = selectDropdown.value
-      this.$refs.Koala.currInput = this.$refs.Sierra.currInput = this.$refs.HueB.currInput = ''
+
+      const refs = [this.$refs.Koala, this.$refs.Sierra, this.$refs.HueB, this.$refs.expiryInput, this.$refs.cvcInput]
+
+      refs.forEach(ref => {
+        ref.currInput = ''
+        ref.isValidInputBox = false
+        ref.isInvalidated = null
+      })
+
+      this.nrOfExistingInvalidInputs = []
+
       this.hasMetBankCardNumberPointOfInflection = false
       if (this.dropDownSelected === 'Koala') {
         this.bankCardNumberLength = 6
@@ -490,9 +505,10 @@ export default {
         this.bankCardNumberLength = 10
       }
       this.bankCardNumberMidPoint = (Math.floor(this.bankCardNumberLength / 2))
-      this.$refs.invalidBankCardLengthPrompt.showError = false
+      this.$refs.invalidBankCardLengthPrompt.showError = this.$refs.invalidExpiryDatePrompt.showError = this.$refs.invalidCVCPrompt.showError = false
     },
-    formatBankCardInfo(inputValue, typeToFormat) {
+    formatBankCardInfo(inputField, typeToFormat) {
+      const inputValue = inputField.currInput
       if (typeToFormat === 'bankCardNumber') {
         if (inputValue.length === this.bankCardNumberMidPoint && !this.hasMetBankCardNumberPointOfInflection) {
           this.bankCardNumberBlankUp(inputValue)
@@ -509,9 +525,9 @@ export default {
     },
     deFormatBankCardInfo(inputValue, typeToDeFormat) {
       if (typeToDeFormat === 'bankCardNumber') {
-        return inputValue.substring(0, this.bankCardNumberMidPoint) + inputValue.substring(this.bankCardNumberMidPoint + 1, this.bankCardNumberLength + 1)
+        return inputValue.substring(0, this.bankCardNumberMidPoint) + inputValue.substring(this.bankCardNumberMidPoint + 1, inputValue.length)
       } else if (typeToDeFormat === 'expiry') {
-        return inputValue.substring(0, 2) + inputValue.substring(3, 5)
+        return inputValue.substring(0, 2) + inputValue.substring(3, inputValue.length)
       }
     },
     bankCardNumberBlankUp(inputValue) {
@@ -534,7 +550,7 @@ export default {
       this.$refs.expiryInput.currInput = inputValue
       this.hasMetExpiryDataPointOfInflection = false
     },
-    replaceString(orig, removePart) {
+    replaceString(orig, removePart, context) {
       /*
       let id = inputField.id
       let removeString = 'SignupInput'
@@ -564,11 +580,20 @@ export default {
   z-index: 2;
 }
 
+#loginSignupHeader {
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
 #inputSignupEmailPassDetailsContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#confirmPasswordSignupInput {
+  margin-top: 2em;
 }
 
 #conditionsHeaderBoxAndScroll {
@@ -674,17 +699,29 @@ export default {
   margin-top: 1em;
 }
 
-#bankCardNumberInputContainer > * > *{
+#bankCardNumberInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#bankCardNumberInputContainer > * {
   text-align: center;
 }
 
-#bankCardNumberExpiryInputContainer {
+#bankCardNumberExpiryCVCWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#bankCardNumberExpiryInputContainer > * > *{
+#bankCardNumberExpiryCVCWrapper > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#bankCardNumberExpiryCVCWrapper > * > *{
   text-align: center;
 }
 

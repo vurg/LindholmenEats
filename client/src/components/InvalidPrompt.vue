@@ -1,6 +1,6 @@
 <template>
-  <div :class="haveInvalidPromptWrapper ? 'invalidPromptWrapper' : null">
-    <div :class="['invalidText', padding ? padding : null]" v-show="showError">
+  <div :class="invalidPromptWrapperWidth ? invalidPromptWrapperWidth : null">
+    <div class="invalidText" v-show="showError">
       {{ invalidText }}
     </div>
   </div>
@@ -13,19 +13,19 @@ export default {
       showError: false
     }
   },
-  props: ['invalidText', 'padding', 'haveInvalidPromptWrapper']
+  props: ['invalidText', 'invalidPromptWrapperWidth']
 }
 </script>
 
 <style>
 
 .invalidPromptWrapper {
-  text-align: center;
-  height: 5vh;
-  width: 15vw;
+  width: 40vw;
 }
 
 .invalidText {
+  text-align: center;
+  padding: 0.4em;
   font-size: 0.9em;
   color: rgb(255, 96, 64);
   animation: fadeIn 1s;
@@ -41,7 +41,20 @@ export default {
   }
 }
 
-.smallPaddingLeft {
-  padding-left: 1.1em
+.smallWidth, .mediumWidth, .largeWidth {
+  height: 3vh;
 }
+
+.smallWidth {
+  width: 20vw;
+}
+
+.mediumWidth {
+  width: 30vw;
+}
+
+.mediumWidth {
+  width: 40vw;
+}
+
 </style>
