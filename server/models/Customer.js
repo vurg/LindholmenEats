@@ -30,11 +30,8 @@ const customerSchema = new mongoose.Schema({
   },
   paymentMethods: [
     {
-      bankCardType: String,
-      bankCardNumber: {
-        type: String,
-        unique: true,
-      },
+      type: String,
+      bankCardNumber: String,
       expiry: String,
       cvc: String
     },
