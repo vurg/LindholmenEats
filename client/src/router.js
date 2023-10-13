@@ -21,7 +21,10 @@ export default new Router({
     {
       path: '/menu',
       name: 'menu',
-      component: MenuPage
+      component: MenuPage,
+      props: route => ({
+        selectedCategory: route.query.selectedCategory || null
+      })
     },
     {
       path: '/about',

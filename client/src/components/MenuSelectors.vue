@@ -37,9 +37,12 @@ export default {
       clickedLink.isActive = true
       console.log(clickedLink.pageLabel)
       if (clickedLink.pageLabel !== 'Home') {
-        this.$emit('update:category', clickedLink.pageLabel)
+        this.$router.push({
+          name: 'menu',
+          query: { selectedCategory: clickedLink.pageLabel }
+        })
       }
-      this.$emit('link-clicked', clickedLink.pageLabel) // Emit the clicked link's label
+      this.$emit('link-clicked', clickedLink.pageLabel)
     }
   }
 }

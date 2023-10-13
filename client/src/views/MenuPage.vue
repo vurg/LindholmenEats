@@ -10,7 +10,7 @@
         </div>
       </div>
       <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
-    <shopping-cart v-model="isDisabled" :isDisabled.sync="isDisabled" :is-open="isCartOpen" @remove="removeItemFromCart" @close="closeCart" :cart="cart" :transactionId="transactionId"/>
+    <shopping-cart v-model="isDisabled" :isDisabled.sync="isDisabled" :is-open="isCartOpen" @remove="removeItemFromCart" @close="closeCart" :cart="cart" :customerId="customerId" :transactionId="transactionId"/>
     <b-button v-b-toggle.sidebar-right>Open Cart {{ cart.length>0? '(' + cart.length + ')' : '' }}</b-button>
   </div>
 </template>
@@ -22,6 +22,9 @@ import MenuSelectors from '@/components/MenuSelectors.vue'
 import { Api } from '@/Api'
 
 export default {
+  props: {
+    selectedCategory: String
+  },
   name: 'MenuPage',
   components: {
     ProductCard,
@@ -31,8 +34,8 @@ export default {
   data() {
     return {
       category: 'Mains', // Set a default active link
-      customerId: '651f1219c1748be12d41410c',
-      restaurantId: '651ae7241cb3c2b6546160c9',
+      customerId: '651f1219c1748be12d41410c', // replace with customer (or move to parent)
+      restaurantId: '651ae7241cb3c2b6546160c9', // replace with restaurant (or move to parent)
       transactionId: null, // Set your transactionId here or retrieve it from the API response
       products: [],
       error: null,
@@ -96,12 +99,13 @@ export default {
   created() {
     this.postTransaction() // Call postTransaction when the page is created
     this.getProducts()
+    this.handleLinkClick(this.selectedCategory)
   },
   beforeRouteLeave(to, from, next) {
     // Show a confirmation dialog before leaving the menu page
     if (confirm('Are you sure you want to leave the menu page? Any unsaved changes will be lost.')) {
       // If the user confirms, proceed with the navigation
-      this.selectedCategory = 'Home'
+      this.category = 'Home'
       next()
     } else {
       // If the user cancels, prevent navigation
