@@ -4,23 +4,23 @@
     <div id="signupContainer">
       <LoginSignupInputForm selected="signup">
         <LoginSignupFormHeader id="loginSignupHeader" selected="signup"/>
-        <div id="inputSignupEmailPassDetailsContainer" v-show="views.isInputSignupEmailPassDetails">
-          <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'email')"/>
-          <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="mediumWidth"/>
-          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'password')" @clickEmit="toggleOffStrengthChecker"/>
+        <div id="inputSignupEmailPassDetailsContainer" v-show="scenes.isInputSignupEmailPassDetails">
+          <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'email')"/>
+          <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="smallWidth"/>
+          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'password')" @clickEmit="toggleOffStrengthChecker"/>
           <PasswordStrengthChecker v-show="showPasswordStrength" ref="passwordStrengthChecker" margin="extraExtraSmallAllAroundMargin"/>
-          <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="largeWidth"/>
-          <LoginSignupTextInput id="confirmPasswordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
-          <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match" invalidPromptWrapperWidth="mediumWidth"/>
+          <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="mediumWidth"/>
+          <LoginSignupTextInput id="confirmPasswordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
+          <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match" invalidPromptWrapperWidth="smallWidth"/>
         </div>
-        <div v-show="views.isAcceptConditions">
+        <div v-show="scenes.isAcceptConditions">
           <div id="conditionsHeaderBoxAndScroll">
             <div id="conditionsHeader">{{ isTermsAndConditions ? 'Terms and Conditions' : 'Privacy Policy'}}</div>
             <div id="scrollAndBox">
               <div ref="conditionsBox" id="conditionsBox" @scroll="checkScroll">
                 <div v-show="isTermsAndConditions">
                   <h3>Welcome to LindholmenEat!</h3>
-                  <h4>We strive to provide you with a delightful dining experience, and by visiting our establishment or ordering from us, you agree to abide by the following terms and conditions:</h4>
+                  <h5>We strive to provide you with a delightful dining experience, and by visiting our establishment or ordering from us, you agree to abide by the following terms and conditions:</h5>
                   <p>Service Charges: A discretionary service charge may be added to your bill for the convenience of our patrons. This charge is not mandatory, and tipping is at your discretion.</p>
                   <p>Dress Code: Please adhere to our dress code, which is smart-casual attire. We reserve the right to refuse entry to guests not in compliance with our dress code.</p>
                   <p>Allergies and Dietary Restrictions: While we make every effort to accommodate allergies and dietary restrictions, please inform your server in advance. We cannot guarantee an allergen-free environment.</p>
@@ -33,7 +33,7 @@
                 </div>
                 <div v-show="inPrivacyPolicy">
                   <h3>Privacy Policy for LindholmenEats</h3>
-                  <h4>At LindholmenEats, your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our establishment or order from us. By engaging with our services, you agree to the terms of this policy.</h4>
+                  <h5>At LindholmenEats, your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our establishment or order from us. By engaging with our services, you agree to the terms of this policy.</h5>
                   <p>1. Information We Collect</p>
                   <p>We may collect personal information, such as your name, contact details, and reservation preferences, when you make a reservation, dine at our restaurant, or place an order. We do so to provide you with the best dining experience possible.</p>
                   <p>2. Use of Personal Information</p>
@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <div v-show="views.isInputPersInfo">
+        <div v-show="scenes.isInputPersInfo">
           <div id="signupUserPersDetsInputContainer">
             <div id="firstLastNameInputContainer">
               <div>
@@ -127,7 +127,7 @@
             </div>
           </div>
         </div>
-        <div v-show="views.isEnterPaymentDetails">
+        <div v-show="scenes.isEnterPaymentDetails">
           <div id="signupPaymentInputContainer">
             <div v-if="!dropDownSelected">None Selected</div>
               <div id="bankCardImageContainer" v-else>
@@ -160,8 +160,9 @@
             </div>
             <div id="skipStep"><button>Skip Step</button></div>
           </div>
-      <LoginSignupNextButton v-show="!(dropDownSelected === '' && currentView === 'isEnterPaymentDetails')" margin="extraExtraSmallAllAroundMargin" @dragOverEmit="evaluateValidationState" @clickEmit="changeScene"/>
+      <LoginSignupNextButton ref="signupNextButton" v-show="!(dropDownSelected === '' && currentScene === 'isEnterPaymentDetails')" margin="extraExtraSmallAllAroundMargin" @dragOverEmit="evaluateValidationState" @clickEmit="changeSceneForward" :canContinue="canContinue"/>
       <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
+      <div id="continuePrompt" ref="continuePrompt" v-show="canContinue">Continue!</div>
       </LoginSignupInputForm>
     </div>
   </div>
@@ -182,22 +183,23 @@ import PasswordStrengthChecker from '../components/PasswordStrengthChecker.vue'
 import LoginSignupNextButton from '../components/LoginSignupNextButton.vue'
 
 import InvalidPrompt from '../components/InvalidPrompt.vue'
+import axios from 'axios'
 
 export default {
   data() {
     return {
       formInputData: {
         isInputSignupEmailPassDetails: { email: '', password: '' },
-        isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', cc: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
+        isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', countryCode: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
         isEnterPaymentDetails: { bankCardType: '', bankCardNumber: '', expiry: '', cvc: 0 }
       },
-      views: {
+      scenes: {
         isInputSignupEmailPassDetails: true,
         isAcceptConditions: false,
         isInputPersInfo: false,
         isEnterPaymentDetails: false
       },
-      currentView: 'isInputSignupEmailPassDetails',
+      currentScene: 'isInputSignupEmailPassDetails',
       nrOfExistingInvalidInputs: [],
       canContinue: false,
       inabilityToProceedReason: '',
@@ -222,7 +224,7 @@ export default {
       let flagObject = null
       const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
       const normalPassReq = /^(?=(?:[^A-Za-z]*[A-Za-z]){4})(?=.*\d){1}.{0,30}$/
-      const onlyLettersRegex = /^[a-zA-Z]{1,30}$/
+      const onlyLettersRegex = /^[A-Za-z](?: ?[A-Za-z]){0,30}$/
       const onlyNumbersRegex = /^\d{1,30}$/
       const yyyyRegex = /^[0-9]{4}$/
       const mmRegex = /^(0[0-9]|1[0-2])$/
@@ -315,7 +317,6 @@ export default {
           }
           break
         case 'countryCode':
-          console.log(inputValue)
           this.countryCode = '+' + inputValue
           flagObject = window.CountryList.findOneByDialCode(this.countryCode)
           if (!flagObject) {
@@ -365,13 +366,8 @@ export default {
       if (!isValidResult) {
         if (!inputField.isInvalidated) { // green to red
           this.nrOfExistingInvalidInputs.push(0)
-          console.log(inputField)
           inputField.isValidInputBox = false
           inputField.isInvalidated = true
-          /*
-          let formInputDataKey = replaceString(inputField.id, '', context)
-          this.formInputData[this.currentView][formInputDataKey] = ''
-          */
         }
       } else {
         if (inputField.isInvalidated) { // red to green
@@ -382,6 +378,10 @@ export default {
           inputField.isValidInputBox = true
           inputField.isInvalidated = false
         }
+        if (caseType === 'letterString' || caseType === 'numberString') {
+          caseType = inputField.id.replace('SignupInput', '')
+        }
+        this.formInputData[this.currentScene][caseType] = inputValue
       }
 
       if (caseType === 'password') {
@@ -423,14 +423,15 @@ export default {
       }
     },
     evaluateValidationState() {
-      if (this.currentView === 'isInputSignupEmailPassDetails' || this.currentView === 'isInputPersInfo' || this.currentView === 'isEnterPaymentDetails') {
+      if (this.currentScene === 'isInputSignupEmailPassDetails' || this.currentScene === 'isInputPersInfo' || this.currentScene === 'isEnterPaymentDetails') {
         if (this.nrOfExistingInvalidInputs.length > 0) {
           this.$refs.existsInvalidInput.showError = true
           this.inabilityToProceedReason = 'Must Resolve Issues Before Continuing'
           this.setErrorDisplayTimeout()
         } else {
-          const arrOfCurrentViewInputData = Object.values(this.formInputData[this.currentView])
-          for (const val of arrOfCurrentViewInputData) {
+          console.log(this.formInputData[this.currentScene])
+          const arrOfcurrentSceneInputData = Object.values(this.formInputData[this.currentScene])
+          for (const val of arrOfcurrentSceneInputData) {
             if (!val) {
               this.$refs.existsInvalidInput.showError = true
               this.inabilityToProceedReason = 'Please Fill in Remaining Input Fields'
@@ -438,15 +439,20 @@ export default {
               return
             }
           }
-          this.canContinue = true
+          //  this.$refs.continuePrompt
+          if (!this.canContinue) {
+            this.canContinue = true
+          }
         }
-      } else if (this.currentView === 'isAcceptConditions') {
+      } else if (this.currentScene === 'isAcceptConditions') {
         if (!(this.hasReadTermsAndConditions && this.hasReadPrivacyPolicy)) {
           this.$refs.existsInvalidInput.showError = true
           this.inabilityToProceedReason = 'Must Read Terms and Conditions & Privacy Policy to Proceed'
           this.setErrorDisplayTimeout()
         } else {
-          //  show continue prompt
+          if (!this.canContinue) {
+            this.canContinue = true
+          }
         }
       }
     },
@@ -458,12 +464,11 @@ export default {
     checkScroll() {
       const container = this.$refs.conditionsBox
       const scrollPositionDownFacing = container.scrollHeight - container.scrollTop - container.clientHeight
-      if (scrollPositionDownFacing <= 53) {
-        if (!this.hasReadTermsAndConditions) {
-          this.hasReadTermsAndConditions = !this.hasReadTermsAndConditions
-        }
-        if (this.inPrivacyPolicy) {
-          this.hasReadPrivacyPolicy = !this.hasReadPrivacyPolicy
+      if (scrollPositionDownFacing <= 54) {
+        if (!this.hasReadTermsAndConditions && this.isTermsAndConditions) {
+          this.hasReadTermsAndConditions = true
+        } else if (!this.hasReadPrivacyPolicy && this.inPrivacyPolicy) {
+          this.hasReadPrivacyPolicy = true
         }
       }
     },
@@ -474,7 +479,7 @@ export default {
         this.$refs.conditionsScrollDown.classList.add('nonNavigationalConditionsArrow')
         this.$refs.conditionsScrollDown.classList.remove('isReadTermsAndConditions')
         this.$refs.conditionsBox.scrollTop = 0
-      } else if (this.inPrivacyPolicy && direction === 'up') {
+      } else if (this.inPrivacyPolicy && direction === 'up' && !this.isTermsAndConditions) {
         this.isTermsAndConditions = true
         this.inPrivacyPolicy = false
         this.$refs.conditionsScrollDown.classList.add('isReadTermsAndConditions')
@@ -483,8 +488,9 @@ export default {
       }
     },
     setDropdownSelected() {
-      const selectDropdown = this.$refs.bankCardTypeSignupInput
-      this.dropDownSelected = selectDropdown.value
+      this.dropDownSelected = this.$refs.bankCardTypeSignupInput.value
+
+      this.formInputData[this.currentScene].bankCardType = this.dropDownSelected
 
       const refs = [this.$refs.Koala, this.$refs.Sierra, this.$refs.HueB, this.$refs.expiryInput, this.$refs.cvcInput]
 
@@ -550,16 +556,83 @@ export default {
       this.$refs.expiryInput.currInput = inputValue
       this.hasMetExpiryDataPointOfInflection = false
     },
-    replaceString(orig, removePart, context) {
-      /*
-      let id = inputField.id
-      let removeString = 'SignupInput'
-      return id.replace(removeString, '')
-      */
+    changeSceneForward() {
+      if (this.canContinue) {
+        this.scenes[this.currentScene] = false
+        if (this.currentScene === 'isInputSignupEmailPassDetails') {
+          this.currentScene = 'isAcceptConditions'
+        } else if (this.currentScene === 'isAcceptConditions') {
+          this.currentScene = 'isInputPersInfo'
+        } else if (this.currentScene === 'isInputPersInfo') {
+          this.currentScene = 'isEnterPaymentDetails'
+        } else if (this.currentScene === 'isEnterPaymentDetails') {
+          this.postUserSignupInfo()
+        }
+        this.scenes[this.currentScene] = true
+        console.log(this.formInputData)
+      }
     },
-    changeScene() {},
-    prepareToPostUserSignupInfo() {},
-    postUserSignupInfo() {}
+    changeSceneBackward() {
+    },
+    postUserSignupInfo() {
+      const {
+        isInputSignupEmailPassDetails: { email, password },
+        isInputPersInfo: { firstName, lastName, dobYYYY, dobMM, dobDD, countryCode, phoneNumber, streetAddressName, streetAddressNumber },
+        isEnterPaymentDetails: { bankCardType, bankCardNumber, expiry, cvc }
+      } = this.formInputData
+
+      const joinedFirstLastName = firstName + ' ' + lastName
+      const joinedPhoneNumber = countryCode + phoneNumber
+      const joinedBirthday = dobYYYY + '-' + dobMM + '-' + dobDD + 'T00:00:00Z'
+      const joinedStreetAddress = streetAddressName + ' ' + streetAddressNumber
+      /*
+
+        const yourObject = {
+        name: 'John',
+        age: 30
+        };
+
+        const { name: personName, age: personAge } = yourObject;
+
+      */
+      const body = JSON.stringify({
+        joinedFirstLastName,
+        email,
+        password,
+        joinedPhoneNumber,
+        joinedBirthday,
+        joinedStreetAddress,
+        paymentMethods: [{
+          bankCardType,
+          bankCardNumber,
+          expiry,
+          cvc
+        }]
+      })
+
+      try {
+        const response = axios.post('http://localhost:3001/api/customers', body,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+
+        if (!response) {
+          console.log('no response from db')
+        } else {
+          console.log(response)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  },
+  watch: {
+    currentScene(varVal) {
+      this.canContinue = false
+    }
   },
   components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, PasswordStrengthChecker, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt }
 }
@@ -573,7 +646,7 @@ export default {
 }
 
 #signupContainer {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -581,7 +654,7 @@ export default {
 }
 
 #loginSignupHeader {
-  margin-top: 1em;
+  margin-top: 0.3em;
   margin-bottom: 2em;
 }
 
@@ -593,7 +666,7 @@ export default {
 }
 
 #confirmPasswordSignupInput {
-  margin-top: 2em;
+  margin-top: 0.5em;
 }
 
 #conditionsHeaderBoxAndScroll {
@@ -602,7 +675,7 @@ export default {
 
 #conditionsHeader {
   margin-bottom: 0.5em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 #scrollAndBox {
@@ -613,11 +686,11 @@ export default {
 
 #conditionsBox {
   border-style: groove;
-  border-color: rgb(0, 0, 0);
-  padding: 3em 4em 2em 4em;
+  border-color: rgba(238, 238, 238, 0.176);
   background: rgba(245, 255, 254, 0.729);
-  width: 50vw;
-  height: 50vh;
+  padding: 3em;
+  width: 40vw;
+  height: 40vh;
   overflow: scroll;
   box-sizing: border-box;
 }
@@ -643,7 +716,7 @@ export default {
 #signupUserPersDetsInputContainer {
   padding: 2em 2em 0 2em;
   margin-top: 1em;
-  background: rgba(240, 255, 225, 0.746);
+  background: rgba(248, 255, 242, 0.746);
   border-radius: 10%;
 }
 
@@ -736,5 +809,12 @@ export default {
 
 .scrollUnavailable {
   color: black;
+}
+
+#continuePrompt {
+  position: absolute;
+  bottom: 5%;
+  left: 44.3%;
+  font-style: italic;
 }
 </style>

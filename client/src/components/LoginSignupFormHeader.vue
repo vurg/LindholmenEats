@@ -28,11 +28,11 @@ export default {
 }
 
 #signupLink, #loginLink {
-  color: rgb(196, 196, 196);
+  color: rgb(255, 243, 198);
 }
 
 .signupActive, .loginActive  {
-  font-size: 3em;
+  font-size: 3.5em;
 }
 
 .signupActive {

@@ -23,22 +23,21 @@ export default {
 
 .loginSignupInputForm {
   background: rgb(255, 255, 245);
-  padding: 1em 2em 1em 2em;
   display: flex;
   flex-direction: column;
   border-radius: 5%;
   align-items: center;
-  padding: 2em 2em 2em 2em;
+  padding: 2em;
 }
 
 #goBackMinimizeContainer {
   position: absolute;
-  top: 2%;
+  top: 3%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 91%;
 }
 
 #minmizeSignupLogin {

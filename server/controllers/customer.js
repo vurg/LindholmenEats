@@ -4,6 +4,7 @@ const Customer = require('../models/Customer');
 exports.createCustomer = async (req, res) => {
     try {
       const customer = new Customer(req.body);
+      console.log(req.body);
       const savedCustomer = await customer.save();
       res.status(201).json(savedCustomer);
     } catch (err) {

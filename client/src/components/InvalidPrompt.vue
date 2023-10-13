@@ -53,8 +53,4 @@ export default {
   width: 30vw;
 }
 
-.mediumWidth {
-  width: 40vw;
-}
-
 </style>
