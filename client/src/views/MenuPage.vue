@@ -2,16 +2,16 @@
   <div>
     <MenuSelectors v-model="category" :category.sync="category" @link-clicked="handleLinkClick" />
     <div id="head-space"></div>
-      <div class="row" v-if="products.length">
-        <div class="col-md-4" v-for="product in products" :key="product._id">
-          <div v-if="product.category === category">
-          <product-card v-model="isDisabled" :isDisabled.sync="isDisabled" :product="product" @add-to-cart="addToCart" :disabled="isDisabled" :transactionId="transactionId"/>
-          </div>
-        </div>
+    <div class="row" v-if="filteredProducts.length > 0">
+      <div class="col-md-4" v-for="product in filteredProducts" :key="product._id">
+        <product-card v-model="isDisabled" :isDisabled.sync="isDisabled" :product="product" @add-to-cart="addToCart"
+          :disabled="isDisabled" :transactionId="transactionId" />
       </div>
-      <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
-    <shopping-cart v-model="isDisabled" :isDisabled.sync="isDisabled" :is-open="isCartOpen" @remove="removeItemFromCart" @close="closeCart" :cart="cart" :customerId="customerId" :transactionId="transactionId"/>
-    <b-button v-b-toggle.sidebar-right>Open Cart {{ cart.length>0? '(' + cart.length + ')' : '' }}</b-button>
+    </div>
+    <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
+    <shopping-cart v-model="isDisabled" :isDisabled.sync="isDisabled" :is-open="isCartOpen" @remove="removeItemFromCart"
+      @close="closeCart" :cart="cart" :customerId="customerId" :transactionId="transactionId" />
+    <b-button v-b-toggle.sidebar-right>Open Cart {{ cart.length > 0 ? '(' + cart.length + ')' : '' }}</b-button>
   </div>
 </template>
 
@@ -42,6 +42,12 @@ export default {
       isCartOpen: false,
       cart: [],
       isDisabled: false
+    }
+  },
+  computed: {
+    filteredProducts() {
+      // Use computed property to filter products based on category
+      return this.products.filter(product => product.category === this.category)
     }
   },
   methods: {
@@ -119,8 +125,9 @@ export default {
 .btn_message {
   margin-bottom: 1em;
 }
+
 #head-space {
   margin-bottom: 20px;
 }
-/* No need for specific image width here, Bootstrap will handle it */
-</style>
+
+/* No need for specific image width here, Bootstrap will handle it */</style>

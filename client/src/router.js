@@ -23,7 +23,7 @@ export default new Router({
       name: 'menu',
       component: MenuPage,
       props: route => ({
-        selectedCategory: route.query.selectedCategory || null
+        selectedCategory: route.query.selectedCategory || 'Mains'
       })
     },
     {
