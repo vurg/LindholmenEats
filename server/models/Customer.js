@@ -31,16 +31,16 @@ const customerSchema = new mongoose.Schema({
   paymentMethods: [
     {
       type: {
-        type: String,
+        type: String
       },
       bankCardNumber: {
-        type: String,
+        type: String
       },
       expiry: {
-        type: String,
+        type: String
       },
       cvc: {
-        type: String,
+        type: String
       }
     },
   ],
