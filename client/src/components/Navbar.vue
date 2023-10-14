@@ -17,22 +17,10 @@
           </b-button>
         </li>
         <li>
-          <b-button v-b-modal.login-modal class="btn btn-dark">
-            <i class="fas fa-user"></i> Login
-          </b-button>
-          <b-modal id="login-modal" title="Login">
-            <form>
-              <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
-              </div>
-              <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </b-modal>
+            <router-link :to="{name: 'login'}">
+            <i class="fas fa-user"></i>
+            Login
+            </router-link>
         </li>
       </ul>
     </div>

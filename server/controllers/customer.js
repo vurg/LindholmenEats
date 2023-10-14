@@ -1,13 +1,62 @@
 const Customer = require('../models/Customer');
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 
 // Create a new customer
 exports.createCustomer = async (req, res) => {
     try {
       const customer = new Customer(req.body);
+      console.log(req.body);
       const savedCustomer = await customer.save();
       res.status(201).json(savedCustomer);
     } catch (err) {
       res.status(500).json({ error: err.message });
+    }
+  };
+
+  exports.loginCustomer = async (req, res) => {
+    try {
+      console.log(req.body.email)
+      const response = await Customer.findOne({email: req.body.email});
+
+      if (response) {
+      console.log(response)
+
+      const customer = {
+        name: response.name,
+        email: response.email,
+        password: response.password,
+        phone: response.phone,
+        birthday: response.birthday.toString(),
+        address: response.address,
+        paymentMethods: response.paymentMethods.map(item => {
+          item._id = item._id.toString()
+          return item
+        }),
+        favorites: response.favorites,
+        loyaltyPoints: response.loyaltyPoints,
+        _id: response._id.toString()
+      };
+
+      const token = jwt.sign(customer, process.env.KEY)
+
+      res.cookie('user', token, {
+        domain: 'localhost',
+        path: '/'
+      })
+      
+      res.status(200).json({message: response.name})
+
+      console.log(res.cookie)
+
+      } else {
+        console.log('qfqiwfjewiojef')
+        console.log(response)
+        res.status(400).end()
+      }
+    } catch (error){
+      console.log(error)
+      res.status(500).end()
     }
   };
   
