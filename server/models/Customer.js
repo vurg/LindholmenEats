@@ -35,15 +35,12 @@ const customerSchema = new mongoose.Schema({
       },
       bankCardNumber: {
         type: String,
-        required: false
       },
       expiry: {
         type: String,
-        required: false
       },
       cvc: {
         type: String,
-        required: false
       }
     },
   ],
