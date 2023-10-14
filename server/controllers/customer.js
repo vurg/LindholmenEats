@@ -5,10 +5,10 @@ const jwt = require('jsonwebtoken')
 // Create a new customer
 exports.createCustomer = async (req, res) => {
     try {
-      await new Customer(req.body).save()
-      res.status(201).end();
-    } catch (error){
-      res.status(500).end()
+      const savedCustomer = await new Customer(req.body).save()
+      res.status(201).json(savedCustomer);
+    } catch (err){
+      res.status(500).json({error: err.message})
     }
   };
 
