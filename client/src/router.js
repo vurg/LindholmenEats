@@ -7,6 +7,9 @@ import LocationPage from '@/views/LocationPage.vue' // Import LocationPage.vue
 import CareerPage from '@/views/CareerPage.vue' // Import CareerPage.vue
 import DataPage from '@/views/DataPage.vue' // Import DataPage.vue
 import AdminPage from '@/views/AdminPage.vue' // Import AdminPage.vue
+import UserInfoPage from '@/views/UserInfoPage.vue' // Import UserInfoPage.vue
+import LoginInfoPage from '@/views/LoginInfoPage.vue' // Import LoginInfoPage.vue
+import PaymentInfoPage from '@/views/PaymentInfoPage.vue' // Import PaymentInfoPage.vue
 
 Vue.use(Router)
 
@@ -47,6 +50,21 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: AdminPage
+    },
+    {
+      path: '/user-info',
+      name: 'userInfo',
+      component: UserInfoPage
+    },
+    {
+      path: '/login-info',
+      name: 'loginInfo',
+      component: LoginInfoPage
+    },
+    {
+      path: '/payment-info',
+      name: 'paymentInfo',
+      component: PaymentInfoPage
     },
     {
       path: '/:catchAll(.*)',
