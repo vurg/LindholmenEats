@@ -2,18 +2,18 @@
   <div>
     <LoginSignupModal id="signupModal"/>
     <div id="signupContainer">
-      <LoginSignupInputForm selected="signup">
-        <LoginSignupFormHeader id="loginSignupHeader" selected="signup"/>
-        <div id="inputSignupEmailPassDetailsContainer" v-show="scenes.isInputSignupEmailPassDetails">
-          <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'email')"/>
+      <LoginSignupInputForm selected="signup" :currentScene="currentScene">
+        <LoginSignupFormHeader v-show="!scenes.isSignupResultScene" id="loginSignupHeader" selected="signup"/>
+        <div id="inputSignupEmailPassDetailsContainer" v-show="scenes.isInputSignupEmailPassDetailsScene">
+          <LoginSignupTextInput id="emailSignupInput" type="email" placeholder="Email" margin="extraExtraSmallAllAroundMargin" width="threeQuartersOfParent" @validateAfterLoseFocus="validate($event, 'email')"/>
           <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="smallWidth"/>
-          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'password')" @clickEmit="toggleOffStrengthChecker"/>
+          <LoginSignupTextInput ref="upperPasswordInput" type="password" placeholder="Password" margin="extraExtraSmallAllAroundMargin" width="threeQuartersOfParent" @validateAfterLoseFocus="validate($event, 'password')" @clickEmit="toggleOffStrengthChecker"/>
           <PasswordStrengthChecker v-show="showPasswordStrength" ref="passwordStrengthChecker" margin="extraExtraSmallAllAroundMargin"/>
           <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="mediumWidth"/>
-          <LoginSignupTextInput id="confirmPasswordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" width="halfOfParent" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
+          <LoginSignupTextInput id="confirmPasswordSignupInput" ref="lowerPasswordInput" type="password" placeholder="Confirm Password" margin="extraExtraSmallAllAroundMargin" width="threeQuartersOfParent" @validateAfterLoseFocus="validate($event, 'matchingPassword')"/>
           <InvalidPrompt ref="passwordsDontMatchPrompt" invalidText="Passwords Do Not Match" invalidPromptWrapperWidth="smallWidth"/>
         </div>
-        <div v-show="scenes.isAcceptConditions">
+        <div v-show="scenes.isAcceptConditionsScene">
           <div id="conditionsHeaderBoxAndScroll">
             <div id="conditionsHeader">{{ isTermsAndConditions ? 'Terms and Conditions' : 'Privacy Policy'}}</div>
             <div id="scrollAndBox">
@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <div v-show="scenes.isInputPersInfo">
+        <div v-show="scenes.isInputPersInfoScene">
           <div id="signupUserPersDetsInputContainer">
             <div id="firstLastNameInputContainer">
               <div>
@@ -127,7 +127,7 @@
             </div>
           </div>
         </div>
-        <div v-show="scenes.isEnterPaymentDetails">
+        <div v-show="scenes.isEnterPaymentDetailsScene">
           <div id="signupPaymentInputContainer">
             <div v-if="!dropDownSelected">None Selected</div>
               <div id="bankCardImageContainer" v-else>
@@ -160,9 +160,22 @@
             </div>
             <div id="skipStep"><button>Skip Step</button></div>
           </div>
-      <LoginSignupNextButton ref="signupNextButton" v-show="!(dropDownSelected === '' && currentScene === 'isEnterPaymentDetails')" margin="extraExtraSmallAllAroundMargin" @dragOverEmit="evaluateValidationState" @clickEmit="changeSceneForward" :canContinue="canContinue"/>
+          <div id="signupResultContainer" v-show="scenes.isSignupResultScene">
+            <div v-show="!signupPostResponse">{{ !signupPostCancelled ? 'Creating Account...' : 'Could Not Establish Connection To Servers, Try Again Later.' }}
+            </div>
+            <div v-show="signupPostResponse">
+              <div v-show="isSuccessfulSignupCreation">
+                <p>Successfully Created Accont.</p>
+              </div>
+              <div v-show="!isSuccessfulSignupCreation">
+                <p>Creation Unsuccesful. Try Again Later.</p>
+              </div>
+            </div>
+          <router-link v-show="signupPostCancelled || signupPostResponse" id="returnToLogin" :to="{name: 'login'}">Return to Login</router-link>
+        </div>
+      <LoginSignupNextButton ref="signupNextButton" v-show="!(dropDownSelected === '' && currentScene === 'isEnterPaymentDetailsScene') && currentScene !== 'isSignupResultScene'" @dragOverEmit="evaluateValidationState" @clickEmit="changeSceneForward" :canContinue="canContinue"/>
       <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
-      <div id="continuePrompt" ref="continuePrompt" v-show="canContinue">Continue!</div>
+      <ContinuePrompt id="continuePrompt" ref="continuePrompt" :canContinue="canContinue"/>
       </LoginSignupInputForm>
     </div>
   </div>
@@ -183,23 +196,27 @@ import PasswordStrengthChecker from '../components/PasswordStrengthChecker.vue'
 import LoginSignupNextButton from '../components/LoginSignupNextButton.vue'
 
 import InvalidPrompt from '../components/InvalidPrompt.vue'
-import axios from 'axios'
+
+import ContinuePrompt from '../components/ContinuePrompt.vue'
+
+import { Api } from '@/Api'
 
 export default {
   data() {
     return {
       formInputData: {
-        isInputSignupEmailPassDetails: { email: '', password: '' },
-        isInputPersInfo: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', countryCode: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
-        isEnterPaymentDetails: { bankCardType: '', bankCardNumber: '', expiry: '', cvc: 0 }
+        isInputSignupEmailPassDetailsScene: { email: '', password: '' },
+        isInputPersInfoScene: { firstName: '', lastName: '', dobYYYY: '', dobMM: '', dobDD: '', countryCode: '', phoneNumber: '', streetAddressName: '', streetAddressNumber: '' },
+        isEnterPaymentDetailsScene: { bankCardType: '', bankCardNumber: '', expiry: '', cvc: 0 }
       },
       scenes: {
-        isInputSignupEmailPassDetails: true,
-        isAcceptConditions: false,
-        isInputPersInfo: false,
-        isEnterPaymentDetails: false
+        isInputSignupEmailPassDetailsScene: true,
+        isAcceptConditionsScene: false,
+        isInputPersInfoScene: false,
+        isEnterPaymentDetailsScene: false,
+        isSignupResultScene: false
       },
-      currentScene: 'isInputSignupEmailPassDetails',
+      currentScene: 'isInputSignupEmailPassDetailsScene',
       nrOfExistingInvalidInputs: [],
       canContinue: false,
       inabilityToProceedReason: '',
@@ -213,7 +230,11 @@ export default {
       dropDownSelected: '',
       bankCardNumberLength: 0,
       hasMetBankCardNumberPointOfInflection: false,
-      hasMetExpiryDataPointOfInflection: false
+      hasMetExpiryDataPointOfInflection: false,
+      signupPostResponse: false,
+      isSuccessfulSignupCreation: false,
+      signupPostCancelled: false,
+      setTimeoutTimerScheduleID: ''
     }
   },
   methods: {
@@ -423,13 +444,12 @@ export default {
       }
     },
     evaluateValidationState() {
-      if (this.currentScene === 'isInputSignupEmailPassDetails' || this.currentScene === 'isInputPersInfo' || this.currentScene === 'isEnterPaymentDetails') {
+      if (this.currentScene === 'isInputSignupEmailPassDetailsScene' || this.currentScene === 'isInputPersInfoScene' || this.currentScene === 'isEnterPaymentDetailsScene') {
         if (this.nrOfExistingInvalidInputs.length > 0) {
           this.$refs.existsInvalidInput.showError = true
           this.inabilityToProceedReason = 'Must Resolve Issues Before Continuing'
           this.setErrorDisplayTimeout()
         } else {
-          console.log(this.formInputData[this.currentScene])
           const arrOfcurrentSceneInputData = Object.values(this.formInputData[this.currentScene])
           for (const val of arrOfcurrentSceneInputData) {
             if (!val) {
@@ -439,12 +459,15 @@ export default {
               return
             }
           }
-          //  this.$refs.continuePrompt
           if (!this.canContinue) {
             this.canContinue = true
+            this.$refs.existsInvalidInput.showError = false
+            if (this.setTimeoutTimerScheduleID) {
+              clearTimeout(this.setTimeoutTimerScheduleID)
+            }
           }
         }
-      } else if (this.currentScene === 'isAcceptConditions') {
+      } else if (this.currentScene === 'isAcceptConditionsScene') {
         if (!(this.hasReadTermsAndConditions && this.hasReadPrivacyPolicy)) {
           this.$refs.existsInvalidInput.showError = true
           this.inabilityToProceedReason = 'Must Read Terms and Conditions & Privacy Policy to Proceed'
@@ -452,19 +475,23 @@ export default {
         } else {
           if (!this.canContinue) {
             this.canContinue = true
+            this.$refs.existsInvalidInput.showError = false
+            if (this.setTimeoutTimerScheduleID) {
+              clearTimeout(this.setTimeoutTimerScheduleID)
+            }
           }
         }
       }
     },
     setErrorDisplayTimeout() {
-      setTimeout(() => {
+      this.setTimeoutTimerScheduleID = setTimeout(() => {
         this.$refs.existsInvalidInput.showError = false
-      }, 4000)
+      }, 3500)
     },
     checkScroll() {
       const container = this.$refs.conditionsBox
       const scrollPositionDownFacing = container.scrollHeight - container.scrollTop - container.clientHeight
-      if (scrollPositionDownFacing <= 54) {
+      if (scrollPositionDownFacing <= 52) {
         if (!this.hasReadTermsAndConditions && this.isTermsAndConditions) {
           this.hasReadTermsAndConditions = true
         } else if (!this.hasReadPrivacyPolicy && this.inPrivacyPolicy) {
@@ -559,82 +586,72 @@ export default {
     changeSceneForward() {
       if (this.canContinue) {
         this.scenes[this.currentScene] = false
-        if (this.currentScene === 'isInputSignupEmailPassDetails') {
-          this.currentScene = 'isAcceptConditions'
-        } else if (this.currentScene === 'isAcceptConditions') {
-          this.currentScene = 'isInputPersInfo'
-        } else if (this.currentScene === 'isInputPersInfo') {
-          this.currentScene = 'isEnterPaymentDetails'
-        } else if (this.currentScene === 'isEnterPaymentDetails') {
+        if (this.currentScene === 'isInputSignupEmailPassDetailsScene') {
+          this.currentScene = 'isAcceptConditionsScene'
+        } else if (this.currentScene === 'isAcceptConditionsScene') {
+          this.currentScene = 'isInputPersInfoScene'
+        } else if (this.currentScene === 'isInputPersInfoScene') {
+          this.currentScene = 'isEnterPaymentDetailsScene'
+        } else if (this.currentScene === 'isEnterPaymentDetailsScene') {
+          this.currentScene = 'isSignupResultScene'
           this.postUserSignupInfo()
         }
         this.scenes[this.currentScene] = true
-        console.log(this.formInputData)
       }
     },
     changeSceneBackward() {
     },
-    postUserSignupInfo() {
+    async postUserSignupInfo() {
       const {
-        isInputSignupEmailPassDetails: { email, password },
-        isInputPersInfo: { firstName, lastName, dobYYYY, dobMM, dobDD, countryCode, phoneNumber, streetAddressName, streetAddressNumber },
-        isEnterPaymentDetails: { bankCardType, bankCardNumber, expiry, cvc }
+        isInputSignupEmailPassDetailsScene: { email, password },
+        isInputPersInfoScene: { firstName, lastName, dobYYYY, dobMM, dobDD, countryCode, phoneNumber, streetAddressName, streetAddressNumber },
+        isEnterPaymentDetailsScene: { bankCardType: type, bankCardNumber, expiry, cvc }
       } = this.formInputData
 
-      const joinedFirstLastName = firstName + ' ' + lastName
-      const joinedPhoneNumber = countryCode + phoneNumber
-      const joinedBirthday = dobYYYY + '-' + dobMM + '-' + dobDD + 'T00:00:00Z'
-      const joinedStreetAddress = streetAddressName + ' ' + streetAddressNumber
-      /*
+      const name = firstName + ' ' + lastName
+      const phone = countryCode + phoneNumber
+      const birthday = dobYYYY + '-' + dobMM + '-' + dobDD + 'T00:00:00Z'
+      const address = streetAddressName + ' ' + streetAddressNumber
 
-        const yourObject = {
-        name: 'John',
-        age: 30
-        };
-
-        const { name: personName, age: personAge } = yourObject;
-
-      */
-      const body = JSON.stringify({
-        joinedFirstLastName,
+      const body = {
+        name,
         email,
         password,
-        joinedPhoneNumber,
-        joinedBirthday,
-        joinedStreetAddress,
+        phone,
+        birthday,
+        address,
         paymentMethods: [{
-          bankCardType,
+          type,
           bankCardNumber,
           expiry,
           cvc
         }]
-      })
+      }
 
       try {
-        const response = axios.post('http://localhost:3001/api/customers', body,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-
-        if (!response) {
-          console.log('no response from db')
-        } else {
-          console.log(response)
+        const response = await Api.post('/customers', body, {
+          timeout: 8000
+        })
+        this.signupPostResponse = true
+        if (response) {
+          this.isSuccessfulSignupCreation = true
         }
-      } catch (e) {
-        console.error(e)
+      } catch {
+        this.signupPostCancelled = true
       }
     }
   },
+  beforeDestroy() {
+    if (this.setTimeoutTimerScheduleID) {
+      clearTimeout(this.setTimeoutTimerScheduleID)
+    }
+  },
   watch: {
-    currentScene(varVal) {
+    currentScene() {
       this.canContinue = false
     }
   },
-  components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, PasswordStrengthChecker, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt }
+  components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, PasswordStrengthChecker, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt, ContinuePrompt }
 }
 
 </script>
@@ -706,7 +723,7 @@ export default {
 }
 
 .nonNavigationalConditionsArrow {
-  color: rgba(140, 140, 140, 0.619);
+  color: rgba(244, 243, 231, 0.552);
 }
 
 .isReadTermsAndConditions, .inPrivacyPolicy {
@@ -754,7 +771,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-self: center;
-  margin-top: 2em;
+  margin-top: 1.5em;
 }
 
 #bankCardImageContainer {
@@ -803,18 +820,24 @@ export default {
   justify-content: flex-end;
 }
 
-.scrollAvailable {
-  color: grey;
-}
-
-.scrollUnavailable {
-  color: black;
-}
-
 #continuePrompt {
   position: absolute;
-  bottom: 5%;
-  left: 44.3%;
-  font-style: italic;
+  top: 92%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#signupResultContainer {
+  margin-top: 3.7em;
+}
+
+#signupResultContainer > * {
+  margin-bottom: 1.2em;
+}
+
+#returnToLogin {
+  display: block;
+  text-align: right;
+  width: 100%;
 }
 </style>

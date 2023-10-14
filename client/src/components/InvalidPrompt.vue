@@ -19,16 +19,12 @@ export default {
 
 <style>
 
-.invalidPromptWrapper {
-  width: 40vw;
-}
-
 .invalidText {
   text-align: center;
-  padding: 0.4em;
   font-size: 0.9em;
   color: rgb(255, 96, 64);
   animation: fadeIn 1s;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -51,6 +47,10 @@ export default {
 
 .mediumWidth {
   width: 30vw;
+}
+
+.largeWidth {
+  width: 40vw;
 }
 
 </style>
