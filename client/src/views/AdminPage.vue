@@ -1,11 +1,21 @@
 <template>
   <div>
     <h1>Admin Page</h1>
-    <div v-if="error">{{ error }}</div>
 
-    <h5 v-for="restaurant in restaurants" :key="restaurant.id">
-      {{ restaurant.name + ' - ' + restaurant.address }}
-    </h5>
+    <div v-for="restaurant in restaurants" :key="restaurant._id">
+      <h5>
+        {{ restaurant.name + ' - ' + restaurant.address }}
+        <button type="button" @click="showUpdateModal(restaurant)" v-if="!showModal">Update</button>
+      </h5>
+    </div>
+
+    <!-- Modal for Update -->
+    <div v-if="showModal">
+      <input v-model="restaurant.name" placeholder="Restaurant Name" />
+      <input v-model="restaurant.address" placeholder="Restaurant Address" />
+      <button @click="updateRestaurant">Save Changes</button>
+      <button @click="cancelUpdateModal">Cancel</button>
+    </div>
 
     <div class="container">
       <ul class="list-group">
@@ -94,7 +104,8 @@
         <b-table striped hover :items="transactions" :fields="transactionFields"></b-table>
       </div>
       <div class="scrollable-list">
-        <b-table class="small-b-table" striped hover :items="transactions" :fields="smallScreenTransactionFields"></b-table>
+        <b-table class="small-b-table" striped hover :items="transactions"
+          :fields="smallScreenTransactionFields"></b-table>
       </div>
     </div>
     <button type="button" @click="logout">Logout</button>
@@ -110,6 +121,8 @@ export default {
       category: 'Mains',
       error: null,
       restaurants: [],
+      showModal: false,
+      restaurant: { _id: '', name: '', address: '' }, // Initialize with empty values
       products: [],
       productFields: [
         { key: '_id', label: 'Product ID', sortable: false },
@@ -225,6 +238,39 @@ export default {
           this.restaurants = []
           this.error = 'Error fetching products: ' + error.message
         })
+    },
+    showUpdateModal(restaurant) {
+    // Set showModal to true only if the user confirms the update
+      const confirmUpdate = window.confirm('Are you sure you want to update the restaurant details? This operation is irreversible.')
+      if (confirmUpdate) {
+        this.showModal = true
+        this.restaurant = { ...restaurant } // Use object spread to create a new object and avoid modifying the original restaurant object
+      }
+    },
+
+    cancelUpdateModal() {
+    // Reset the restaurant data property and hide the modal
+      this.showModal = false
+      this.restaurant = { _id: '', name: '', address: '' }
+    },
+    updateRestaurant() {
+      if (this.restaurant.name && this.restaurant.address && isNaN(this.restaurant.name) && isNaN(this.restaurant.address)) {
+        const userInput = window.prompt('To confirm, please type "UPDATE"')
+        if (userInput === 'UPDATE') {
+          Api.put(`/restaurants/${this.restaurant._id}`, this.restaurant)
+            .then(response => {
+              this.getRestaurants()
+              this.restaurant = { _id: '', name: '', address: '' }
+              this.showModal = false
+              this.error = null
+            })
+            .catch(error => {
+              this.error = 'Error updating restaurant: ' + error.message
+            })
+        }
+      } else {
+        alert('Invalid input. Please provide valid restaurant name and address.')
+      }
     },
     getProducts() {
       Api.get('/products')
@@ -473,29 +519,33 @@ export default {
 }
 
 .b-table {
-  font-size: 16px; /* Default font size */
+  font-size: 16px;
+  /* Default font size */
 }
+
 .small-b-table {
-    font-size: 16px;
-    display: none;
-  }
+  font-size: 16px;
+  display: none;
+}
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+
   /* Styles for medium screens (tablets and similar devices) */
   .b-table {
-    font-size: 12px; /* Decreased font size for small screens */
+    font-size: 12px;
+    /* Decreased font size for small screens */
   }
 }
 
 @media screen and (max-width: 767px) {
   .b-table {
-    display: none; /* Collapse the .b-table for small screens */
+    display: none;
+    /* Collapse the .b-table for small screens */
   }
 
   .small-b-table {
-    font-size: 12px; /* Decreased font size for small screens */
+    font-size: 12px;
+    /* Decreased font size for small screens */
     display: block;
   }
-}
-
-</style>
+}</style>
