@@ -612,7 +612,7 @@ export default {
       const phone = countryCode + phoneNumber
       const birthday = dobYYYY + '-' + dobMM + '-' + dobDD + 'T00:00:00Z'
       const address = streetAddressName + ' ' + streetAddressNumber
-
+      console.log(type)
       const body = {
         name,
         email,

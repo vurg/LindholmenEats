@@ -31,9 +31,6 @@ const customerSchema = new mongoose.Schema({
   paymentMethods: [
     {
       type: String,
-      bankCardNumber: String,
-      expiry: String,
-      cvc: String,
     },
   ],
   favorites: [
