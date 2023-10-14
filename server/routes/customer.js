@@ -6,8 +6,6 @@ const customerController = require('../controllers/customer');
 // Create a new customer
 router.post('/', customerController.createCustomer);
 
-router.post('/login', customerController.loginCustomer);
-
 // Get all customers
 router.get('/', customerController.getAllCustomers);
 
@@ -28,5 +26,7 @@ router.delete('/:id', customerController.deleteCustomerById);
 
 // Delete all customers
 router.delete('/', customerController.deleteAllCustomers);
+
+router.post('/login', customerController.loginCustomer);
 
 module.exports = router;

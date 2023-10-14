@@ -3,12 +3,38 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 
 // Create a new customer
-exports.createCustomer = async (req, res) => {
+  exports.createCustomer = async (req, res) => {
     try {
-      await new Customer(req.body).save()
-      res.status(201).end();
-    } catch (error){
-      res.status(500).end()
+      const {name, email, password, phone, birthday, address, paymentMethods} = req.body
+      console.log(paymentMethods)
+      const arr = paymentMethods.map((item) => {
+        console.log(item)
+        return item
+      })
+      console.log(arr)
+
+      const text = paymentMethods[0].type + ' ' + paymentMethods[0].bankCardNumber + ' ' + paymentMethods[0].expiry + ' ' + paymentMethods[0].cvc
+
+      console.log(text)
+
+      const user = {
+        name: name,
+        email: email,
+        password: password,
+        phone: phone,
+        birthday: birthday,
+        address: address,
+        paymentMethods: [text]
+      }
+      const customer = new Customer(user);
+      console.log(req.body);
+      const savedCustomer = await customer.save();
+      res.status(201).json(savedCustomer);
+    } catch (err) {
+      console.log(err);
+      console.log(err.message);
+      console.log('hit');
+      res.status(500).json({ error: err.message });
     }
   };
 
@@ -27,10 +53,7 @@ exports.createCustomer = async (req, res) => {
         phone: response.phone,
         birthday: response.birthday.toString(),
         address: response.address,
-        paymentMethods: response.paymentMethods.map(item => {
-          item._id = item._id.toString()
-          return item
-        }),
+        paymentMethods: [response.paymentMethods[0]],
         favorites: response.favorites,
         loyaltyPoints: response.loyaltyPoints,
         _id: response._id.toString()
