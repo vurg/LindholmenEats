@@ -1,7 +1,7 @@
 <template>
   <div class="main-content">
     <!-- Render the content of the current page view -->
-    <router-view />
+    <router-view/>
   </div>
 </template>
 

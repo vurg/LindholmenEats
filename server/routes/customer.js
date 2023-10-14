@@ -6,6 +6,8 @@ const customerController = require('../controllers/customer');
 // Create a new customer
 router.post('/', customerController.createCustomer);
 
+router.post('/login', customerController.loginCustomer);
+
 // Get all customers
 router.get('/', customerController.getAllCustomers);
 

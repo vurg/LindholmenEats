@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-view name="loginSignupView"></router-view>
     <MenuSelectors />
     <div class="slider-frame">
       <div class="slide-images">
@@ -79,11 +80,11 @@ export default {
 }
 .app-banner {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  justify-content: center;
 }
 .food-banner {
-  display: inline-flex;
+  display: flex;
   justify-content: center;
 }
 .app-banner img,

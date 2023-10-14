@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+const cookieParser = require('cookie-parser');
 
 // Load environment variables
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -28,6 +29,8 @@ var app = express();
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser())
 // HTTP request logger
 app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api

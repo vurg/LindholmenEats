@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import LoginPage from '@/views/LoginPage.vue'
+import SignupPage from '@/views/SignupPage.vue'
 import Home from '@/views/HomePage.vue' // Import HomePage.vue
 import MenuPage from '@/views/MenuPage.vue' // Import MenuPage.vue
 import AboutPage from '@/views/AboutPage.vue' // Import AboutPage.vue
@@ -16,6 +19,18 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: LoginPage
+        },
+        {
+          path: '/signup',
+          name: 'signup',
+          component: SignupPage
+        }
+      ],
       component: Home
     },
     {
