@@ -93,6 +93,9 @@
       <div class="scrollable-list">
         <b-table striped hover :items="transactions" :fields="transactionFields"></b-table>
       </div>
+      <div class="scrollable-list">
+        <b-table class="small-b-table" striped hover :items="transactions" :fields="smallScreenTransactionFields"></b-table>
+      </div>
     </div>
     <button type="button" @click="logout">Logout</button>
   </div>
@@ -129,10 +132,18 @@ export default {
       transactions: [],
       transactionFields: [
         { key: '_id', label: 'Transaction ID', sortable: false },
-        { key: 'totalAmount', label: 'Total Amount', sortable: true },
+        { key: 'totalAmount', label: 'Amount', sortable: true, formatter: (value) => Number(value).toFixed(2) },
         { key: 'date', label: 'Date', sortable: true },
         { key: 'transactionStatus', label: 'Status', sortable: true },
         { key: 'customer.name', label: 'Customer', sortable: true }
+        // Add more fields as needed
+      ],
+      smallScreenTransactionFields: [
+        { key: '_id', label: 'Transaction ID', sortable: false },
+        { key: 'totalAmount', label: 'Amount', sortable: true, formatter: (value) => Number(value).toFixed(2) },
+        { key: 'date', label: 'Date', sortable: true, formatter: (value) => String(value).substring(0, 10) },
+        { key: 'transactionStatus', label: 'Status', sortable: true }
+        // { key: 'date', label: 'Date', sortable: true, formatter: (value) => String(value).substring(0, 10) }
         // Add more fields as needed
       ],
       countCompletedTransactions: null,
@@ -458,4 +469,31 @@ export default {
 .larger-text {
   font-size: 16px;
 }
+
+.b-table {
+  font-size: 16px; /* Default font size */
+}
+.small-b-table {
+    font-size: 16px;
+    display: none;
+  }
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* Styles for medium screens (tablets and similar devices) */
+  .b-table {
+    font-size: 12px; /* Decreased font size for small screens */
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .b-table {
+    display: none; /* Collapse the .b-table for small screens */
+  }
+
+  .small-b-table {
+    font-size: 12px; /* Decreased font size for small screens */
+    display: block;
+  }
+}
+
 </style>
