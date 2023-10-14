@@ -17,11 +17,11 @@
             </div>
             <div class="col-6 col-md-4">
               <strong>Average</strong><br>
-              {{ '$' + (this.totalCompletedTransactions / this.countCompletedTransactions).toFixed(2) }}
+              {{ formattedAverage }}
             </div>
             <div class="col-6 col-md-4">
               <strong>Total</strong><br>
-              {{ '$' + this.totalCompletedTransactions.toFixed(2) }}
+              {{ formattedTotal }}
             </div>
             <div class="col-6 col-md-4">
               <strong>Products</strong><br>
@@ -94,7 +94,7 @@
         <b-table striped hover :items="transactions" :fields="transactionFields"></b-table>
       </div>
     </div>
-
+    <button type="button" @click="logout">Logout</button>
   </div>
 </template>
 
@@ -152,6 +152,20 @@ export default {
           promotionEndDate: promotion.promotionEndDate.substring(0, 10)
         }
       })
+    },
+    formattedAverage() {
+      if (this.countCompletedTransactions === 0 || this.totalCompletedTransactions === null) {
+        return '$0.00'
+      }
+
+      const average = (this.totalCompletedTransactions / this.countCompletedTransactions).toFixed(2)
+      return '$' + average
+    },
+    formattedTotal() {
+      if (this.totalCompletedTransactions !== null) {
+        return '$' + this.totalCompletedTransactions.toFixed(2)
+      }
+      return '$0.00'
     }
   },
   mounted() {
@@ -164,6 +178,12 @@ export default {
     this.getDeliveriesCount()
   },
   methods: {
+    logout() {
+      // Clear the session storage token
+      sessionStorage.removeItem('token')
+      // Optionally, redirect the user to the login page or any other appropriate page after logout
+      this.$router.push('/adminLogin') // Assuming you are using Vue Router
+    },
     filterProducts(category) {
       this.category = category
     },

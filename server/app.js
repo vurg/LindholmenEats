@@ -46,6 +46,7 @@ const productRoutes = require('./routes/product');
 const transactionRoutes = require('./routes/transaction');
 const promotionRoutes = require('./routes/promotion');
 const deliveryRoutes = require('./routes/delivery');
+const adminRoutes = require('./routes/admin');
 
 // Mount routes
 app.use('/api/restaurants', restaurantRoutes);
@@ -54,6 +55,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/deliveries', deliveryRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
