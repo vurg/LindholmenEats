@@ -139,10 +139,11 @@ export default {
         // Add more fields as needed
       ],
       smallScreenTransactionFields: [
-        { key: '_id', label: 'Transaction ID', sortable: false },
+        { key: '_id', label: 'Transaction ID', sortable: false, formatter: (value) => '...' + String(value).substring(20) },
         { key: 'totalAmount', label: 'Amount', sortable: true, formatter: (value) => Number(value).toFixed(2) },
         { key: 'date', label: 'Date', sortable: true, formatter: (value) => String(value).substring(0, 10) },
-        { key: 'transactionStatus', label: 'Status', sortable: true }
+        { key: 'transactionStatus', label: 'Status', sortable: true },
+        { key: 'customer.name', label: 'Customer', sortable: true }
         // { key: 'date', label: 'Date', sortable: true, formatter: (value) => String(value).substring(0, 10) }
         // Add more fields as needed
       ],
@@ -394,6 +395,7 @@ export default {
       Api.get('/transactions', { page: 1 })
         .then(response => {
           this.transactions = response.data
+          console.log('Length of transactions' + this.transactions.length)
           this.countTransactions()
           this.calculateTotalTransactions()
           this.error = null
