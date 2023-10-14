@@ -7,11 +7,6 @@ const jwt = require('jsonwebtoken')
     try {
       const {name, email, password, phone, birthday, address, paymentMethods} = req.body
       console.log(paymentMethods)
-      const arr = paymentMethods.map((item) => {
-        console.log(item)
-        return item
-      })
-      console.log(arr)
 
       const text = paymentMethods[0].type + ' ' + paymentMethods[0].bankCardNumber + ' ' + paymentMethods[0].expiry + ' ' + paymentMethods[0].cvc
 
