@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     adminLogin() {
-      console.log('Username:', this.username)
-      console.log('Password:', this.password)
+      // console.log('Username:', this.username)
+      // console.log('Password:', this.password)
 
       Api.post('/admin/login', {
         username: this.username,
@@ -38,12 +38,12 @@ export default {
       })
         .then((response) => {
           const token = response.data.token
-          console.log('Token:', token)
+          // console.log('Token:', token)
           this.error = null
 
           // Store the token in sessionStorage
           sessionStorage.setItem('token', token)
-          console.log(sessionStorage.getItem(token))
+          // console.log(sessionStorage.getItem(token))
 
           // Optionally, you can redirect the user to another page after successful login
           this.$router.push('/admin') // Assuming you are using Vue Router

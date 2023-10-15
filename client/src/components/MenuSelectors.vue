@@ -35,7 +35,7 @@ export default {
         link.isActive = false
       })
       clickedLink.isActive = true
-      console.log(clickedLink.pageLabel)
+      // console.log(clickedLink.pageLabel)
       if (clickedLink.pageLabel !== 'Home') {
         this.$router.push({
           name: 'menu',
