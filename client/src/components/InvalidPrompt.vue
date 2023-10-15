@@ -22,7 +22,7 @@ export default {
 .invalidText {
   text-align: center;
   font-size: 0.9em;
-  color: rgb(255, 96, 64);
+  color: rgba(255, 144, 54, 0.793);
   animation: fadeIn 1s;
   box-sizing: border-box;
 }

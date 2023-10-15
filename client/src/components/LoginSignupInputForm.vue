@@ -3,7 +3,7 @@
   <form @submit.prevent="">
     <div class="loginSignupInputForm">
       <div id="goBackMinimizeContainer">
-        <font-awesome-icon :class="(selected !== 'signup') || (currentScene === 'isSignupResultScene') || (currentScene === 'isInputSignupEmailPassDetailsScene') ? 'hide' : null" icon="fa-solid fa-chevron-right" size="lg" rotation="180"/>
+        <font-awesome-icon :class="(selected !== 'signup') || (currentScene === 'isSignupResultScene') || (currentScene === 'isInputSignupEmailPassDetailsScene') ? 'hideBack' : 'visableBack'" icon="fa-solid fa-chevron-right" size="lg" rotation="180" @click="changeSceneBackwardEmit"/>
         <router-link id="minmizeSignupLogin" :to="{name: 'home'}">
           <font-awesome-icon icon="fa-solid fa-minus" size="lg"/>
         </router-link>
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  props: ['selected', 'currentScene']
+  props: ['selected', 'currentScene'],
+  methods: {
+    changeSceneBackwardEmit() {
+      this.$emit('changeSceneBackwardEmit')
+    }
+  }
 }
 </script>
 
@@ -45,8 +50,11 @@ export default {
   color: rgba(255, 0, 0, 0.644);
 }
 
-.hide {
+.hideBack {
   visibility: hidden;
 }
 
+.visableBack {
+  cursor: pointer;
+}
 </style>

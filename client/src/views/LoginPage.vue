@@ -3,17 +3,17 @@
     <LoginSignupModal id="loginModal"/>
     <div id="loginContainer">
       <LoginSignupInputForm>
-        <LoginSignupFormHeader v-show="!isSuccessfulLogin" selected="login"/>
+        <LoginSignupFormHeader id="loginSignupHeader" v-show="!isSuccessfulLogin" selected="login"/>
         <div id="inputContainer" v-show="!isSuccessfulLogin">
           <div id="emailPasswordForgotContainer">
             <div id="emailPasswordInputContainer">
               <div>
                 <LoginSignupTextInput type="email" placeholder="Email" @validateAfterLoseFocus="validate($event, 'email')"/>
-                <InvalidPrompt ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="smallWidth"/>
+                <InvalidPrompt class="invalidPromptSpacing" ref="notValidEmailFormatPrompt" invalidText="Not a Valid Email Format" invalidPromptWrapperWidth="smallWidth"/>
               </div>
               <div>
                 <LoginSignupTextInput type="password" placeholder="Password" @validateAfterLoseFocus="validate($event, 'password')" @inputChange="restartLoginPrep"/>
-                <InvalidPrompt ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="smallWidth"/>
+                <InvalidPrompt class="invalidPromptSpacing" ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
             <div id="forgotPassword">Forgot Password</div>
@@ -24,17 +24,17 @@
           </div>
           <LoginSignupNextButton v-show="!loginIssued" id="loginNextButton" @dragOverEmit="evaluateValidationState" @clickEmit="login" :canContinue="canContinue"/>
         </div>
-        <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
+        <InvalidPrompt class="invalidPromptSpacing" ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
         <ContinuePrompt ref="continuePrompt" id="continuePrompt" :canContinue="canContinue"/>
         <div id="loginResultContainer" v-show="loginIssued || loginPostCancelled">
           <div id="loginConStatusContainer" :class="[!loginPostCancelled ? 'loadingPrompt' : 'failEstablishConPrompt']" v-show="!loginPostResponse">{{ !loginPostCancelled ? 'Logging In...': 'Could Not Establish Connection To Servers, Try Again Later.' }}
           </div>
           <div v-show="loginPostResponse">
             <div v-show="!isSuccessfulLogin">
-              <p>User Does Not Exist.</p>
+              <h2>User Does Not Exist.</h2>
             </div>
-            <div>
-              <p>Welcome {{ customerName }}</p>
+            <div id="successLoginScreen" v-show="isSuccessfulLogin">
+              <h2>Welcome {{ customerName }}!</h2>
             </div>
           </div>
           <div v-show="(!loginPostResponse && loginPostCancelled)" id="retryLogin" @click="login">Retry</div>
@@ -210,6 +210,15 @@ export default {
   z-index: 2;
 }
 
+#loginSignupHeader {
+  padding-bottom: 1em;
+}
+
+.invalidPromptSpacing {
+  margin-top: 0.8em;
+  margin-bottom: 1em;
+}
+
 #inputContainer {
   display: flex;
   flex-direction: column;
@@ -265,6 +274,10 @@ export default {
   transition-duration: 500ms;
   text-decoration: underline;
   cursor: pointer;
+}
+
+#successLoginScreen {
+  padding-bottom: 1em;
 }
 
 </style>

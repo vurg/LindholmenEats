@@ -19,23 +19,21 @@ export default {
 <style>
 
 .nextButton, .nextButtonError, .nextButtonContinue {
-  font-size: 3.5em;
-  border: 0.01em rgba(114, 114, 114, 0.153) solid;
-  padding: 0.2em 2.2em 0.2em 2.2em;
-  background: rgba(183, 183, 183, 0.101);
+  font-size: 3.2em;
+  padding: 0.2em 1.6em 0.2em 1.6em;
+  background: rgba(60, 210, 255, 0.101);
+  border-radius: 10%;
+  box-sizing: border-box;
 }
 
 .nextButtonError:hover {
-  transition-duration: 320ms;
-  border-style: solid;
-  border-color: rgb(255, 97, 97);
+  transition-duration: 620ms;
+  background: rgba(255, 244, 231, 0.604);
 }
 
 .nextButtonContinue:hover {
   transition-duration: 320ms;
   background: rgb(187, 255, 205);
-  border-style: solid;
-  border-color: rgb(187, 255, 205);
 }
 
 .extraExtraSmallAllAroundMargin {
