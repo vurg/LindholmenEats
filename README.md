@@ -9,9 +9,9 @@ Replace USERNAME, PASSWORD, ADDRESS according to our MongoDB Atlas instance.
 
 # Backend and Frontend Template
 
-Latest version: https://git.chalmers.se/courses/dit342/group-00-web
+Latest version: https://git.chalmers.se/courses/dit342/group-25-web
 
-This template refers to itself as `group-00-web`. In your project, use your group number in place of `00`.
+This template refers to itself as `group-25-web`. In your project, use your group number in place of `00`.
 
 ## Project Structure
 
@@ -40,7 +40,7 @@ You can also use alternative tools if you know how to configure them (e.g., Fire
     * Create an SSH key pair `ssh-keygen -t ed25519 -C "email@example.com"` (skip if you already have one)
     * Add your public SSH key to your Gitlab profile under https://git.chalmers.se/profile/keys
     * Make sure the email you use to commit is registered under https://git.chalmers.se/profile/emails
-  * Checkout the [Backend-Frontend](https://git.chalmers.se/courses/dit342/group-00-web) template `git clone git@git.chalmers.se:courses/dit342/group-00-web.git`
+  * Checkout the [Backend-Frontend](https://git.chalmers.se/courses/dit342/group-25-web) template `git clone git@git.chalmers.se:courses/dit342/group-25-web.git`
 * [Server Requirements](./server/README.md#Requirements)
 * [Client Requirements](./client/README.md#Requirements)
 
@@ -48,10 +48,10 @@ You can also use alternative tools if you know how to configure them (e.g., Fire
 
 ```bash
 # Clone repository
-git clone git@git.chalmers.se:courses/dit342/group-00-web.git
+git clone git@git.chalmers.se:courses/dit342/group-25-web.git
 
 # Change into the directory
-cd group-00-web
+cd group-25-web
 
 # Setup backend
 cd server && npm install
