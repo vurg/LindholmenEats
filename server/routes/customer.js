@@ -10,11 +10,6 @@ router.delete('/', customerController.deleteAllCustomers);
 // Count number of customers
 router.get('/count', customerController.countCustomers);
 
-
-router.post('/login', customerController.loginCustomer);
-
-router.get('/info', customerController.getCustomerViaToken);
-
 // Get a specific customer by ID
 router.get('/:id', customerController.getCustomerById);
 
