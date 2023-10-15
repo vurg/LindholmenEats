@@ -54,8 +54,8 @@ export default new Router({
       component: AdminPage,
       beforeEnter: (to, from, next) => {
         const token = sessionStorage.getItem('token')
-        console.log('Before enter (router): ')
-        console.log(token)
+        // console.log('Before enter (router): ')
+        // console.log(token)
 
         if (token) {
           const config = {
@@ -70,12 +70,12 @@ export default new Router({
               next()
             })
             .catch(() => {
-              console.log('Token is invalid, redirecting to AdminLogin component')
+              // console.log('Token is invalid, redirecting to AdminLogin component')
               // Token is invalid, redirect to AdminLogin component
               next('/adminlogin')
             })
         } else {
-          console.log('No token is found')
+          // console.log('No token is found')
           // No token found, redirect to AdminLogin component
           next('/adminlogin')
         }
