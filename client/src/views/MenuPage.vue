@@ -34,8 +34,6 @@ export default {
   data() {
     return {
       category: 'Mains', // Set a default active link
-      customerId: '651f1219c1748be12d41410c', // replace with customer (or move to parent)
-      restaurantId: '651ae7241cb3c2b6546160c9', // replace with restaurant (or move to parent)
       transactionId: null, // Set your transactionId here or retrieve it from the API response
       products: [],
       error: null,
@@ -45,6 +43,27 @@ export default {
     }
   },
   computed: {
+    customerId() {
+    // Try to get customerId from Session Storage
+      const storedCustomerId = sessionStorage.getItem('customerId')
+
+      // If it exists in Session Storage, return it
+      if (storedCustomerId) {
+        return storedCustomerId
+      }
+
+      // If not, use the .env variable or the default hardcoded value
+      return process.env.DEFAULT_CUSTOMER_ID || '651f1219c1748be12d41410c'
+    },
+    restaurantId() {
+      const storedRestaurantId = sessionStorage.getItem('restaurantId')
+      if (storedRestaurantId) {
+        return storedRestaurantId
+      }
+
+      // If not, use the .env variable or the default hardcoded value
+      return process.env.DEFAULT_RESTAURANT_ID || '651ae7241cb3c2b6546160c9'
+    },
     filteredProducts() {
       // Use computed property to filter products based on category
       return this.products.filter(product => product.category === this.category)

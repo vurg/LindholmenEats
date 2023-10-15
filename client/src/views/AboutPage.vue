@@ -1,12 +1,31 @@
 <template>
-    <div>
-        <MenuSelectors />
-        <p class="page-title">ABOUT US</p>
-        <div v-for="(section, index) in sections" :key="index" class="section-container">
-            <p class="section-title">{{ section.sectionTitle }}</p>
-            <p class="section-content">{{ section.sectionContent }}</p>
-        </div>
+  <div>
+    <MenuSelectors />
+
+    <!-- For screens larger than sm (576px) -->
+    <div class="d-none d-sm-block">
+      <p class="page-title">ABOUT US</p>
+      <div v-for="(section, index) in sections" :key="index" class="section-container">
+        <p class="section-title">{{ section.sectionTitle }}</p>
+        <p class="section-content">{{ section.sectionContent }}</p>
+      </div>
+      <img src="@/assets/images/backgrounds/lindholmen-eats-background.jpg" alt="Restaurant Interior"  class="img-fluid" />
     </div>
+
+    <!-- For screens smaller than sm (576px) using Bootstrap components -->
+    <div class="d-block d-sm-none">
+      <div class="card-body">
+      <img src="@/assets/images/backgrounds/lindholmen-eats-background.jpg" alt="Restaurant Interior" class="img-fluid" />
+    </div>
+    <p class="page-title text-center">ABOUT US</p>
+      <div v-for="(section, index) in sections" :key="index" class="card m-2">
+        <div class="card-body">
+          <h5 class="section-title">{{ section.sectionTitle }}</h5>
+          <p class="section-text">{{ section.sectionContent }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -34,22 +53,25 @@ export default {
   text-align: center;
   text-decoration: underline;
 }
+
 .section-container {
   margin: 0px 40px;
 }
+
 .section-title {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
 }
+
 .section-content {
-  font-size: 17px;
+  font-size: 15px;
   text-align: left;
 }
+
 /* Media query for smaller screens */
 @media (max-width: 1100px) {
   .page-title {
     font-size: 32px;
   }
-}
-</style>
+}</style>

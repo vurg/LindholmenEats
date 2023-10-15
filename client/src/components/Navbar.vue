@@ -20,7 +20,7 @@
           <b-button v-b-modal.login-modal class="btn btn-dark">
             <i class="fas fa-user"></i> Login
           </b-button>
-          <b-modal id="login-modal" title="Login">
+          <b-modal id="login-modal" title="Login" ok-title="Submit">
             <form>
               <div class="form-group">
                 <label for="username">Username:</label>
@@ -30,7 +30,6 @@
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </b-modal>
         </li>
