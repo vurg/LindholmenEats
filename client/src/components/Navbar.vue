@@ -17,10 +17,9 @@
           </b-button>
         </li>
         <li>
-            <router-link :to="{name: 'login'}">
-            <i class="fas fa-user"></i>
-            Login
-            </router-link>
+          <b-button class="btn btn-dark" @click="goToLoginPage">
+            <i class="fas fa-user"></i> Login
+          </b-button>
         </li>
       </ul>
     </div>
@@ -29,6 +28,13 @@
 
 <script>
 export default {
+  methods: {
+    goToLoginPage() {
+      if (this.$route.name !== 'login') {
+        this.$router.push({ name: 'login' })
+      }
+    }
+  },
   data() {
     return {
       logoText: 'Lindholmen Eats',

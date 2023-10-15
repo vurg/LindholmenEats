@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      customerId: '651f129cc1748be12d41412a', // testing - set to actual customer id after login
+      customerId: null,
       name: null,
       birthday: null,
       phone: null,
@@ -42,24 +42,7 @@ export default {
   },
   methods: {
     getUserInfo() {
-      Api.get('/customers/' + this.customerId)
-        .then((response) => {
-          this.errorMessage = null
-          this.name = response.data.name
-          this.birthday = response.data.birthday
-          this.formatBirthday()
-          this.phone = response.data.phone
-          this.address = response.data.address
-          this.originalUserData = {
-            name: this.name,
-            birthday: this.birthday,
-            phone: this.phone,
-            address: this.address
-          }
-        })
-        .catch((error) => {
-          this.errorMessage = 'Error fetching user data: ' + error.message
-        })
+      this.customerId = Api.get('/customers/user-info')
     },
     postUserInfo() {
       const editedData = {}

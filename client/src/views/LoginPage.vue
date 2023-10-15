@@ -181,7 +181,6 @@ export default {
           }
         } catch {
           this.loginPostCancelled = true
-          console.log('im hit')
         }
       }
     }
