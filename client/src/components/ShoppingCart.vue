@@ -135,7 +135,6 @@ export default {
         })
         .catch(error => {
           this.message = 'Error creating delivery: ' + error.message
-          console.error(error)
         })
     }
   }

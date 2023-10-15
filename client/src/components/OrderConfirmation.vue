@@ -47,7 +47,6 @@ export default {
               item.name = productResponse.data.name
             } catch (error) {
               item.name = 'Unknown Product'
-              console.error('Error fetching product name:', error.message)
             }
           }))
 

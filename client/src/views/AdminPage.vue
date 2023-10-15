@@ -225,7 +225,6 @@ export default {
 
         Api.patch(`/products/${productId}`, { price: updatedPrice })
           .then(response => {
-            console.log('Product price updated successfully:', response.data)
             // this.products.find(product => product._id === productId).price = updatedPrice;
             this.getProducts()
             this.error = null
@@ -233,7 +232,6 @@ export default {
           .catch(error => {
             // Handle errors when updating the product price
             this.error = 'Error updating product price: ' + error.message
-            console.error('Error updating product price:', error)
           })
       } else {
         // Handle invalid input (null or non-numeric value)
@@ -306,14 +304,12 @@ export default {
         Api.patch(`/promotions/${promotionId}`, { discount: updatedDiscount })
           .then(response => {
             // Handle the successful response, update your component state, etc.
-            console.log('Promotion discount updated successfully:', response.data)
             this.getPromotions() // Optionally, update promotions in your local data if needed
             this.error = null
           })
           .catch(error => {
             // Handle errors when updating the promotion discount
             this.error = 'Error updating promotion discount: ' + error.message
-            console.error('Error updating promotion discount:', error)
           })
       } else {
         // Handle invalid input (null or non-numeric value)
@@ -359,7 +355,6 @@ export default {
         .then(response => {
           this.transactions = response.data
           this.error = null
-          console.log(this.transactions)
         })
         .catch(error => {
           this.transactions = []

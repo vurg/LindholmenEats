@@ -64,7 +64,6 @@ export default {
         })
         .catch((error) => {
           this.error = 'Error creating transaction: ' + error.message
-          console.error(error)
         })
     },
     getProducts() {

@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken')
   exports.createCustomer = async (req, res) => {
     try {
       const {name, email, password, phone, birthday, address, paymentMethods} = req.body
-      console.log(paymentMethods)
+      
 
       const text = paymentMethods[0].type + ' ' + paymentMethods[0].bankCardNumber + ' ' + paymentMethods[0].expiry + ' ' + paymentMethods[0].cvc
 
-      console.log(text)
+      
 
       const user = {
         name: name,
@@ -22,24 +22,23 @@ const jwt = require('jsonwebtoken')
         paymentMethods: [text]
       }
       const customer = new Customer(user);
-      console.log(req.body);
+      
       const savedCustomer = await customer.save();
       res.status(201).json(savedCustomer);
     } catch (err) {
-      console.log(err);
-      console.log(err.message);
-      console.log('hit');
+      
+      
+      
       res.status(500).json({ error: err.message });
     }
   };
 
   exports.loginCustomer = async (req, res) => {
     try {
-      console.log(req.body.email)
+      
       const response = await Customer.findOne({email: req.body.email});
 
       if (response) {
-      console.log(response)
 
       const customer = {
         name: response.name,
@@ -63,15 +62,10 @@ const jwt = require('jsonwebtoken')
       
       res.status(200).json({message: response.name})
 
-      console.log(res.cookie)
-
       } else {
-        console.log('qfqiwfjewiojef')
-        console.log(response)
         res.status(400).end()
       }
     } catch (error){
-      console.log(error)
       res.status(500).end()
     }
   };

@@ -35,7 +35,6 @@ export default {
         link.isActive = false
       })
       clickedLink.isActive = true
-      console.log(clickedLink.pageLabel)
       if (clickedLink.pageLabel !== 'Home') {
         this.$emit('update:category', clickedLink.pageLabel)
       }

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('../models/Customer');
 const customerController = require('../controllers/customer');
 
 // Create a new customer
@@ -26,7 +25,5 @@ router.delete('/:id', customerController.deleteCustomerById);
 
 // Delete all customers
 router.delete('/', customerController.deleteAllCustomers);
-
-router.post('/login', customerController.loginCustomer);
 
 module.exports = router;

@@ -5,7 +5,7 @@
       <LoginSignupInputForm>
         <LoginSignupFormHeader id="loginSignupHeader" v-show="!isSuccessfulLogin" selected="login"/>
         <div id="inputContainer" v-show="!isSuccessfulLogin">
-          <div id="emailPasswordForgotContainer">
+          <div id="emailPasswordContainer">
             <div id="emailPasswordInputContainer">
               <div>
                 <LoginSignupTextInput type="email" placeholder="Email" @validateAfterLoseFocus="validate($event, 'email')"/>
@@ -16,16 +16,10 @@
                 <InvalidPrompt class="invalidPromptSpacing" ref="passwordFailMeetReqPrompt" invalidText="Password Must Contain (min): 4 Chars, 1 Digit. Max Pass Length: 30" invalidPromptWrapperWidth="smallWidth"/>
               </div>
             </div>
-            <div id="forgotPassword">Forgot Password</div>
-          </div>
-          <div id="checkRememberMeContainer">
-            <input type="checkbox">
-            <div id="rememberMe">Remember Me</div>
           </div>
           <LoginSignupNextButton v-show="!loginIssued" id="loginNextButton" @dragOverEmit="evaluateValidationState" @clickEmit="login" :canContinue="canContinue"/>
         </div>
-        <InvalidPrompt class="invalidPromptSpacing" ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
-        <ContinuePrompt ref="continuePrompt" id="continuePrompt" :canContinue="canContinue"/>
+        <InvalidPrompt id="" class="invalidPromptSpacing" ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
         <div id="loginResultContainer" v-show="loginIssued || loginPostCancelled">
           <div id="loginConStatusContainer" :class="[!loginPostCancelled ? 'loadingPrompt' : 'failEstablishConPrompt']" v-show="!loginPostResponse">{{ !loginPostCancelled ? 'Logging In...': 'Could Not Establish Connection To Servers, Try Again Later.' }}
           </div>
@@ -57,8 +51,6 @@ import LoginSignupNextButton from './../components/LoginSignupNextButton'
 
 import InvalidPrompt from './../components/InvalidPrompt'
 
-import ContinuePrompt from '../components/ContinuePrompt.vue'
-
 import { Api } from '@/Api'
 
 export default {
@@ -71,7 +63,6 @@ export default {
       canContinue: false,
       inabilityToProceedReason: '',
       nrOfExistingInvalidInputs: [],
-      setTimeoutTimerScheduleID: '',
       loginIssued: false,
       loginPostResponse: false,
       isSuccessfulLogin: false,
@@ -120,8 +111,8 @@ export default {
           inputField.isInvalidated = false
         }
         this.formInputData[caseType] = inputValue
-        console.log(this.formInputData)
       }
+      this.evaluateValidationState()
     },
     restartLoginPrep() {
       this.loginPostCancelled = false
@@ -132,7 +123,6 @@ export default {
         this.canContinue = false
         this.$refs.existsInvalidInput.showError = true
         this.inabilityToProceedReason = 'Must Resolve Issues Before Continuing'
-        this.setErrorDisplayTimeout()
       } else {
         const arrOfcurrentSceneInputData = Object.values(this.formInputData)
         for (const val of arrOfcurrentSceneInputData) {
@@ -140,23 +130,14 @@ export default {
             this.canContinue = false
             this.$refs.existsInvalidInput.showError = true
             this.inabilityToProceedReason = 'Please Fill in Remaining Input Fields'
-            this.setErrorDisplayTimeout()
             return
           }
         }
         if (!this.canContinue) {
           this.canContinue = true
           this.$refs.existsInvalidInput.showError = false
-          if (this.setTimeoutTimerScheduleID) {
-            clearTimeout(this.setTimeoutTimerScheduleID)
-          }
         }
       }
-    },
-    setErrorDisplayTimeout() {
-      this.setTimeoutTimerScheduleID = setTimeout(() => {
-        this.$refs.existsInvalidInput.showError = false
-      }, 3500)
     },
     async login() {
       if (this.canContinue || this.loginPostCancelled) {
@@ -173,7 +154,6 @@ export default {
           })
           this.loginPostResponse = true
           if (response) {
-            console.log(response)
             this.isSuccessfulLogin = true
             this.customerName = response.data.message
           } else {
@@ -181,17 +161,11 @@ export default {
           }
         } catch {
           this.loginPostCancelled = true
-          console.log('im hit')
         }
       }
     }
   },
-  beforeDestroy() {
-    if (this.setTimeoutTimerScheduleID) {
-      clearTimeout(this.setTimeoutTimerScheduleID)
-    }
-  },
-  components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt, ContinuePrompt }
+  components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt }
 }
 
 </script>
@@ -214,11 +188,6 @@ export default {
   padding-bottom: 1em;
 }
 
-.invalidPromptSpacing {
-  margin-top: 0.8em;
-  margin-bottom: 1em;
-}
-
 #inputContainer {
   display: flex;
   flex-direction: column;
@@ -230,28 +199,9 @@ export default {
   margin-top: 0.4em;
 }
 
-#checkRememberMeContainer {
-  display: flex;
-  margin-top: 1.5em;
-}
-
-#forgotPassword {
-  margin-top: 1.2em;
-}
-
-#rememberMe {
-  margin-left: 1em;
-}
-
 #loginNextButton {
   margin-top: 0.4em;
-}
-
-#continuePrompt {
-  position: absolute;
-  top: 92%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-bottom: 0.4em;
 }
 
 .loadingPrompt {
@@ -264,16 +214,21 @@ export default {
 
 #retryLogin {
   text-align: center;
-  color: rgb(252, 195, 161);
-  font-size: 1.4em;
+  color: rgb(122, 122, 122);
+  font-size: 1.2em;
+  margin-top: 1em;
 }
 
 #retryLogin:hover {
-  font-size: 1.6em;
-  color: rgba(124, 120, 65, 0.57);
-  transition-duration: 500ms;
-  text-decoration: underline;
+  font-size: 1.4em;
+  color: rgba(235, 224, 73, 0.57);
+  transition-duration: 600ms;
   cursor: pointer;
+}
+
+.invalidPromptSpacing {
+  margin-top: 0.3em;
+  margin-bottom: 0.4em;
 }
 
 #successLoginScreen {
