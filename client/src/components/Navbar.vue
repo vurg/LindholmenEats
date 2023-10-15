@@ -27,11 +27,26 @@
 </template>
 
 <script>
+//  import { Api } from '@/Api'
+import axios from 'axios'
+
 export default {
+
   methods: {
-    goToLoginPage() {
-      if (this.$route.name !== 'login') {
-        this.$router.push({ name: 'login' })
+    async goToLoginPage() {
+      console.log(this.isLoggedIn)
+      if (!this.isLoggedIn) {
+        if (this.$route.name !== 'login') {
+          this.$router.push({ name: 'login' })
+        }
+      } else {
+        try {
+          //  const response = await Api.get('/customers/userinfo')
+          const response = await axios.get('http://localhost:3001/api/customers/info')
+          console.log(response)
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
   },
@@ -50,7 +65,8 @@ export default {
         { link: '#', icon: 'fas fa-user' }
       ]
     }
-  }
+  },
+  props: ['isLoggedIn']
 }
 </script>
 

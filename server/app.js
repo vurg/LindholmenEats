@@ -26,16 +26,18 @@ mongoose.connect(mongoURI).catch(function(err) {
 
 // Create Express app
 var app = express();
+app.use(cookieParser())
+
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use(cookieParser())
 // HTTP request logger
 app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
-app.use(cors());
+app.use(cors({
+  allowedHeaders: 'Origin, Content-Type, X-Auth-Token, Set-Cookie, Authorisation, Accept'
+}));
 
 // Import routes
 app.get('/api', function(req, res) {

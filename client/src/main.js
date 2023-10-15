@@ -20,6 +20,8 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
+export const eventBus = new Vue()
+
 new Vue({
   router,
   render: function (h) { return h(App) }

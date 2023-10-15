@@ -1,6 +1,6 @@
 const Customer = require('../models/Customer');
-const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
+const { getCookies, setCookie, deleteCookie, getCookie } = require('cookies-next');
 
 // Create a new customer
   exports.createCustomer = async (req, res) => {
@@ -34,7 +34,7 @@ const jwt = require('jsonwebtoken')
 
   exports.loginCustomer = async (req, res) => {
     try {
-      const response = await Customer.findOne({email: req.body.email});
+      const response = await Customer.findOne({email: req.body.email, password: req.body.password});
 
       if (response) {
       console.log(response)
@@ -54,12 +54,14 @@ const jwt = require('jsonwebtoken')
 
       const token = jwt.sign(customer, process.env.KEY)
 
-      res.cookie('user', token, {
-        domain: 'localhost',
-        path: '/'
+      const oneYearInSeconds = 365 * 24 * 60 * 60; // 1 year in seconds
+
+      res.cookie('good', 'hi', {
+        domain: "localhost",
+        path: "/",
       })
 
-      res.status(200).json({message: response.name})
+      res.status(200).end();
 
       } else {
         console.log(response)
@@ -71,10 +73,15 @@ const jwt = require('jsonwebtoken')
     }
   };
 
-  exports.getCustomerIdFromToken = (req, res) => {
+  exports.getCustomerViaToken = async (req, res) => {
+
+    try {
+    console.log('hit')
+    console.log(getCookies({ req, res }))
+    console.log(req.cookies)
     const token = req.cookies.user;
   
-    if (token) {
+    /*if (token) {
       try {
         const decoded = jwt.verify(token, process.env.KEY);
         console.log(decoded._id)
@@ -82,13 +89,16 @@ const jwt = require('jsonwebtoken')
       } catch (error) {
         console.error('Error verifying token:', error);
       }
+    }*/
+    } catch (error){
+      console.log(error)
     }
-  
-    return null;
+    res.status(200).json(req.cookies)
   };
   
   // Get all customers
   exports.getAllCustomers = async (req, res) => {
+    console.log('getallcustomers')
     try {
       const customers = await Customer.find();
       res.json(customers);
@@ -99,6 +109,7 @@ const jwt = require('jsonwebtoken')
 
   // Count number of customers
   exports.countCustomers = async (req, res) => {
+    console.log('count hit')
     try {
       const customerCount = await Customer.countDocuments();
       res.json({ count: customerCount });

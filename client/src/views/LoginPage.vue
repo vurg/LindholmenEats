@@ -27,12 +27,9 @@
         <InvalidPrompt ref="existsInvalidInput" :invalidText="inabilityToProceedReason" invalidPromptWrapperWidth="mediumWidth"/>
         <ContinuePrompt ref="continuePrompt" id="continuePrompt" :canContinue="canContinue"/>
         <div id="loginResultContainer" v-show="loginIssued || loginPostCancelled">
-          <div id="loginConStatusContainer" :class="[!loginPostCancelled ? 'loadingPrompt' : 'failEstablishConPrompt']" v-show="!loginPostResponse">{{ !loginPostCancelled ? 'Logging In...': 'Could Not Establish Connection To Servers, Try Again Later.' }}
+          <div id="loginConStatusContainer" :class="[!loginPostCancelled ? 'loadingPrompt' : 'failEstablishConPrompt']" v-show="!loginPostResponse">{{ !loginPostCancelled ? 'Logging In...': 'User Not Found Or Server Error.' }}
           </div>
           <div v-show="loginPostResponse">
-            <div v-show="!isSuccessfulLogin">
-              <p>User Does Not Exist.</p>
-            </div>
             <div>
               <p>Welcome {{ customerName }}</p>
             </div>
@@ -60,6 +57,8 @@ import InvalidPrompt from './../components/InvalidPrompt'
 import ContinuePrompt from '../components/ContinuePrompt.vue'
 
 import { Api } from '@/Api'
+
+import { eventBus } from '@/main'
 
 export default {
   data() {
@@ -165,22 +164,19 @@ export default {
           email,
           password
         }
+        this.loginIssued = true
+        this.canContinue = this.loginPostCancelled = false
         try {
-          this.loginIssued = true
-          this.canContinue = this.loginPostCancelled = false
           const response = await Api.post('/customers/login', body, {
-            timeout: 8000
+            timeout: 12000
           })
           this.loginPostResponse = true
-          if (response) {
-            console.log(response)
-            this.isSuccessfulLogin = true
-            this.customerName = response.data.message
-          } else {
-            this.isSuccessfulLogin = false
-          }
+          console.log(response)
+          this.isSuccessfulLogin = true
+          this.customerName = response.data.message
         } catch {
           this.loginPostCancelled = true
+          this.isSuccessfulLogin = false
         }
       }
     }
@@ -188,6 +184,14 @@ export default {
   beforeDestroy() {
     if (this.setTimeoutTimerScheduleID) {
       clearTimeout(this.setTimeoutTimerScheduleID)
+    }
+  },
+  watch: {
+    isSuccessfulLogin(val) {
+      if (val) {
+        eventBus.$emit('custom-event')
+        console.log('successful login $emit triggered')
+      }
     }
   },
   components: { LoginSignupModal, LoginSignupInputForm, LoginSignupFormHeader, LoginSignupTextInput, LoginSignupNextButton, InvalidPrompt, ContinuePrompt }
