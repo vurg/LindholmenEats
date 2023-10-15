@@ -16,23 +16,6 @@
             <i class="fas fa-shopping-cart"></i> Cart
           </b-button>
         </li>
-        <li>
-          <b-button v-b-modal.login-modal class="btn btn-dark">
-            <i class="fas fa-user"></i> Login
-          </b-button>
-          <b-modal id="login-modal" title="Login" ok-title="Submit">
-            <form>
-              <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
-              </div>
-              <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-              </div>
-            </form>
-          </b-modal>
-        </li>
       </ul>
     </div>
   </nav>
