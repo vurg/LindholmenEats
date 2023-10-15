@@ -29,4 +29,6 @@ router.delete('/', customerController.deleteAllCustomers);
 
 router.post('/login', customerController.loginCustomer);
 
+router.get('/user-info', customerController.getCustomerIdFromToken);
+
 module.exports = router;

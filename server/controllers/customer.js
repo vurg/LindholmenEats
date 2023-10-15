@@ -28,14 +28,12 @@ const jwt = require('jsonwebtoken')
     } catch (err) {
       console.log(err);
       console.log(err.message);
-      console.log('hit');
       res.status(500).json({ error: err.message });
     }
   };
 
   exports.loginCustomer = async (req, res) => {
     try {
-      console.log(req.body.email)
       const response = await Customer.findOne({email: req.body.email});
 
       if (response) {
@@ -60,13 +58,10 @@ const jwt = require('jsonwebtoken')
         domain: 'localhost',
         path: '/'
       })
-      
+
       res.status(200).json({message: response.name})
 
-      console.log(res.cookie)
-
       } else {
-        console.log('qfqiwfjewiojef')
         console.log(response)
         res.status(400).end()
       }
@@ -74,6 +69,22 @@ const jwt = require('jsonwebtoken')
       console.log(error)
       res.status(500).end()
     }
+  };
+
+  exports.getCustomerIdFromToken = (req, res) => {
+    const token = req.cookies.user;
+  
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.KEY);
+        console.log(decoded._id)
+        res.json(decoded._id);
+      } catch (error) {
+        console.error('Error verifying token:', error);
+      }
+    }
+  
+    return null;
   };
   
   // Get all customers
