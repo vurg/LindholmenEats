@@ -2,7 +2,7 @@
 Place the following in the .env file:
 ```
 MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.ADDRESS.mongodb.net/restaurant-app
-PORT=3000
+PORT=3001
 ```
 Replace USERNAME, PASSWORD, ADDRESS according to our MongoDB Atlas instance.
 
@@ -72,23 +72,19 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose:
 
-**LindholmenEats** is a user-friendly restaurant app for ordering food. You can customise your orders, track deliveries, save favourites, earn rewards, and choose your language and privacy settings. Enjoy easy access to a variety of restaurant offerings all in one place!
+**LindholmenEats** is a user-friendly restaurant app for ordering food. Enjoy easy access to a variety of restaurant offerings all in one place!
 
 ### Pages
 
-* **Login / Sign Up page:** a login page which serves as the entry point for existing and new users, allowing them to either register as new users or log in using their existing credentials.
-* **Home:** a landing page after logging in where the user is met with a variety of options where the users can explore and access key features of the app, including restaurant discovery, menu browsing, order placement, and more. 
-* **Favourites:** the favourites page is designed to enhance user convenience and personalization.
-* **Promotions**: List of promotions with links to order page
-* **GDPR:** the GDPR page provides users with clear and comprehensive information about how we collect, use, store, and process their data.
-* **Past Purchases:** a page which allows the user to keep track of your favourite orders with ease.
-* **Menu:** a page containing a scrollable list of food items with images, prices, and their descriptions.
-Specific Food Item: a page with the description of a food item and the quantity.
-* **Order Page:** a page with a list of all selected items for order with a confirmation button.
-* **Payment Page:** a page allowing users to enter payment and delivery information.
-* **Payment Confirmation Page:** a page confirming a user’s payment.
-* **Settings:** a page which allows the user to fine-tune their experience: customise preferences, manage notifications, etc.
-
+* **Home:** landing page with LindholmenEats banner, and navigation links for the customer
+* **Menu:** a page containing a scrollable list of food items with images, prices, and their descriptions, customers can order from here using the shopping cart
+* **Signup:** customers can optionally create an account
+* **Login:** customers can optionally login
+* **User Info:** a page which allows logged in users to modify their account details
+* **About:** Story of LindholmenEats
+* **Location:** Location of restaurant from Google Map api
+* **Career:** Careers page
+* **Data:** Information about how we process user data
 
 ### Entity-Relationship (ER) Diagram
 
