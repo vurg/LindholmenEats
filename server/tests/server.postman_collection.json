@@ -3585,7 +3585,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3647,7 +3647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3709,7 +3709,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 1\r\n}",
+							"raw": "{\r\n  \"product\": \"{{product_id3}}\",\r\n  \"quantity\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

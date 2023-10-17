@@ -40,7 +40,7 @@ export default {
         this.$emit('add-to-cart', this.product)
 
         // First, make a POST request to add the product to the transaction
-        Api.post(`/transactions/${this.transactionId}/products`, { product: this.product._id, quantity: 1 })
+        Api.post(`/transactions/${this.transactionId}/products`, { product: this.product._id })
           .then(() => {
             // Next, make a GET request to obtain the current amount
             return Api.get(`/transactions/${this.transactionId}`)

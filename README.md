@@ -78,13 +78,12 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 * **Home:** landing page with LindholmenEats banner, and navigation links for the customer
 * **Menu:** a page containing a scrollable list of food items with images, prices, and their descriptions, customers can order from here using the shopping cart
-* **Signup:** customers can optionally create an account
-* **Login:** customers can optionally login
-* **User Info:** a page which allows logged in users to modify their account details
 * **About:** Story of LindholmenEats
 * **Location:** Location of restaurant from Google Map api
 * **Career:** Careers page
 * **Data:** Information about how we process user data
+* **AdminLogin:** Admin login page
+* **Admin:** Admin dashboard to manage restaurant, products, promotions,
 
 ### Entity-Relationship (ER) Diagram
 

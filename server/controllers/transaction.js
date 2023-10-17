@@ -85,12 +85,16 @@ const deleteTransactionById = async (req, res) => {
 
 
 
-const addProductToTransaction = async (req, res) => {
+const updateProductInTransaction = async (req, res) => {
   try {
     const { product, quantity } = req.body;
 
     if (!product) {
       return res.status(400).json({ error: 'Product ID is required' });
+    }
+
+    if (!quantity || quantity <= 0) {
+      return res.status(400).json({ error: 'Invalid quantity' });
     }
 
     const transaction = await Transaction.findById(req.params.id);
@@ -101,11 +105,11 @@ const addProductToTransaction = async (req, res) => {
     const existingProductIndex = transaction.products.findIndex(p => p.product.toString() === product);
 
     if (existingProductIndex !== -1) {
-      transaction.products[existingProductIndex].quantity += 1;
+      transaction.products[existingProductIndex].quantity = quantity;
     } else {
       const newProduct = {
         product,
-        quantity: 1,
+        quantity,
       };
 
       transaction.products.push(newProduct);
@@ -192,7 +196,7 @@ const removeProductFromTransaction = async (req, res) => {
 // post a product to a transaction
 const postProductToTransaction = async (req, res) => {
   try {
-    const { product, quantity } = req.body; // Modified to use req.body.product
+    const { product } = req.body; // Modified to use req.body.product
 
     if (!product) {
       return res.status(400).json({ error: 'Product ID is required' });
@@ -236,7 +240,7 @@ module.exports = {
   updateTransactionByIdPut,
   updateTransactionByIdPatch,
   deleteTransactionById,
-  addProductToTransaction,
+  updateProductInTransaction,
   getProductsInTransaction,
   getProductInTransaction,
   removeProductFromTransaction,
