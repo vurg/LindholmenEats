@@ -69,11 +69,36 @@ export default {
   methods: {
     removeItem(index, productId) {
       if (!this.isDisabled) {
+        const itemPrice = this.cart[index].price
+        // console.log('item price:' + itemPrice)
         this.$emit('remove', index)
 
         // Make a DELETE request to remove the product to the transaction
-        Api.delete(`/transactions/${this.transactionId}/products/${productId}`, {
-        })
+        Api.delete(`/transactions/${this.transactionId}/products/${productId}`, {})
+          .then(() => {
+            // Next, make a GET request to obtain the current amount
+            return Api.get(`/transactions/${this.transactionId}`)
+          })
+          .then((response) => {
+            // Handle success
+            const currentAmount = response.data.totalAmount
+            // console.log('current amount: ' + currentAmount)
+
+            if (this.cart.length > 0) {
+            // Calculate the new total amount rounded to two decimal places
+              const newTotalAmount = (currentAmount - itemPrice).toFixed(2)
+              // console.log('new total amount: ' + newTotalAmount)
+
+              // Finally, make a PATCH request to update the total cost
+              return Api.patch(`/transactions/${this.transactionId}`, {
+                totalAmount: newTotalAmount
+              })
+            } else {
+              return Api.patch(`/transactions/${this.transactionId}`, {
+                totalAmount: currentAmount.toFixed(2)
+              })
+            }
+          })
           .then((response) => {
             // Handle success
             this.products = response.data
