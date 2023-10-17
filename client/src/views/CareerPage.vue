@@ -2,9 +2,7 @@
     <div>
         <MenuSelectors />
         <p class="page-title">WORK WITH US</p>
-        <div class="work-banner">
-            <img :src="workBanner" alt="Work Banner">
-        </div>
+            <img :src="workBanner" alt="Work Banner"  class="img-fluid">
         <p class="page-sub-title">{{ subTitle }}</p>
         <div v-for="(section, index) in sections" :key="index" class="section-container">
             <p class="section-title">{{ section.sectionTitle }}</p>
@@ -41,17 +39,7 @@ export default {
   text-align: center;
   text-decoration: underline;
 }
-.work-banner {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.work-banner img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-}
+
 .section-container {
   margin: 0px 40px;
 }
@@ -74,10 +62,6 @@ export default {
 }
 /* Media query for smaller screens */
 @media (max-width: 1100px) {
-  .work-banner {
-    width: 350px;
-    height: 209px;
-  }
   .page-title {
     font-size: 32px;
   }
