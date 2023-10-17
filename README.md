@@ -88,7 +88,7 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 * **Career:** Careers page
 * **Data:** Information about how we process user data
 * **AdminLogin:** Admin login page
-* **Admin:** Admin dashboard to manage restaurant, products, promotions, and transactions
+* **Admin:** Admin dashboard to manage restaurant, products, promotions, and to view latest transactions or transaction statistics
 
 ### Entity-Relationship (ER) Diagram
 
