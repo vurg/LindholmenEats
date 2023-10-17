@@ -3,9 +3,14 @@ Place the following in the .env file:
 ```
 MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.ADDRESS.mongodb.net/restaurant-app
 PORT=3001
+JWT_SECRET_KEY= YOUR_JSECRET_KEY
+DEFAULT_CUSTOMER_ID= DEFAULT_CUSTOMER_ID
+DEFAULT_RESTAURANT_ID= DEFAULT_RESTAURANT_ID
 ```
-Replace USERNAME, PASSWORD, ADDRESS according to our MongoDB Atlas instance.
-
+Replace USERNAME, PASSWORD, ADDRESS according to your MongoDB Atlas instance.
+Replace JWT_SECRET_KEY with your JSON web token (JWT) secret key for authorization.
+Replace DEFAULT_CUSTOMER_ID with the default unregistered user profile.
+Replace DEFAULT_RESTAURANT_ID with the default restaurant profile.
 
 # Backend and Frontend Template
 
@@ -83,7 +88,7 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 * **Career:** Careers page
 * **Data:** Information about how we process user data
 * **AdminLogin:** Admin login page
-* **Admin:** Admin dashboard to manage restaurant, products, promotions,
+* **Admin:** Admin dashboard to manage restaurant, products, promotions, and transactions
 
 ### Entity-Relationship (ER) Diagram
 
